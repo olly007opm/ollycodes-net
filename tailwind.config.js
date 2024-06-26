@@ -10,7 +10,10 @@ export default {
                     200: "var(--base-200)",
                     300: "var(--base-300)",
                     900: "var(--base-900)"
-                }
+                },
+                red: "var(--win-red)",
+                blue: "var(--win-blue)",
+                darkblue: "var(--win-dark-blue)",
             },
         }
     },
