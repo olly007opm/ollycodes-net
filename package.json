@@ -1,0 +1,36 @@
+{
+	"name": "ollycodes-net",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"dev": "vite dev --host",
+		"build": "vite build",
+		"preview": "vite preview",
+		"generate": "prisma format && prisma generate",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-auto": "^3.0.0",
+		"@sveltejs/kit": "^2.0.0",
+		"@sveltejs/vite-plugin-svelte": "^3.0.0",
+		"@types/node": "^20.14.9",
+		"autoprefixer": "^10.4.19",
+		"postcss": "^8.4.38",
+		"postcss-nesting": "^12.1.5",
+		"prisma": "^5.16.0",
+		"svelte": "^4.2.7",
+		"svelte-check": "^3.6.0",
+		"tailwindcss": "^3.4.4",
+		"ts-node": "^10.9.2",
+		"tslib": "^2.4.1",
+		"typescript": "^5.5.2",
+		"vite": "^5.0.3"
+	},
+	"type": "module",
+	"dependencies": {
+		"@auth/prisma-adapter": "^2.4.1",
+		"@auth/sveltekit": "^1.4.1",
+		"@prisma/client": "^5.16.0"
+	}
+}
