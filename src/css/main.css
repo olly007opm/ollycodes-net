@@ -30,7 +30,7 @@ body {
 }
 
 .btn {
-    @apply relative px-4 pb-0.5 active:pt-0.5 active:pb-0;
+    @apply relative h-14 px-6 active:pt-1;
     @apply bg-base-200 font-bold text-xl;
     box-shadow: inset -1px -1px 0 1px var(--base-900),
         inset 2px 2px 0 0 var(--base-100),
@@ -43,7 +43,7 @@ body {
 
     &:focus::after {
         content: "";
-        @apply absolute top-0.5 active:top-1 left-1 right-1 bottom-1 active:bottom-0.5;
+        @apply absolute top-1 active:top-2 left-2 right-2 bottom-2 active:bottom-1;
         border: dashed 2px var(--base-900);
         border-image-source:url("border.png");
         border-image-slice: 25%;
