@@ -18,7 +18,9 @@
     <div>
         <div class="separator"></div>
         <div class="time-box">
-            <span>{format(time, "hh:mm:ss a")}</span>
+            <img src="/icon/calendar-5.png" alt="calendar">
+            <img src="/icon/loudspeaker_rays-1.png" alt="calendar">
+            <span>{format(time, "hh:mm a")}</span>
         </div>
     </div>
 </div>

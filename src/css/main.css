@@ -23,6 +23,7 @@ body {
     @apply bg-teal;
     @apply w-screen h-screen overflow-hidden;
     font-family: W95FA, sans-serif;
+    image-rendering: pixelated;
 }
 
 #container {
