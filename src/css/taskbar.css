@@ -12,4 +12,9 @@
         @apply w-[4px] h-14 bg-base-300;
         @apply border-r-2 border-r-base-100;
     }
+
+    .time-box {
+        @apply px-4 h-14;
+        box-shadow: inset -1px -1px 0 1px var(--base-100), inset 2px 2px 0 0 var(--base-300);
+    }
 }
