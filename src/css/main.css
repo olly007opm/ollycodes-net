@@ -1,3 +1,45 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base.css";
+@import "tailwindcss/components.css";
+@import "tailwindcss/utilities.css";
+
+@import "taskbar.css";
+
+@font-face {
+    font-family: "W95FA";
+    src: url("../font/W95FA.woff2") format("woff2");
+}
+
+:root {
+    --base-100: #FFFFFF;
+    --base-200: #C0C7C8;
+    --base-300: #87888F;
+    --base-900: #000000;
+}
+
+body {
+    @apply bg-teal;
+    @apply w-screen h-screen overflow-hidden;
+    font-family: W95FA, sans-serif;
+}
+
+#container {
+    @apply relative w-screen h-screen;
+}
+
+.btn {
+    @apply bg-base-200 px-4 py-0.5;
+    @apply font-bold text-xl;
+    box-shadow: inset 2px 2px 0 0 var(--base-100),
+        inset -2px -2px 0 0 var(--base-300),
+        1px 1px 0 1px var(--base-900);
+}
+
+.btn:active {
+    box-shadow: inset -2px -2px 0 0 var(--base-100),
+        inset 2px 2px 0 0 var(--base-300),
+        -1px -1px 0 1px var(--base-900);
+    border: dashed 2px var(--base-900);
+    border-image-source:url("border.png");
+    border-image-slice: 25%;
+    border-image-repeat: round;
+}

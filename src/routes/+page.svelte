@@ -1,8 +1,10 @@
 <script>
-import { signIn } from "@auth/sveltekit/client"
+    import { signIn } from "@auth/sveltekit/client"
+    import Taskbar from "$components/Taskbar.svelte"
 </script>
 
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<div id="container">
+    <button on:click={() => signIn("github")}>Sign In with GitHub</button>
+    <Taskbar />
+</div>
 
-<button on:click={() => signIn("github")}>Sign In with GitHub</button>
