@@ -15,9 +15,49 @@
 
     .time-box {
         @apply px-4 h-14;
-        box-shadow: inset -1px -1px 0 1px var(--base-100), inset 2px 2px 0 0 var(--base-300);
+        box-shadow: inset -2px -2px 0 0 var(--base-100), inset 2px 2px 0 0 var(--base-300);
         span {
             @apply w-32 text-right text-lg;
+        }
+    }
+}
+
+#start-menu {
+    @apply absolute z-40 p-3 min-w-[256px];
+    @apply bg-base-200;
+    @apply grid grid-cols-[32px,1fr];
+    box-shadow: inset -2px -2px 0 0 var(--base-900),
+        inset 2px 2px 0 0 var(--base-200),
+        inset -4px -4px 0 0 var(--base-300),
+        inset 4px 4px 0 0 var(--base-100);
+
+    .start-menu-banner {
+        @apply h-full py-4 bg-darkblue;
+        @apply flex flex-col justify-end items-center;
+        @apply text-base-100 text-xl font-bold;
+        span {
+            writing-mode: vertical-rl;
+            text-orientation: sideways;
+            transform: rotate(180deg);
+        }
+    }
+
+    .start-menu-items {
+        @apply flex flex-col;
+        button {
+            @apply grid grid-cols-[48px,1fr] gap-1 items-center;
+            @apply hover:bg-darkblue hover:text-base-100;
+            span {
+                @apply text-lg text-left
+            }
+            img {
+                @apply mx-4 my-2 w-16 h-16;
+            }
+        }
+
+        .separator {
+            @apply left-0 right-0 h-2 mx-4 bg-base-300;
+            @apply border-b-2 border-r-base-100;
         }
     }
 }

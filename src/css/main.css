@@ -33,12 +33,12 @@ body {
 .btn {
     @apply relative h-14 px-6 active:pt-1;
     @apply bg-base-200 font-bold text-xl;
-    box-shadow: inset -1px -1px 0 1px var(--base-900),
+    box-shadow: inset -2px -2px 0 0 var(--base-900),
         inset 2px 2px 0 0 var(--base-100),
         inset -4px -4px 0 0 var(--base-300);
     &:active {
         box-shadow: inset 2px 2px 0 0 var(--base-900),
-            inset -1px -1px 0 1px var(--base-100),
+            inset -2px -2px 0 0px var(--base-100),
             inset 4px 4px 0 0 var(--base-300);
     }
 

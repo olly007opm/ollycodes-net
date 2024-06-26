@@ -31,7 +31,9 @@
 	"dependencies": {
 		"@auth/prisma-adapter": "^2.4.1",
 		"@auth/sveltekit": "^1.4.1",
+		"@floating-ui/core": "^1.6.3",
 		"@prisma/client": "^5.16.0",
-		"date-fns": "^3.6.0"
+		"date-fns": "^3.6.0",
+		"svelte-floating-ui": "^1.5.9"
 	}
 }
