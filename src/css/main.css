@@ -4,6 +4,7 @@
 
 @import "desktop.css";
 @import "taskbar.css";
+@import "window.css";
 
 @font-face {
     font-family: "MS Sans Serif";

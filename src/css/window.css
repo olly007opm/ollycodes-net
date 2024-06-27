@@ -7,11 +7,31 @@ div.window {
         inset 4px 4px 0 0 var(--base-100);
 
     div.window-title-bar {
-        @apply flex flex-row justify-between items-center px-2;
+        @apply h-16 flex flex-row justify-between items-center px-2;
         @apply bg-darkblue;
+
         div.window-title {
             @apply flex flex-row items-center gap-2;
             @apply text-base-100 font-bold;
+            img {
+                @apply w-12 h-12;
+            }
+        }
+
+        div.window-controls {
+            @apply flex flex-row items-center gap-2;
+            button.window-control {
+                @apply w-12 h-12 p-0 pr-1 pb-1;
+                @apply flex justify-center items-center;
+                img {
+                    @apply w-6 h-6;
+                }
+            }
         }
     }
+}
+
+div.window-drag-area {
+    @apply absolute;
+    @apply border-4 border-red;
 }
