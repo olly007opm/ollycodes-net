@@ -5,7 +5,7 @@
     import { createFloatingActions } from "svelte-floating-ui"
     import { signIn, signOut } from "@auth/sveltekit/client"
 
-    let startMenuOpen = true
+    let startMenuOpen = false
     let time = new Date()
     onMount(() => {
         const interval = setInterval(() => time = new Date(), 1000)
@@ -16,12 +16,14 @@
         strategy: "absolute",
         placement: "top-start"
     })
-
 </script>
 
 <div id="task-bar">
     <div>
-        <button class="btn btn-start" use:floatingRef on:click={() => startMenuOpen = !startMenuOpen}>Start</button>
+        <button class="btn btn-start" use:floatingRef on:click={() => startMenuOpen = !startMenuOpen}>
+            <img src="/icon/windows-0.png" alt="start">
+            <span>Start</span>
+        </button>
         <div class="separator"></div>
     </div>
 
@@ -29,7 +31,7 @@
         <div class="separator"></div>
         <div class="time-box">
             <img src="/icon/calendar-5.png" alt="calendar">
-            <img src="/icon/loudspeaker_rays-1.png" alt="calendar">
+            <img src="/icon/loudspeaker_rays-1.png" alt="speaker">
             <span>{format(time, "hh:mm a")}</span>
         </div>
     </div>
@@ -43,11 +45,11 @@
 
         <div class="start-menu-items">
             <button>
-                <img src="/icon/directory_program_group-2.png" alt="settings">
+                <img src="/icon/directory_program_group-2.png" alt="programs">
                 <span>Programs</span>
             </button>
             <button>
-                <img src="/icon/directory_open_file_mydocs-1.png" alt="settings">
+                <img src="/icon/directory_open_file_mydocs-1.png" alt="documents">
                 <span>Documents</span>
             </button>
             <button>
@@ -57,12 +59,12 @@
             <div class="separator"></div>
             {#if $page.data.session?.user}
                 <button on:click={() => signOut()}>
-                    <img src="/icon/key_win-3.png" alt="settings">
+                    <img src="/icon/key_win-3.png" alt="log off">
                     <span>Log Off {$page.data.session.user.name}...</span>
                 </button>
             {:else}
                 <button on:click={() => signIn("github")}>
-                    <img src="/icon/key_win-3.png" alt="settings">
+                    <img src="/icon/key_win-3.png" alt="log in">
                     <span>Log In...</span>
                 </button>
             {/if}
