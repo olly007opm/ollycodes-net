@@ -6,8 +6,15 @@
 @import "taskbar.css";
 
 @font-face {
-    font-family: "W95FA";
-    src: url("../font/W95FA.woff2") format("woff2");
+    font-family: "MS Sans Serif";
+    src: url("../font/MS Sans Serif 8pt.ttf") format("truetype");
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "MS Sans Serif";
+    src: url("../font/MS Sans Serif Bold.otf") format("opentype");
+    font-weight: bold;
 }
 
 :root {
@@ -23,7 +30,7 @@
 body {
     @apply bg-teal;
     @apply w-screen h-screen overflow-hidden;
-    font-family: W95FA, sans-serif;
+    font-family: MS Sans Serif, sans-serif;
     image-rendering: pixelated;
 }
 

@@ -1,0 +1,17 @@
+div.window {
+    @apply absolute p-4;
+    @apply bg-base-200 min-w-[512px] min-h-[128px];
+    box-shadow: inset -2px -2px 0 0 var(--base-900),
+        inset 2px 2px 0 0 var(--base-200),
+        inset -4px -4px 0 0 var(--base-300),
+        inset 4px 4px 0 0 var(--base-100);
+
+    div.window-title-bar {
+        @apply flex flex-row justify-between items-center px-2;
+        @apply bg-darkblue;
+        div.window-title {
+            @apply flex flex-row items-center gap-2;
+            @apply text-base-100 font-bold;
+        }
+    }
+}

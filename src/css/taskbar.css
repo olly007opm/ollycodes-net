@@ -22,7 +22,7 @@
     }
 
     button.btn-start {
-        @apply text-2xl font-bold;
+        @apply text-xl font-bold;
         @apply h-16;
     }
 }
