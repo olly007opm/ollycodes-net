@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { clearWindowFocus } from "$stores/windows"
+
     let items = [
         {
             name: "My Computer",
@@ -26,10 +28,15 @@
         if (items.filter(item => item.location.toString() === newLocation.toString()).length) return
         items[itemIndex].location = newLocation
     }
+
+    function clickDesktop() {
+        selectedItem = -1
+        clearWindowFocus()
+    }
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions -->
-<div id="desktop" on:click={() => selectedItem = -1} on:dragover|preventDefault>
+<div id="desktop" on:click={clickDesktop} on:dragover|preventDefault>
     <div class="desktop-icons">
         {#each items as {name, icon, action, location}, i}
             <button

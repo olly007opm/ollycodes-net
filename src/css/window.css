@@ -1,5 +1,5 @@
 div.window {
-    @apply absolute p-4;
+    @apply absolute p-4 z-20;
     @apply bg-base-200 min-w-[512px] min-h-[128px];
     box-shadow: inset -2px -2px 0 0 var(--base-900),
         inset 2px 2px 0 0 var(--base-200),
@@ -8,11 +8,10 @@ div.window {
 
     div.window-title-bar {
         @apply h-16 flex flex-row justify-between items-center px-2;
-        @apply bg-darkblue;
+        @apply bg-base-300 text-base-200 font-bold;
 
         div.window-title {
             @apply flex flex-row items-center gap-2;
-            @apply text-base-100 font-bold;
             img {
                 @apply w-12 h-12;
             }
@@ -29,9 +28,18 @@ div.window {
             }
         }
     }
+
+    &.window-focus {
+        @apply z-30;
+        div.window-title-bar {
+            @apply bg-darkblue text-base-100;
+        }
+    }
 }
 
 div.window-drag-area {
     @apply absolute;
-    @apply border-4 border-red;
+    border: dashed 8px red;
+    border-image: url("border-red.png") 25% round;
+    border-image-repeat: round;
 }

@@ -22,8 +22,22 @@
     }
 
     button.btn-start {
-        @apply text-xl font-bold;
-        @apply h-16;
+        @apply h-16 px-4 text-xl font-bold;
+    }
+
+    button.btn-taskbar {
+        @apply h-16 pr-4 min-w-96;
+        @apply flex flex-row items-center gap-2;
+        @apply text-base font-normal;
+        img {
+            @apply w-10 h-10;
+        }
+        &.focused {
+            box-shadow: inset 2px 2px 0 0 var(--base-900),
+                inset -2px -2px 0 0 var(--base-100),
+                inset 4px 4px 0 0 var(--base-300);
+            @apply font-bold;
+        }
     }
 }
 

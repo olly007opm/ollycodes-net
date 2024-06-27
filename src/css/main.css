@@ -40,7 +40,7 @@ body {
 }
 
 .btn {
-    @apply relative h-16 px-8 active:pt-1;
+    @apply relative h-16 px-2 active:pt-1;
     @apply bg-base-200 font-bold text-xl;
     @apply flex flex-row items-center gap-3;
     box-shadow: inset -2px -2px 0 0 var(--base-900),
@@ -52,7 +52,7 @@ body {
             inset 4px 4px 0 0 var(--base-300);
     }
 
-    &:focus::after {
+    &:not(.no-focus-outline):focus::after {
         content: "";
         @apply absolute top-1 active:top-2 left-2 right-2 bottom-2 active:bottom-1;
         border: dashed 2px var(--base-900);

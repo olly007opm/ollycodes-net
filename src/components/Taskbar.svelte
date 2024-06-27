@@ -4,6 +4,7 @@
     import { onMount } from "svelte"
     import { createFloatingActions } from "svelte-floating-ui"
     import { signIn, signOut } from "@auth/sveltekit/client"
+    import {focusWindow, windows} from "$stores/windows";
 
     let startMenuOpen = false
     let time = new Date()
@@ -25,6 +26,14 @@
             <span>Start</span>
         </button>
         <div class="separator"></div>
+        {#each $windows as win}
+            <button class="btn btn-taskbar no-focus-outline"
+                class:focused={win.focused} on:click={() => focusWindow(win)}
+            >
+                <img src={win.icon} alt={win.id}>
+                <span>{win.title}</span>
+            </button>
+        {/each}
     </div>
 
     <div>
