@@ -26,7 +26,7 @@
             <span>Start</span>
         </button>
         <div class="separator"></div>
-        {#each $windows as win}
+        {#each $windows.sort((a, b) => a.taskbarIndex - b.taskbarIndex) as win}
             <button class="btn btn-taskbar no-focus-outline"
                 class:focused={win.focused} on:click={() => focusWindow(win)}
             >

@@ -15,7 +15,8 @@ export const windows = writable<Window[]>([
         closable: true,
         minimized: false,
         maximized: false,
-        focused: false
+        focused: false,
+        taskbarIndex: 1
     },
     {
         id: "test-window",
@@ -31,7 +32,8 @@ export const windows = writable<Window[]>([
         closable: true,
         minimized: false,
         maximized: false,
-        focused: true
+        focused: true,
+        taskbarIndex: 0
     }
 ])
 
@@ -45,17 +47,18 @@ export type Window = {
     height: number
     minWidth: number
     minHeight: number
+    resizable: boolean
+    closable: boolean
+    minimized: boolean
+    maximized: boolean
+    focused: boolean
+    taskbarIndex: number
     newX?: number
     newY?: number
     newWidth?: number
     newHeight?: number
     offsetX?: number
     offsetY?: number
-    resizable: boolean
-    closable: boolean
-    minimized: boolean
-    maximized: boolean
-    focused: boolean
     originalSize?: {
         x: number
         y: number
