@@ -17,7 +17,7 @@
         @apply px-4 h-16;
         box-shadow: inset -2px -2px 0 0 var(--base-100), inset 2px 2px 0 0 var(--base-300);
         span {
-            @apply w-32 text-right text-lg;
+            @apply w-44 text-right text-lg;
         }
     }
 

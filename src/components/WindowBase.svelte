@@ -21,18 +21,12 @@
         newX = Math.min(Math.max(event.clientX - offsetX, 0), window.innerWidth - width)
         newY = Math.min(Math.max(event.clientY - offsetY, 0), window.innerHeight - height - 48)
     }
-
-    function onDragEnd(event: DragEvent) {
-        event.preventDefault()
-    }
 </script>
 
 <div class="window-drag-area" style="left: {newX}px; top: {newY}px; width: {width}px; height: {height}px"></div>
 
 <div class="window" style="left: {x}px; top: {y}px" bind:clientWidth={width} bind:clientHeight={height}>
-    <div class="window-title-bar" draggable="true" role="dialog"
-        on:dragstart={onDragStart} on:drag={onDrag} on:dragend={onDragEnd}
-    >
+    <div class="window-title-bar" draggable="true" role="dialog" on:dragstart={onDragStart} on:drag={onDrag}>
         <div class="window-title">
             <img src="/icon/document-1.png" alt="window icon">
             <span>Test Window</span>
