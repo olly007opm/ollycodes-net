@@ -1,5 +1,5 @@
 div.window {
-    @apply absolute p-4 z-20;
+    @apply absolute p-4 z-[20];
     @apply bg-base-200 min-w-[512px] min-h-[128px];
     box-shadow: inset -2px -2px 0 0 var(--base-900),
         inset 2px 2px 0 0 var(--base-200),
@@ -40,16 +40,17 @@ div.window {
         &.window-resize-l, &.window-resize-r { @apply top-8 bottom-8 w-4 cursor-ew-resize; }
         &.window-resize-tl, &.window-resize-br { @apply cursor-nwse-resize; }
         &.window-resize-tr, &.window-resize-bl { @apply cursor-nesw-resize; }
-
-        &.window-resize-tl, &.window-resize-tr, &.window-resize-bl, &.window-resize-br { @apply bg-yellow-600; }
-        &.window-resize-t, &.window-resize-b, &.window-resize-l, &.window-resize-r { @apply bg-lime-600; }
     }
 
     &.window-focus {
-        @apply z-30;
+        @apply z-[24];
         div.window-title-bar {
             @apply bg-darkblue text-base-100;
         }
+    }
+
+    &.window-maximized {
+        @apply z-[28];
     }
 }
 

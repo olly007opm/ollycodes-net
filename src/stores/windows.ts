@@ -11,7 +11,7 @@ export const windows = writable<Window[]>([
         height: 256,
         minWidth: 512,
         minHeight: 256,
-        resizable: true,
+        resizable: false,
         closable: true,
         minimized: false,
         maximized: false,
@@ -45,6 +45,12 @@ export type Window = {
     height: number
     minWidth: number
     minHeight: number
+    newX?: number
+    newY?: number
+    newWidth?: number
+    newHeight?: number
+    offsetX?: number
+    offsetY?: number
     resizable: boolean
     closable: boolean
     minimized: boolean

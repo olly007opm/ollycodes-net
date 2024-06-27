@@ -2,7 +2,13 @@
     import { closeWindow, focusWindow, maximizeWindow, unMaximizeWindow, type Window } from "$stores/windows"
 
     export let win: Window
-    let [offsetX, offsetY, newX, newY, newWidth, newHeight] = [0, 0, win.x, win.y, win.width, win.height]
+    win.offsetX = 0
+    win.offsetY = 0
+    win.newX = win.x
+    win.newY = win.y
+    win.newWidth = win.width
+    win.newHeight = win.height
+
     let dragging = false
 
     function onDragStart(event: DragEvent) {
@@ -10,25 +16,25 @@
         const dragImage = new Image()
         dragImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs='
         event.dataTransfer?.setDragImage(dragImage, 0, 0)
-        offsetX = event.clientX - win.x
-        offsetY = event.clientY - win.y
+        win.offsetX = event.clientX - win.x
+        win.offsetY = event.clientY - win.y
         dragging = true
     }
 
     function onDrag(event: DragEvent) {
         if (event.clientX === 0 && event.clientY === 0) {
-            win.x = newX
-            win.y = newY
+            if (win.newX) win.x = win.newX
+            if (win.newY) win.y = win.newY
             dragging = false
             return
         }
-        newX = Math.min(Math.max(event.clientX - offsetX, 0), window.innerWidth - win.width)
-        newY = Math.min(Math.max(event.clientY - offsetY, 0), window.innerHeight - win.height - 48)
+        if (win.offsetX) win.newX = Math.min(Math.max(event.clientX - win.offsetX, 0), window.innerWidth - win.width)
+        if (win.offsetY) win.newY = Math.min(Math.max(event.clientY - win.offsetY, 0), window.innerHeight - win.height - 48)
     }
 
     function onDragEnd() {
-        win.x = newX
-        win.y = newY
+        if (win.newX) win.x = win.newX
+        if (win.newY) win.y = win.newY
         dragging = false
     }
 
@@ -39,117 +45,113 @@
 
     function resizeStart(event: DragEvent) {
         focusWindow(win)
-        offsetX = event.clientX - win.x
-        offsetY = event.clientY - win.y
+        if (win.maximized || win.minimized || !win.resizable) {
+            event.preventDefault()
+            return
+        }
+        const dragImage = new Image()
+        dragImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs='
+        event.dataTransfer?.setDragImage(dragImage, 0, 0)
         dragging = true
     }
 
+    function resizeTL(event: DragEvent) {
+        win.newHeight = Math.max(win.height + win.y - event.clientY, win.minHeight)
+        win.newY = win.newHeight === win.minHeight ? win.y + win.height - win.minHeight : event.clientY
+        win.newWidth = Math.max(win.width + win.x - event.clientX, win.minWidth)
+        win.newX = win.newWidth === win.minWidth ? win.x + win.width - win.minWidth : event.clientX
+    }
+
+    function resizeT(event: DragEvent) {
+        win.newHeight = Math.max(win.height + win.y - event.clientY, win.minHeight)
+        win.newY = win.newHeight === win.minHeight ? win.y + win.height - win.minHeight : event.clientY
+    }
+
+    function resizeTR(event: DragEvent) {
+        win.newHeight = Math.max(win.height + win.y - event.clientY, win.minHeight)
+        win.newY = win.newHeight === win.minHeight ? win.y + win.height - win.minHeight : event.clientY
+        win.newWidth = Math.min(Math.max(event.clientX - win.x, win.minWidth), window.innerWidth - win.x)
+    }
+
+    function resizeL(event: DragEvent) {
+        win.newWidth = Math.max(win.width + win.x - event.clientX, win.minWidth)
+        win.newX = win.newWidth === win.minWidth ? win.x + win.width - win.minWidth : event.clientX
+    }
+
     function resizeR(event: DragEvent) {
-        newWidth = Math.min(Math.max(event.clientX - win.x, win.minWidth), window.innerWidth - win.x)
+        win.newWidth = Math.min(Math.max(event.clientX - win.x, win.minWidth), window.innerWidth - win.x)
+    }
+
+    function resizeBL(event: DragEvent) {
+        win.newHeight = Math.min(Math.max(event.clientY - win.y, win.minHeight), window.innerHeight - win.y - 48)
+        win.newWidth = Math.max(win.width + win.x - event.clientX, win.minWidth)
+        win.newX = win.newWidth === win.minWidth ? win.x + win.width - win.minWidth : event.clientX
     }
 
     function resizeB(event: DragEvent) {
-        newHeight = Math.min(Math.max(event.clientY - win.y, win.minHeight), window.innerHeight - win.y - 48)
+        win.newHeight = Math.min(Math.max(event.clientY - win.y, win.minHeight), window.innerHeight - win.y - 48)
     }
 
     function resizeBR(event: DragEvent) {
-        newWidth = Math.min(Math.max(event.clientX - win.x, win.minWidth), window.innerWidth - win.x)
-        newHeight = Math.min(Math.max(event.clientY - win.y, win.minHeight), window.innerHeight - win.y - 48)
+        win.newWidth = Math.min(Math.max(event.clientX - win.x, win.minWidth), window.innerWidth - win.x)
+        win.newHeight = Math.min(Math.max(event.clientY - win.y, win.minHeight), window.innerHeight - win.y - 48)
     }
 
-    function resizeEndTL() {
-        win.width = newWidth
-        win.height = newHeight
-        win.x = newX
-        win.y = newY
-        dragging = false
-    }
-
-    function resizeEndT() {
-        win.height = newHeight
-        win.y = newY
-        dragging = false
-    }
-
-    function resizeEndTR() {
-        win.width = newWidth
-        win.height = newHeight
-        win.y = newY
-        dragging = false
-    }
-
-    function resizeEndL() {
-        win.width = newWidth
-        win.x = newX
-        dragging = false
-    }
-
-    function resizeEndR() {
-        win.width = newWidth
-        dragging = false
-    }
-
-    function resizeEndBL() {
-        win.width = newWidth
-        win.height = newHeight
-        win.x = newX
-        dragging = false
-    }
-
-    function resizeEndB() {
-        win.height = newHeight
-        dragging = false
-    }
-
-    function resizeEndBR() {
-        win.width = newWidth
-        win.height = newHeight
+    function resizeEnd() {
+        if (win.newWidth) win.width = win.newWidth
+        if (win.newHeight) win.height = win.newHeight
+        if (win.newX) win.x = win.newX
+        if (win.newY) win.y = win.newY
         dragging = false
     }
 </script>
 
 {#if dragging && win.focused}
     <div class="window-drag-area"
-        style="left: {newX}px; top: {newY}px; width: {newWidth}px; height: {newHeight}px"
+        style="left: {win.newX}px; top: {win.newY}px; width: {win.newWidth}px; height: {win.newHeight}px"
     ></div>
 {/if}
 
 {#if !win.minimized}
     <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions -->
-    <div class="window" class:hidden={win.minimized} class:window-focus={win.focused} on:click={() => focusWindow(win)}
-        style="left: {win.x}px; top: {win.y}px; width: {win.width}px; height: {win.height}px" on:dragover|preventDefault
+    <div
+        class="window" on:click={() => focusWindow(win)} on:dragover|preventDefault
+        class:hidden={win.minimized} class:window-focus={win.focused} class:window-maximized={win.maximized}
+        style="left: {win.x}px; top: {win.y}px; width: {win.width}px; height: {win.height}px"
     >
-        <div
-            draggable="true" class="window-resize window-resize-tl"
-            on:dragstart={resizeStart} on:dragend={resizeEndTL}
-        ></div>
-        <div
-            draggable="true" class="window-resize window-resize-t"
-            on:dragstart={resizeStart} on:dragend={resizeEndT}
-        ></div>
-        <div
-            draggable="true" class="window-resize window-resize-tr"
-            on:dragstart={resizeStart} on:dragend={resizeEndTR}
-        ></div>
-        <div
-            draggable="true" class="window-resize window-resize-l"
-            on:dragstart={resizeStart} on:dragend={resizeEndL}
-        ></div>
-        <div
-            draggable="true" class="window-resize window-resize-r"
-            on:dragstart={resizeStart} on:drag={resizeR} on:dragend={resizeEndR}
-        ></div>
-        <div
-            draggable="true" class="window-resize window-resize-bl"
-            on:dragstart={resizeStart} on:dragend={resizeEndBL}
-        ></div>
-        <div draggable="true" class="window-resize window-resize-b"
-            on:dragstart={resizeStart} on:drag={resizeB} on:dragend={resizeEndB}
-        ></div>
-        <div
-            draggable="true" class="window-resize window-resize-br"
-            on:dragstart={resizeStart} on:drag={resizeBR} on:dragend={resizeEndBR}
-        ></div>
+        {#if win.resizable}
+            <div
+                draggable="true" class="window-resize window-resize-tl"
+                on:dragstart={resizeStart} on:drag={resizeTL} on:dragend={resizeEnd}
+            ></div>
+            <div
+                draggable="true" class="window-resize window-resize-t"
+                on:dragstart={resizeStart} on:drag={resizeT} on:dragend={resizeEnd}
+            ></div>
+            <div
+                draggable="true" class="window-resize window-resize-tr"
+                on:dragstart={resizeStart} on:drag={resizeTR} on:dragend={resizeEnd}
+            ></div>
+            <div
+                draggable="true" class="window-resize window-resize-l"
+                on:dragstart={resizeStart} on:drag={resizeL} on:dragend={resizeEnd}
+            ></div>
+            <div
+                draggable="true" class="window-resize window-resize-r"
+                on:dragstart={resizeStart} on:drag={resizeR} on:dragend={resizeEnd}
+            ></div>
+            <div
+                draggable="true" class="window-resize window-resize-bl"
+                on:dragstart={resizeStart} on:drag={resizeBL} on:dragend={resizeEnd}
+            ></div>
+            <div draggable="true" class="window-resize window-resize-b"
+                on:dragstart={resizeStart} on:drag={resizeB} on:dragend={resizeEnd}
+            ></div>
+            <div
+                draggable="true" class="window-resize window-resize-br"
+                on:dragstart={resizeStart} on:drag={resizeBR} on:dragend={resizeEnd}
+            ></div>
+        {/if}
 
         <div class="window-title-bar" draggable="true" role="dialog"
             on:dragstart={onDragStart} on:drag={onDrag} on:dragend={onDragEnd}
