@@ -19,7 +19,7 @@
     })
 </script>
 
-<div id="task-bar">
+<div id="task-bar" on:dragover|preventDefault>
     <div>
         <button class="btn btn-start" use:floatingRef on:click={() => startMenuOpen = !startMenuOpen}>
             <img src="/icon/windows-0.png" alt="start">

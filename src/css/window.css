@@ -29,6 +29,22 @@ div.window {
         }
     }
 
+    div.window-resize {
+        @apply absolute;
+        &.window-resize-tl, &.window-resize-tr, &.window-resize-bl, &.window-resize-br { @apply w-8 h-8; }
+        &.window-resize-tl, &.window-resize-t, &.window-resize-tr { @apply top-0; }
+        &.window-resize-bl, &.window-resize-b, &.window-resize-br { @apply bottom-0; }
+        &.window-resize-tl, &.window-resize-l, &.window-resize-bl { @apply left-0; }
+        &.window-resize-tr, &.window-resize-r, &.window-resize-br { @apply right-0; }
+        &.window-resize-t, &.window-resize-b { @apply left-8 right-8 h-4 cursor-ns-resize; }
+        &.window-resize-l, &.window-resize-r { @apply top-8 bottom-8 w-4 cursor-ew-resize; }
+        &.window-resize-tl, &.window-resize-br { @apply cursor-nwse-resize; }
+        &.window-resize-tr, &.window-resize-bl { @apply cursor-nesw-resize; }
+
+        &.window-resize-tl, &.window-resize-tr, &.window-resize-bl, &.window-resize-br { @apply bg-yellow-600; }
+        &.window-resize-t, &.window-resize-b, &.window-resize-l, &.window-resize-r { @apply bg-lime-600; }
+    }
+
     &.window-focus {
         @apply z-30;
         div.window-title-bar {
@@ -38,7 +54,7 @@ div.window {
 }
 
 div.window-drag-area {
-    @apply absolute;
+    @apply absolute z-40 pointer-events-none;
     border: dashed 8px red;
     border-image: url("border-red.png") 25% round;
     border-image-repeat: round;
