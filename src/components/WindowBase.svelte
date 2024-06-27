@@ -166,7 +166,7 @@
                 </button>
                 {#if win.maximized}
                     <button class="btn window-control window-control-maximize" on:click={() => unMaximizeWindow(win)}>
-                        <img src="/custom-icon/window-max.png" alt="maximize">
+                        <img src="/custom-icon/window-unmax.png" alt="maximize">
                     </button>
                 {:else}
                     <button class="btn window-control window-control-maximize" on:click={() => maximizeWindow(win)}>
