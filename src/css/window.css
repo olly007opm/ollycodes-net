@@ -57,6 +57,6 @@ div.window {
 div.window-drag-area {
     @apply absolute z-40 pointer-events-none;
     border: dashed 8px red;
-    border-image: url("border-red.png") 25% round;
+    border-image: url("border/border-red.png") 25% round;
     border-image-repeat: round;
 }
