@@ -6,13 +6,13 @@
     let dragging = false
 
     function onDragStart(event: DragEvent) {
+        focusWindow(win)
         const dragImage = new Image()
         dragImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs='
         event.dataTransfer?.setDragImage(dragImage, 0, 0)
         offsetX = event.clientX - win.x
         offsetY = event.clientY - win.y
         dragging = true
-        focusWindow(win)
     }
 
     function onDrag(event: DragEvent) {
@@ -32,7 +32,7 @@
     }
 </script>
 
-{#if dragging}
+{#if dragging && win.focused}
     <div class="window-drag-area"
         style="left: {newX}px; top: {newY}px; width: {win.width}px; height: {win.height}px"
     ></div>

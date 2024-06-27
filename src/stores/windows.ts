@@ -2,22 +2,6 @@ import { writable } from "svelte/store"
 
 export const windows = writable<Window[]>([
     {
-        id: "test-window",
-        title: "Test Window",
-        icon: "/icon/document-1.png",
-        x: 400,
-        y: 200,
-        width: 512,
-        height: 256,
-        minWidth: 512,
-        minHeight: 256,
-        resizable: true,
-        closable: true,
-        minimized: false,
-        maximized: false,
-        focused: true
-    },
-    {
         id: "test-window2",
         title: "Test Window2",
         icon: "/icon/document-1.png",
@@ -32,6 +16,22 @@ export const windows = writable<Window[]>([
         minimized: false,
         maximized: false,
         focused: false
+    },
+    {
+        id: "test-window",
+        title: "Test Window",
+        icon: "/icon/document-1.png",
+        x: 400,
+        y: 200,
+        width: 512,
+        height: 256,
+        minWidth: 512,
+        minHeight: 256,
+        resizable: true,
+        closable: true,
+        minimized: false,
+        maximized: false,
+        focused: true
     }
 ])
 
@@ -69,6 +69,9 @@ export function focusWindow(win: Window) {
     clearWindowFocus()
     win.focused = true
     win.minimized = false
+    windows.update(wins => {
+        return [...wins.filter(w => !w.focused), ...wins.filter(w => w.focused)]
+    })
 }
 
 export function maximizeWindow(win: Window) {

@@ -4,7 +4,7 @@
     import { onMount } from "svelte"
     import { createFloatingActions } from "svelte-floating-ui"
     import { signIn, signOut } from "@auth/sveltekit/client"
-    import {focusWindow, windows} from "$stores/windows";
+    import { focusWindow, windows } from "$stores/windows"
 
     let startMenuOpen = false
     let time = new Date()
