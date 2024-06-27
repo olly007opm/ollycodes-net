@@ -1,0 +1,24 @@
+#desktop {
+    @apply relative m-8 w-full h-full;
+    button.desktop-icon {
+        @apply absolute w-56 h-48;
+        @apply flex flex-col items-center gap-4;
+        @apply text-base-100;
+        img {
+            @apply w-24 h-24;
+        }
+        span {
+            @apply px-1 text-xl;
+            line-height: 100%;
+        }
+
+        &.desktop-icon-selected {
+            span {
+                border: dashed 2px var(--base-900);
+                border-image: url("border-white.png") 25% round;
+                border-image-repeat: round;
+                @apply bg-blue;
+            }
+        }
+    }
+}
