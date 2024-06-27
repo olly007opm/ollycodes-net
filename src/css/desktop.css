@@ -3,7 +3,7 @@
     div.desktop-icons {
         @apply relative w-full h-full;
         button.desktop-icon {
-            @apply absolute w-56 h-48;
+            @apply absolute w-56 h-56;
             @apply flex flex-col items-center gap-4;
             @apply text-base-100;
             img {

@@ -21,8 +21,8 @@ export const windows = writable<Window[]>([
         id: "test-window2",
         title: "Test Window2",
         icon: "/icon/document-1.png",
-        x: 400,
-        y: 200,
+        x: 600,
+        y: 400,
         width: 512,
         height: 256,
         minWidth: 512,
@@ -31,7 +31,7 @@ export const windows = writable<Window[]>([
         closable: true,
         minimized: false,
         maximized: false,
-        focused: true
+        focused: false
     }
 ])
 

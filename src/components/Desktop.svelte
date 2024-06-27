@@ -24,7 +24,7 @@
     let selectedItem: number = -1
 
     function handleDragEnd(event: DragEvent, itemIndex: number) {
-        let newLocation = [Math.floor(event.x / 112), Math.floor(event.y / 96)]
+        let newLocation = [Math.floor(event.x / 112), Math.floor(event.y / 112)]
         if (items.filter(item => item.location.toString() === newLocation.toString()).length) return
         items[itemIndex].location = newLocation
     }
@@ -41,7 +41,7 @@
         {#each items as {name, icon, action, location}, i}
             <button
                 class="desktop-icon" class:desktop-icon-selected={selectedItem === i}
-                style="left: {location[0] * 112}px; top: {location[1] * 96}px;"
+                style="left: {location[0] * 112}px; top: {location[1] * 112}px;"
                 on:click|stopPropagation={() => selectedItem = i} on:dblclick={action}
                 on:dragend={event => handleDragEnd(event, i)} draggable="true"
             >
