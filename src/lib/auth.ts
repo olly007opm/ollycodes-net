@@ -4,7 +4,7 @@ import GitHub from "@auth/sveltekit/providers/github"
 import { env } from '$env/dynamic/private'
 import prisma from "$lib/prisma.js"
 
-export const { handle } = SvelteKitAuth(async event => {
+export const { handle } = SvelteKitAuth(async () => {
     return {
         adapter: PrismaAdapter(prisma),
         providers: [
@@ -13,14 +13,15 @@ export const { handle } = SvelteKitAuth(async event => {
                 clientSecret: env.GITHUB_SECRET,
             })
         ],
-        // callbacks: {
-        //     session({ session }) { return session }
-        // },
-        // pages: {
-        //     signIn: "/auth/login",
-        //     signOut: "/auth/logout",
-        // },
+        callbacks: {
+            async session({session}) {
+                session.user = await prisma.user.findUnique({
+                    where: { id: session.userId },
+                    include: { desktop: { include: { items: true } } }
+                }) as any
+                return session
+            }
+        },
         secret: env.AUTH_SECRET
-        // trustHost: true
     }
 })

@@ -10,7 +10,7 @@ export async function POST({ request, locals }) {
         return error(403, "Unauthorized")
     }
     await prisma.desktopItem.update({
-        where: { id: data.id, desktop: { user: session.user } },
+        where: { id: data.id, desktop: { userId: session.user.id } },
         data: { x: data.x, y: data.y }
     })
     return json({ success: true })

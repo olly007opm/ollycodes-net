@@ -1,5 +1,6 @@
-import type { LayoutServerLoad } from "./$types"
 import prisma from "$lib/prisma"
+import { checkNewUser } from "$lib/newuser"
+import type { LayoutServerLoad } from "./$types"
 import type { DesktopItem } from "$stores/desktop"
 
 export const load: LayoutServerLoad = async event => {
@@ -21,12 +22,14 @@ export const load: LayoutServerLoad = async event => {
         }
     })
 
-    if (!session || !session.user) {
+    if (!session || !session.user || !session.user.id) {
         return { session, desktop }
     }
 
+    await checkNewUser(session)
+
     let userDesktop = await prisma.desktop.findFirst({
-        where: { user: session.user },
+        where: { userId: session.user.id },
         include: { items: { include: { icon: true } } }
     })
     if (userDesktop) desktop = userDesktop.items as DesktopItem[]
