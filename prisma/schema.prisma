@@ -112,6 +112,8 @@ model DesktopIcon {
   name      String
   image     String
   action    String
+  defaultX  Int?
+  defaultY  Int?
   items     DesktopItem[]
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
