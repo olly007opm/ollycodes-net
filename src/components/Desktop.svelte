@@ -11,6 +11,13 @@
         if ($desktop.filter(item => item.x === newX && item.y === newY).length !== 0) return
         $desktop[itemIndex].x = newX
         $desktop[itemIndex].y = newY
+        if ($page.data.session?.user) fetch("/api/desktop/update", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: $desktop[itemIndex].id, x: newX, y: newY })
+        }).then(r => r.json()).then(resp => {
+            console.log("Desktop Updated", resp)
+        })
     }
 
     function clickDesktop() {

@@ -31,7 +31,6 @@ export const load: LayoutServerLoad = async event => {
         where: { user: session.user },
         include: { items: { include: { icon: true } } }
     })
-
     if (userDesktop) desktop = userDesktop.items as DesktopItem[]
 
     return { session, desktop }
