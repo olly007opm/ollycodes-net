@@ -12,15 +12,13 @@ export const load: LayoutServerLoad = async event => {
         }
     })
 
-    let desktop: DesktopItem[] = desktopItems
-        .filter(item => item.defaultX !== null && item.defaultY !== null)
-        .map(icon => {
-            return {
-                id: icon.id,
-                icon: icon,
-                x: icon.defaultX as number,
-                y: icon.defaultY as number
-            }
+    let desktop: DesktopItem[] = desktopItems.map(icon => {
+        return {
+            id: icon.id,
+            icon: icon,
+            x: icon.defaultX as number,
+            y: icon.defaultY as number
+        }
     })
 
     if (!session || !session.user) {
