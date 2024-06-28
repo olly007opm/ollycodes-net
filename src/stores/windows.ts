@@ -1,4 +1,4 @@
-import { writable } from "svelte/store"
+import { get, writable } from "svelte/store"
 
 export const windows = writable<Window[]>([
     {
@@ -78,9 +78,6 @@ export function focusWindow(win: Window) {
     clearWindowFocus()
     win.focused = true
     win.minimized = false
-    windows.update(wins => {
-        return [...wins.filter(w => !w.focused), ...wins.filter(w => w.focused)]
-    })
 }
 
 export function maximizeWindow(win: Window) {
