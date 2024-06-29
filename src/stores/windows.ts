@@ -1,55 +1,7 @@
 import { get, writable } from "svelte/store"
-import TestWindow from "$components/windows/TestWindow.svelte"
 import type { SvelteComponent } from "svelte"
 
-export const windows = writable<Window[]>([
-    {
-        id: "test-window2",
-        title: "Test Window2",
-        icon: "/icon/document-1.png",
-        component: TestWindow,
-        x: 600,
-        y: 400,
-        z: 2,
-        width: 512,
-        height: 256,
-        minWidth: 512,
-        minHeight: 256,
-        resizable: false,
-        closable: true,
-        minimizable: true,
-        movable: true,
-        forceFocus: false,
-        minimized: false,
-        maximized: false,
-        focused: false,
-        taskbarIndex: 1
-    },
-    {
-        id: "test-window",
-        title: "Test Window",
-        icon: "/icon/document-1.png",
-        component: TestWindow,
-        x: 400,
-        y: 200,
-        z: 1,
-        width: 512,
-        height: 256,
-        minWidth: 512,
-        minHeight: 256,
-        resizable: true,
-        closable: true,
-        minimizable: true,
-        movable: true,
-        forceFocus: false,
-        minimized: false,
-        maximized: false,
-        focused: false,
-        taskbarIndex: 0
-    }
-])
-
-export type Window = {
+export class Window {
     id: string
     title: string
     icon: string
@@ -66,24 +18,84 @@ export type Window = {
     minimizable: boolean
     movable: boolean
     forceFocus: boolean
-    center?: boolean
+    center: boolean
     minimized: boolean
     maximized: boolean
     focused: boolean
     taskbarIndex: number
-    newX?: number
-    newY?: number
-    newWidth?: number
-    newHeight?: number
-    offsetX?: number
-    offsetY?: number
+    newX: number
+    newY: number
+    newWidth: number
+    newHeight: number
+    offsetX: number
+    offsetY: number
     originalSize?: {
         x: number
         y: number
         width: number
         height: number
     }
+
+    constructor(state: {
+        id: string
+        title: string
+        icon: string
+        component: { new (...args: any[]): SvelteComponent }
+        x?: number
+        y?: number
+        z?: number
+        width?: number
+        height?: number
+        minWidth?: number
+        minHeight?: number
+        resizable?: boolean
+        closable?: boolean
+        minimizable?: boolean
+        movable?: boolean
+        forceFocus?: boolean
+        center?: boolean
+        minimized?: boolean
+        maximized?: boolean
+        focused?: boolean
+        taskbarIndex?: number
+    }) {
+        this.id = state.id
+        this.title = state.title
+        this.icon = state.icon
+        this.component = state.component
+        this.x = state.x || 400
+        this.y = state.y || 200
+        this.z = state.z || 0
+        this.width = state.width || 512
+        this.height = state.height || 256
+        this.minWidth = state.minWidth || 512
+        this.minHeight = state.minHeight || 256
+        this.resizable = state.resizable || true
+        this.closable = state.closable || true
+        this.minimizable = state.minimizable || true
+        this.movable = state.movable || true
+        this.forceFocus = state.forceFocus || false
+        this.center = state.center || false
+        this.minimized = state.minimized || false
+        this.maximized = state.maximized || false
+        this.focused = state.focused || false
+        this.taskbarIndex = state.taskbarIndex || 0
+        this.newX = this.x
+        this.newY = this.y
+        this.newWidth = this.width
+        this.newHeight = this.height
+        this.offsetX = 0
+        this.offsetY = 0
+        this.originalSize = {
+            x: this.x,
+            y: this.y,
+            width: this.width,
+            height: this.height
+        }
+    }
 }
+
+export const windows = writable<Window[]>([])
 
 export function clearWindowFocus() {
     windows.update(wins => {

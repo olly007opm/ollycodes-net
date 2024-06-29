@@ -2,6 +2,7 @@
     import { page } from "$app/stores"
     import { desktop, type DesktopItem } from "$stores/desktop"
     import { clearWindowFocus } from "$stores/windows"
+    import { createExplorerWindow } from "$stores/windows/explorer"
 
     let selectedItem: number = -1
     $desktop = $page.data.desktop
@@ -26,7 +27,15 @@
     }
 
     function action(item: DesktopItem) {
-        console.log(item.icon.action)
+        switch (item.icon.action) {
+            case "open_computer":
+                createExplorerWindow("C:\\")
+                break
+            case "open_docs":
+                break
+            case "open_bin":
+                break
+        }
     }
 </script>
 

@@ -30,12 +30,14 @@ model User {
 model Folder {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
+  icon      String?
   owner     User     @relation(fields: [ownerId], references: [id])
   ownerId   String   @db.ObjectId
   parent    Folder?  @relation("FolderToFolder", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   parentId  String?  @db.ObjectId
   children  Folder[] @relation("FolderToFolder")
   files     File[]
+  public    Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   folderId  String?  @db.ObjectId
@@ -59,6 +61,7 @@ model FileType {
   identifier  String
   extension   String
   description String
+  icon        String?
   files       File[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

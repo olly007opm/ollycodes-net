@@ -87,3 +87,33 @@ div.wizard-window {
         }
     }
 }
+
+div.explorer-toolbar {
+    @apply p-2 mt-2 flex flex-col;
+    box-shadow: inset -2px -2px 0 0 var(--base-100),
+        inset 2px 2px 0 0 var(--base-300),
+        inset -4px -4px 0 0 var(--base-300),
+        inset 4px 4px 0 0 var(--base-100);
+
+    > div:not(.separator) {
+        @apply px-4 py-2;
+        @apply flex flex-row gap-2;
+    }
+
+    div.separator {
+        @apply w-full h-2 bg-base-300 border-b-2 border-b-base-100;
+    }
+
+    button {
+        @apply h-16 px-8 font-normal;
+    }
+
+    div.explorer-buttons {
+        button {
+            @apply h-40 flex flex-col justify-center items-center;
+            img {
+                @apply h-14;
+            }
+        }
+    }
+}
