@@ -6,7 +6,14 @@ export async function checkNewUser(session: Session) {
     if (!session.user) return
 
     if (!(session.user as User).username) {
-        console.log("User requires username")
+        let newUsername = "user_" + Math.floor(Math.random() * 0xffffff).toString(16).padEnd(6, "0")
+        while (await prisma.user.findFirst({ where: { username: newUsername } })) {
+            newUsername = "user_" + Math.floor(Math.random() * 0xffffff).toString(16).padEnd(6, "0")
+        }
+        await prisma.user.update({
+            where: { id: session.user.id },
+            data: { username: newUsername }
+        })
     }
 
     if (await prisma.desktop.count({ where: { userId: session.user.id } }) === 0) {

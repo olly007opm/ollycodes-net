@@ -64,7 +64,7 @@ div.window-drag-area {
 
 div.wizard-window {
     @apply h-full mx-8 my-10;
-    @apply grid grid-cols-[256px,1fr] gap-16;
+    @apply grid grid-cols-[256px,1fr] grid-rows-[1fr,48px] gap-16;
     div.wizard-banner {
         box-shadow: inset -2px -2px 0 0 var(--base-100), inset 2px 2px 0 0 var(--base-300);
         @apply flex flex-row justify-center items-center;

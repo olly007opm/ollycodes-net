@@ -6,7 +6,7 @@
     import type { User } from "@prisma/client"
     import { createOnboardingWindow } from "$stores/windows/onboarding"
 
-    if ($page.data.session?.user && !($page.data.session.user as User).username) createOnboardingWindow()
+    if ($page.data.session?.user && ($page.data.session.user as User).newUser) createOnboardingWindow()
 </script>
 
 <div id="container">

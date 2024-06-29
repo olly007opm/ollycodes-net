@@ -11,4 +11,7 @@ form.form-control {
             inset -4px -4px 0 0 var(--base-200),
             inset 4px 4px 0 0 var(--base-900);
     }
+    .form-error {
+        @apply mt-2 col-span-full text-red text-base;
+    }
 }
