@@ -1,7 +1,9 @@
 <script lang="ts">
+    import { onMount } from "svelte"
     import { closeWindow, focusWindow, maximizeWindow, unMaximizeWindow, type Window } from "$stores/windows"
 
     export let win: Window
+    let windowReady = false
     win.offsetX = 0
     win.offsetY = 0
     win.newX = win.x
@@ -9,9 +11,21 @@
     win.newWidth = win.width
     win.newHeight = win.height
 
+    onMount(() => {
+        if (win.center) {
+            win.x=(window.innerWidth - win.width) / 2
+            win.y=(window.innerHeight - win.height) / 2
+        }
+        windowReady = true
+    })
+
     let dragging = false
 
     function onDragStart(event: DragEvent) {
+        if (!win.movable) {
+            event.preventDefault()
+            return
+        }
         focusWindow(win)
         const dragImage = new Image()
         dragImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs='
@@ -22,6 +36,10 @@
     }
 
     function onDrag(event: DragEvent) {
+        if (!win.movable) {
+            event.preventDefault()
+            return
+        }
         if (event.clientX === 0 && event.clientY === 0) {
             if (win.newX) win.x = win.newX
             if (win.newY) win.y = win.newY
@@ -33,6 +51,7 @@
     }
 
     function onDragEnd() {
+        if (!win.movable) return
         if (win.newX) win.x = win.newX
         if (win.newY) win.y = win.newY
         dragging = false
@@ -112,7 +131,7 @@
     ></div>
 {/if}
 
-{#if !win.minimized}
+{#if windowReady && !win.minimized}
     <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions -->
     <div
         class="window" on:click={() => focusWindow(win)} on:dragover|preventDefault
@@ -161,24 +180,28 @@
                 <span>{win.title}</span>
             </div>
             <div class="window-controls">
-                <button class="btn window-control window-control-minimise" on:click|stopPropagation={minimiseWindow}>
-                    <img src="/custom-icon/window-min.png" alt="minimise">
-                </button>
-                {#if win.maximized}
+                {#if win.minimizable}
+                    <button class="btn window-control window-control-minimise" on:click|stopPropagation={minimiseWindow}>
+                        <img src="/custom-icon/window-min.png" alt="minimise">
+                    </button>
+                {/if}
+                {#if win.maximized && win.resizable}
                     <button class="btn window-control window-control-maximize" on:click={() => unMaximizeWindow(win)}>
                         <img src="/custom-icon/window-unmax.png" alt="maximize">
                     </button>
-                {:else}
+                {:else if win.resizable}
                     <button class="btn window-control window-control-maximize" on:click={() => maximizeWindow(win)}>
                         <img src="/custom-icon/window-max.png" alt="maximize">
                     </button>
                 {/if}
-                <button class="btn window-control window-control-close" on:click={() => closeWindow(win)}>
-                    <img src="/custom-icon/window-close.png" alt="close">
-                </button>
+                {#if win.closable}
+                    <button class="btn window-control window-control-close" on:click={() => closeWindow(win)}>
+                        <img src="/custom-icon/window-close.png" alt="close">
+                    </button>
+                {/if}
             </div>
         </div>
-        Test Window Content
+        <slot />
     </div>
 {/if}
 

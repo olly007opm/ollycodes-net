@@ -1,14 +1,15 @@
 div.window {
     @apply absolute p-4 z-[20];
     @apply bg-base-200 min-w-[512px] min-h-[128px];
+    @apply flex flex-col;
     box-shadow: inset -2px -2px 0 0 var(--base-900),
         inset 2px 2px 0 0 var(--base-200),
         inset -4px -4px 0 0 var(--base-300),
         inset 4px 4px 0 0 var(--base-100);
 
     div.window-title-bar {
-        @apply h-16 flex flex-row justify-between items-center px-2;
-        @apply bg-base-300 text-base-200 font-bold;
+        @apply h-16 min-h-16 flex flex-row justify-between items-center px-2;
+        @apply bg-base-300 text-base-200 font-bold text-lg;
 
         div.window-title {
             @apply flex flex-row items-center gap-2;
@@ -59,4 +60,30 @@ div.window-drag-area {
     border: dashed 8px red;
     border-image: url("border/border-red.png") 25% round;
     border-image-repeat: round;
+}
+
+div.wizard-window {
+    @apply h-full mx-8 my-10;
+    @apply grid grid-cols-[256px,1fr] gap-16;
+    div.wizard-banner {
+        box-shadow: inset -2px -2px 0 0 var(--base-100), inset 2px 2px 0 0 var(--base-300);
+        @apply flex flex-row justify-center items-center;
+    }
+    div.wizard-content {
+        @apply flex flex-col;
+    }
+    div.wizard-footer {
+        @apply flex flex-row justify-end items-center;
+        @apply relative col-span-full;
+        &:before {
+            content: "";
+            @apply absolute -top-8 left-0 right-0;
+            @apply w-full h-2 bg-base-300;
+            @apply border-b-2 border-r-2 border-base-100;
+        }
+        button {
+            @apply w-64 h-20 text-lg font-normal;
+            @apply flex justify-center items-center;
+        }
+    }
 }

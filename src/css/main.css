@@ -3,6 +3,7 @@
 @import "tailwindcss/utilities.css";
 
 @import "desktop.css";
+@import "forms.css";
 @import "taskbar.css";
 @import "window.css";
 
@@ -30,7 +31,7 @@
 
 body {
     @apply w-screen h-screen overflow-hidden;
-    @apply bg-teal cursor-default;
+    @apply bg-teal cursor-default text-xl;
     font-family: MS Sans Serif, sans-serif;
     image-rendering: pixelated;
 }
@@ -57,5 +58,9 @@ body {
         @apply absolute top-1 active:top-2 left-2 right-2 bottom-2 active:bottom-1;
         border: dashed 2px var(--base-900);
         border-image: url("border/border.png") 25% round;
+    }
+
+    &:disabled {
+        @apply text-base-300;
     }
 }

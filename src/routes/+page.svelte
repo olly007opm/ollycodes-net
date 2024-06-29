@@ -1,15 +1,19 @@
-<script>
+<script lang="ts">
+    import { page } from "$app/stores"
     import { windows } from "$stores/windows"
     import Desktop from "$components/Desktop.svelte"
     import Taskbar from "$components/Taskbar.svelte"
-    import WindowBase from "$components/WindowBase.svelte"
+    import type { User } from "@prisma/client"
+    import { createOnboardingWindow } from "$stores/windows/onboarding"
+
+    if ($page.data.session?.user && !($page.data.session.user as User).username) createOnboardingWindow()
 </script>
 
 <div id="container">
     <Desktop />
     <Taskbar />
     {#each $windows as win}
-        <WindowBase bind:win />
+        <svelte:component this={win.component} bind:win />
     {/each}
 </div>
 

@@ -1,10 +1,13 @@
-import { writable } from "svelte/store"
+import { get, writable } from "svelte/store"
+import TestWindow from "$components/windows/TestWindow.svelte"
+import type { SvelteComponent } from "svelte"
 
 export const windows = writable<Window[]>([
     {
         id: "test-window2",
         title: "Test Window2",
         icon: "/icon/document-1.png",
+        component: TestWindow,
         x: 600,
         y: 400,
         width: 512,
@@ -13,6 +16,9 @@ export const windows = writable<Window[]>([
         minHeight: 256,
         resizable: false,
         closable: true,
+        minimizable: true,
+        movable: true,
+        forceFocus: false,
         minimized: false,
         maximized: false,
         focused: false,
@@ -22,6 +28,7 @@ export const windows = writable<Window[]>([
         id: "test-window",
         title: "Test Window",
         icon: "/icon/document-1.png",
+        component: TestWindow,
         x: 400,
         y: 200,
         width: 512,
@@ -30,9 +37,12 @@ export const windows = writable<Window[]>([
         minHeight: 256,
         resizable: true,
         closable: true,
+        minimizable: true,
+        movable: true,
+        forceFocus: false,
         minimized: false,
         maximized: false,
-        focused: true,
+        focused: false,
         taskbarIndex: 0
     }
 ])
@@ -41,6 +51,7 @@ export type Window = {
     id: string
     title: string
     icon: string
+    component: { new (...args: any[]): SvelteComponent }
     x: number
     y: number
     width: number
@@ -49,6 +60,10 @@ export type Window = {
     minHeight: number
     resizable: boolean
     closable: boolean
+    minimizable: boolean
+    movable: boolean
+    forceFocus: boolean
+    center?: boolean
     minimized: boolean
     maximized: boolean
     focused: boolean
@@ -69,13 +84,14 @@ export type Window = {
 
 export function clearWindowFocus() {
     windows.update(wins => {
-        wins.forEach(win => win.focused = false)
+        wins.filter(w => !w.forceFocus).forEach(win => win.focused = false)
         return wins
     })
 }
 
 export function focusWindow(win: Window) {
     clearWindowFocus()
+    if (get(windows).filter(w => w.forceFocus).length !== 0) return
     win.focused = true
     win.minimized = false
 }

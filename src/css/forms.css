@@ -1,0 +1,14 @@
+form.form-control {
+    @apply grid grid-cols-[128px,1fr];
+}
+
+.form-group {
+    @apply grid grid-cols-subgrid col-span-full items-center;
+    input {
+        @apply h-20 px-6 outline-none;
+        box-shadow: inset -2px -2px 0 0 var(--base-100),
+            inset 2px 2px 0 0 var(--base-300),
+            inset -4px -4px 0 0 var(--base-200),
+            inset 4px 4px 0 0 var(--base-900);
+    }
+}
