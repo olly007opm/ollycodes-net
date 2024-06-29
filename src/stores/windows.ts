@@ -10,6 +10,7 @@ export const windows = writable<Window[]>([
         component: TestWindow,
         x: 600,
         y: 400,
+        z: 2,
         width: 512,
         height: 256,
         minWidth: 512,
@@ -31,6 +32,7 @@ export const windows = writable<Window[]>([
         component: TestWindow,
         x: 400,
         y: 200,
+        z: 1,
         width: 512,
         height: 256,
         minWidth: 512,
@@ -54,6 +56,7 @@ export type Window = {
     component: { new (...args: any[]): SvelteComponent }
     x: number
     y: number
+    z: number
     width: number
     height: number
     minWidth: number
@@ -94,6 +97,11 @@ export function focusWindow(win: Window) {
     if (get(windows).filter(w => w.forceFocus).length !== 0) return
     win.focused = true
     win.minimized = false
+    windows.update(wins => {
+        wins.forEach(w => { if (w.z > win.z) w.z-- })
+        win.z = wins.length
+        return wins
+    })
 }
 
 export function maximizeWindow(win: Window) {

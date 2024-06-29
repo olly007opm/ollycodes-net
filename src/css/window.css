@@ -1,5 +1,5 @@
 div.window {
-    @apply absolute p-4 z-[20];
+    @apply absolute p-4 z-[20000];
     @apply bg-base-200 min-w-[512px] min-h-[128px];
     @apply flex flex-col;
     box-shadow: inset -2px -2px 0 0 var(--base-900),
@@ -44,19 +44,19 @@ div.window {
     }
 
     &.window-focus {
-        @apply z-[24];
+        @apply z-[30000];
         div.window-title-bar {
             @apply bg-darkblue text-base-100;
         }
     }
 
     &.window-maximized {
-        @apply z-[28];
+        @apply z-[31000];
     }
 }
 
 div.window-drag-area {
-    @apply absolute z-40 pointer-events-none;
+    @apply absolute z-[40000] pointer-events-none;
     border: dashed 8px red;
     border-image: url("border/border-red.png") 25% round;
     border-image-repeat: round;

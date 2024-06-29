@@ -136,7 +136,7 @@
     <div
         class="window" on:click={() => focusWindow(win)} on:dragover|preventDefault
         class:hidden={win.minimized} class:window-focus={win.focused} class:window-maximized={win.maximized}
-        style="left: {win.x}px; top: {win.y}px; width: {win.width}px; height: {win.height}px"
+        style="left: {win.x}px; top: {win.y}px; width: {win.width}px; height: {win.height}px; z-index: {win.z + 20000};"
     >
         {#if win.resizable}
             <div

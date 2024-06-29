@@ -50,7 +50,7 @@
 }
 
 #start-menu {
-    @apply absolute z-40 p-3 min-w-[256px];
+    @apply absolute z-[40000] p-3 min-w-[256px];
     @apply bg-base-200;
     @apply grid grid-cols-[32px,1fr];
     box-shadow: inset -2px -2px 0 0 var(--base-900),
