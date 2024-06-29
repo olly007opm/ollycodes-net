@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { onMount } from "svelte"
     import WindowBase from "$components/WindowBase.svelte"
     import { checkUsername } from "$lib/username"
     import { closeWindow, type Window } from "$stores/windows"
@@ -9,6 +10,8 @@
     let usernameValid: boolean = false
     let errorMessage = ""
     let stage = 0
+
+    onMount(() => win.ready = true)
 
     function checkNewUsername() {
         console.log(username)

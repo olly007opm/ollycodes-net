@@ -35,6 +35,7 @@ export class Window {
         width: number
         height: number
     }
+    ready: boolean
 
     constructor(state: {
         id: string
@@ -92,6 +93,7 @@ export class Window {
             width: this.width,
             height: this.height
         }
+        this.ready = false
     }
 }
 

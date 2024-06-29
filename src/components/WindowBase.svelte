@@ -3,7 +3,6 @@
     import { closeWindow, focusWindow, maximizeWindow, unMaximizeWindow, type Window } from "$stores/windows"
 
     export let win: Window
-    let windowReady = false
     win.offsetX = 0
     win.offsetY = 0
     win.newX = win.x
@@ -16,7 +15,6 @@
             win.x=(window.innerWidth - win.width) / 2
             win.y=(window.innerHeight - win.height) / 2
         }
-        windowReady = true
     })
 
     let dragging = false
@@ -131,7 +129,7 @@
     ></div>
 {/if}
 
-{#if windowReady && !win.minimized}
+{#if win.ready && !win.minimized}
     <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions -->
     <div
         class="window" on:click={() => focusWindow(win)} on:dragover|preventDefault

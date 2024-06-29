@@ -5,10 +5,8 @@
     import Taskbar from "$components/Taskbar.svelte"
     import type { User } from "@prisma/client"
     import { createOnboardingWindow } from "$stores/windows/onboarding"
-    import { createExplorerWindow } from "$stores/windows/explorer"
 
     if ($page.data.session?.user && ($page.data.session.user as User).newUser) createOnboardingWindow()
-    createExplorerWindow()
 </script>
 
 <div id="container">

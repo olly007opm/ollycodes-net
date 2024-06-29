@@ -1,9 +1,17 @@
+import { page } from "$app/stores"
+import { get } from "svelte/store"
 import { windows, Window } from "$stores/windows"
 import Explorer from "$components/windows/Explorer.svelte"
-import type { SvelteComponent } from "svelte"
+import { type SvelteComponent } from "svelte"
+import { Prisma } from "@prisma/client"
 
-class ExplorerWindow extends Window {
-    path: string
+export type Folder = Prisma.FolderGetPayload<{
+    include: { parent: true, children: true, files: true }
+}>
+
+export class ExplorerWindow extends Window {
+    address: string
+    folder?: Folder
 
     constructor(state: {
         id: string
@@ -27,26 +35,40 @@ class ExplorerWindow extends Window {
         maximized?: boolean
         focused?: boolean
         taskbarIndex?: number
-    }, path: string) {
+    }, address: string) {
         super(state)
-        this.path = path
+        this.address = address
+        this.fetchFolder()
+    }
+
+    fetchFolder() {
+        fetch(`${get(page).url.origin}/api/explorer/folder?folderId=root`)
+            .then(res => res.json())
+            .then(data => {
+                if (!data.success) return
+                this.folder = data.folder as Folder
+                this.title = this.folder.displayName || this.folder.name
+                this.icon = this.folder.icon || "/icon/directory_open_cool-4.png"
+                this.ready = true
+                windows.update(wins => wins)
+            })
     }
 }
 
-export function createExplorerWindow(path: string="C:\\") {
+export function createExplorerWindow(address: string="C:\\") {
     const explorerWindow = new ExplorerWindow({
         id: "explorer",
-        title: "My Computer",
+        title: "Explorer",
         icon: "/icon/computer_explorer-0.png",
         component: Explorer,
-        x: 256,
-        y: 256,
+        x: 128,
+        y: 128,
         width: 768,
-        height: 512,
+        height: 640,
         minWidth: 512,
         minHeight: 256,
         focused: true
-    }, path)
+    }, address)
 
     windows.update(wins => [...wins, explorerWindow])
 }
