@@ -26,14 +26,16 @@
             <span>Start</span>
         </button>
         <div class="separator"></div>
-        {#each $windows.sort((a, b) => a.taskbarIndex - b.taskbarIndex) as win}
-            <button class="btn btn-taskbar no-focus-outline"
-                class:focused={win.focused} on:click={() => focusWindow(win)}
-            >
-                <img src={win.icon} alt={win.id}>
-                <span>{win.title}</span>
-            </button>
-        {/each}
+        <div class="task-bar-items" style="grid-template-columns: repeat({Math.max($windows.length, 8)}, 1fr)">
+            {#each $windows.sort((a, b) => a.taskbarIndex - b.taskbarIndex) as win}
+                <button class="btn btn-taskbar no-focus-outline"
+                    class:focused={win.focused} on:click={() => focusWindow(win)}
+                >
+                    <img src={win.icon} alt={win.id}>
+                    <span>{win.title}</span>
+                </button>
+            {/each}
+        </div>
     </div>
 
     <div>

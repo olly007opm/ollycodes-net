@@ -1,11 +1,15 @@
 #task-bar {
     @apply w-full h-24 bg-base-200 px-4 pt-4 pb-2;
     @apply fixed bottom-0 left-0 right-0;
-    @apply flex flex-row items-center justify-between;
+    @apply grid grid-cols-[1fr,160px];
     box-shadow: inset 0 2px 0 0 var(--base-200), inset 0 4px 0 0 var(--base-100);
 
-    div {
+    > div {
         @apply flex flex-row items-center gap-2;
+    }
+
+    .task-bar-items {
+        @apply w-full grid gap-2;
     }
 
     .separator {
@@ -15,6 +19,7 @@
 
     .time-box {
         @apply px-4 h-16;
+        @apply flex flex-row items-center gap-2;
         box-shadow: inset -2px -2px 0 0 var(--base-100), inset 2px 2px 0 0 var(--base-300);
         span {
             @apply w-44 text-right text-lg;
@@ -22,15 +27,18 @@
     }
 
     button.btn-start {
-        @apply h-16 px-4 text-xl font-bold;
+        @apply w-60 h-16 px-4 text-xl font-bold;
     }
 
     button.btn-taskbar {
-        @apply h-16 pr-4 min-w-96;
+        @apply w-full h-16 pr-4;
         @apply flex flex-row items-center gap-2;
         @apply text-base font-normal;
         img {
             @apply w-10 h-10;
+        }
+        span {
+            @apply text-left line-clamp-1 overflow-ellipsis;
         }
         &.focused {
             box-shadow: inset 2px 2px 0 0 var(--base-900),
