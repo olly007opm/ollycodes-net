@@ -12,10 +12,14 @@
     let startMenuOpen = false
     let time = new Date()
     let startMenu: HTMLElement
+    let startButton: HTMLElement
     onMount(() => {
         const interval = setInterval(() => time = new Date(), 1000)
         const handleClick = (event: MouseEvent) => {
-            if (startMenu && !startMenu.contains(event.target as Node) && !event.defaultPrevented) {
+            if (
+                startMenu && startButton && !event.defaultPrevented
+                && !(startMenu.contains(event.target as Node) || startButton.contains(event.target as Node))
+            ) {
                 startMenuOpen = false
             }
         }
@@ -37,7 +41,10 @@
 
 <div id="task-bar" on:dragover|preventDefault role="menu" tabindex="0">
     <div>
-        <button class="btn btn-start" use:floatingRef on:click={() => startMenuOpen = !startMenuOpen}>
+        <button
+            class="btn btn-start" use:floatingRef
+            bind:this={startButton} on:click={() => startMenuOpen = !startMenuOpen}
+        >
             <img src="/icon/windows-0.png" alt="start">
             <span>Start</span>
         </button>
