@@ -3,8 +3,9 @@
     import { format } from "date-fns"
     import { onMount } from "svelte"
     import { createFloatingActions } from "svelte-floating-ui"
-    import { signIn, signOut } from "@auth/sveltekit/client"
+    import { signOut } from "@auth/sveltekit/client"
     import { focusWindow, windows } from "$stores/windows"
+    import { createSignInWindow } from "$stores/windows/signin"
 
     let startMenuOpen = false
     let time = new Date()
@@ -74,9 +75,9 @@
                     <span>Log Off {$page.data.session.user.name}...</span>
                 </button>
             {:else}
-                <button on:click={() => signIn("github")}>
+                <button on:click={createSignInWindow}>
                     <img src="/icon/key_win-3.png" alt="log in">
-                    <span>Log In...</span>
+                    <span>Sign In...</span>
                 </button>
             {/if}
         </div>

@@ -81,6 +81,13 @@ body {
             @apply w-6 object-contain;
         }
     }
+
+    &.btn-auth {
+        @apply h-24 flex flex-row justify-center items-center gap-4;
+        img {
+            @apply h-16;
+        }
+    }
 }
 
 .btn-group {
