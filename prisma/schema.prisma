@@ -18,7 +18,9 @@ model User {
   admin         Boolean   @default(false)
   accounts      Account[]
   sessions      Session[]
-  folders       Folder[]
+  folders       Folder[]  @relation("UserFolders")
+  homeFolder    Folder?   @relation("HomeFolder", fields: [homeFolderId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  homeFolderId  String?   @unique @db.ObjectId
   desktop       Desktop?
   chats         Chat[]    @relation(fields: [chatIds], references: [id])
   chatIds       String[]  @db.ObjectId
@@ -32,8 +34,9 @@ model Folder {
   name        String
   displayName String?
   icon        String?
-  owner       User     @relation(fields: [ownerId], references: [id])
+  owner       User     @relation("UserFolders", fields: [ownerId], references: [id])
   ownerId     String   @db.ObjectId
+  homeUser    User?    @relation("HomeFolder")
   parent      Folder?  @relation("FolderToFolder", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   parentId    String?  @db.ObjectId
   children    Folder[] @relation("FolderToFolder")

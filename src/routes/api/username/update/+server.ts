@@ -19,7 +19,12 @@ export async function POST({ request, locals }) {
             where: { id: session.user.id },
             data: {
                 username: data.username,
-                newUser: false
+                newUser: false,
+                homeFolder: {
+                    update: {
+                        name: data.username
+                    }
+                }
             }
         })
         return json({ success: true })

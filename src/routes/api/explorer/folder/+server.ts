@@ -13,11 +13,9 @@ export async function GET({ url, locals }) {
     if (folderId === "root") {
         query = { name: "C:", parent: null }
     } else if (folderId === "documents") {
-        query = {
-            ownerId: session.user.id,
-            name: "Documents",
-            parent: { name: "Users", parent: { name: "C:", parent: null } }
-        }
+        query = { homeUser: { id: session.user.id } }
+    } else if (folderId === "bin") {
+        query = { name: "Recycle Bin", parent: { homeUser: { id: session.user.id } } }
     } else {
         query = { id: folderId }
     }

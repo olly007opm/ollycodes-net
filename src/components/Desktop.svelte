@@ -33,8 +33,10 @@
                 createExplorerWindow("root")
                 break
             case "open_docs":
+                createExplorerWindow("documents")
                 break
             case "open_bin":
+                createExplorerWindow("bin")
                 break
         }
     }
