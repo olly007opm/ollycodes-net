@@ -7,6 +7,7 @@
     import { focusWindow, windows } from "$stores/windows"
     import { createSignInWindow } from "$stores/windows/signin"
     import { createExplorerWindow } from "$stores/windows/explorer"
+    import type { User } from "@prisma/client"
 
     let startMenuOpen = false
     let time = new Date()
@@ -31,6 +32,7 @@
     })
 
     $: wins = $windows.filter(w => w.taskbarIndex !== -1).sort((a, b) => a.taskbarIndex - b.taskbarIndex)
+    $: user = $page.data.session?.user as User
 </script>
 
 <div id="task-bar" on:dragover|preventDefault role="menu" tabindex="0">
@@ -85,7 +87,7 @@
             {#if $page.data.session?.user}
                 <button on:click={() => { signOut(); startMenuOpen = false }}>
                     <img src="/icon/key_win-3.png" alt="log off">
-                    <span>Log Off {$page.data.session.user.name}...</span>
+                    <span>Log Off {user.username}...</span>
                 </button>
             {:else}
                 <button on:click={() => { createSignInWindow(); startMenuOpen = false }}>

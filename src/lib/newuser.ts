@@ -43,14 +43,14 @@ export async function checkNewUser(session: Session) {
         })
     }
 
-    if (!user.homeFolderId) {
+    if (!user.homeFolderId && user.username) {
         let usersFolder = await prisma.folder.findFirst({
             where: { name: "Users", parent: { name: "C:", parent: null } }
         })
         if (usersFolder) {
             let userFolder = await prisma.folder.create({
                 data: {
-                    name: (user as User).username as string,
+                    name: user.username,
                     icon: "/icon/user_computer-0.png",
                     parent: { connect: { id: usersFolder.id } },
                     owner: { connect: { id: user.id } },
