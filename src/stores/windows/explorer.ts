@@ -59,13 +59,8 @@ export class ExplorerWindow extends Window {
                     windows.update(wins => wins)
                 } else {
                     if (firstFetch) closeWindow(this)
-                    createErrorWindow(
-                        "Access Denied",
-                        get(page).data.session
-                            ? "You are not authorized to view this folder."
-                            : "Please sign in to view this folder.",
-                        "error"
-                    )
+                    if (get(page).data.session) createErrorWindow("explorer_unauthorized")
+                    else createErrorWindow("explorer_unauthorized_guest")
                 }
             })
     }
@@ -91,13 +86,8 @@ export class ExplorerWindow extends Window {
                 } else {
                     this.newAddress = this.address
                     if (res.status === 403) {
-                        createErrorWindow(
-                            "Access Denied",
-                            get(page).data.session
-                                ? "You are not authorized to view this folder."
-                                : "Please sign in to view this folder.",
-                            "error"
-                        )
+                        if (get(page).data.session) createErrorWindow("explorer_unauthorized")
+                        else createErrorWindow("explorer_unauthorized_guest")
                     }
                 }
             })

@@ -43,10 +43,28 @@ export class ErrorWindow extends Window {
     }
 }
 
-export function createErrorWindow(title: string, message: string, type: string) {
+export const errorCodes: Record<string, { title: string,  message: string, type: string }> = {
+    explorer_unauthorized: {
+        title: "Access Denied",
+        message: "You are not authorized to view this folder.",
+        type: "error"
+    },
+    explorer_unauthorized_guest: {
+        title: "Access Denied",
+        message: "Please sign in to view this folder.",
+        type: "error"
+    }
+}
+
+export function createErrorWindow(code: string) {
+    const errorDetails = errorCodes[code]
+    if (!errorDetails) {
+        console.error(`Error code "${code}" not found`)
+        return
+    }
     const errorWindow = new ErrorWindow({
         id: "error",
-        title: title,
+        title: errorDetails.title,
         icon: "/icon/msg_error-2.png",
         component: Error,
         center: true,
@@ -59,7 +77,7 @@ export function createErrorWindow(title: string, message: string, type: string) 
         forceFocus: true,
         focused: true,
         taskbarIndex: -1
-    }, title, message, type)
+    }, errorDetails.title, errorDetails.message, errorDetails.type)
 
     windows.update(wins => [...wins, errorWindow])
 }
