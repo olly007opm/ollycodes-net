@@ -33,7 +33,7 @@ export async function GET({ url, locals }) {
     })
 
     if (!folder) return error(404, "Folder not found")
-    if (!folder.public && !session?.user && folder.ownerId !== session?.user?.id && !(session?.user as User).admin) {
+    if (!folder.public && folder.ownerId !== session?.user?.id && !(session?.user as User).admin) {
         return error(403, "Unauthorized")
     }
 
