@@ -43,7 +43,6 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username })
         }).then(res => res.json()).then(data => {
-            console.log(data)
             if (data.success) {
                 win.closable = true
                 win.minimizable = true

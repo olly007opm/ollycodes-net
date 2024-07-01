@@ -32,7 +32,7 @@
     })
 
     $: wins = $windows.filter(w => w.taskbarIndex !== -1).sort((a, b) => a.taskbarIndex - b.taskbarIndex)
-    $: user = $page.data.session?.user as User
+    $: username = ($page.data.session?.user as User).username
 </script>
 
 <div id="task-bar" on:dragover|preventDefault role="menu" tabindex="0">
@@ -87,7 +87,7 @@
             {#if $page.data.session?.user}
                 <button on:click={() => { signOut(); startMenuOpen = false }}>
                     <img src="/icon/key_win-3.png" alt="log off">
-                    <span>Log Off {user.username}...</span>
+                    <span>Log Off{username ? " " + username : ""}...</span>
                 </button>
             {:else}
                 <button on:click={() => { createSignInWindow(); startMenuOpen = false }}>

@@ -6,8 +6,8 @@ export async function checkNewUser(session: Session) {
     const user = session.user as User
     if (!user) return
 
+    let newUsername = "user_" + Math.floor(Math.random() * 0xffffff).toString(16).padEnd(6, "0")
     if (!user.username) {
-        let newUsername = "user_" + Math.floor(Math.random() * 0xffffff).toString(16).padEnd(6, "0")
         while (await prisma.user.findFirst({ where: { username: newUsername } })) {
             newUsername = "user_" + Math.floor(Math.random() * 0xffffff).toString(16).padEnd(6, "0")
         }
@@ -43,14 +43,14 @@ export async function checkNewUser(session: Session) {
         })
     }
 
-    if (!user.homeFolderId && user.username) {
+    if (!user.homeFolderId) {
         let usersFolder = await prisma.folder.findFirst({
             where: { name: "Users", parent: { name: "C:", parent: null } }
         })
         if (usersFolder) {
             let userFolder = await prisma.folder.create({
                 data: {
-                    name: user.username,
+                    name: user.username || newUsername,
                     icon: "/icon/user_computer-0.png",
                     parent: { connect: { id: usersFolder.id } },
                     owner: { connect: { id: user.id } },

@@ -48,7 +48,6 @@ export class ExplorerWindow extends Window {
         fetch(`${get(page).url.origin}/api/explorer/folder?folderId=${this.folderId}`)
             .then(res => res.json())
             .then(data => {
-                console.log(data)
                 if (data.success) {
                     this.folder = data.folder as Folder
                     this.folderId = this.folder.id
