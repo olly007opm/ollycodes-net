@@ -6,12 +6,23 @@
     import { signOut } from "@auth/sveltekit/client"
     import { focusWindow, windows } from "$stores/windows"
     import { createSignInWindow } from "$stores/windows/signin"
+    import { createExplorerWindow } from "$stores/windows/explorer"
 
     let startMenuOpen = false
     let time = new Date()
+    let startMenu: HTMLElement
     onMount(() => {
         const interval = setInterval(() => time = new Date(), 1000)
-        return () => clearInterval(interval)
+        const handleClick = (event: MouseEvent) => {
+            if (startMenu && !startMenu.contains(event.target as Node) && !event.defaultPrevented) {
+                startMenuOpen = false
+            }
+        }
+        document.addEventListener("click", handleClick, true)
+        return () => {
+            clearInterval(interval)
+            document.removeEventListener("click", handleClick, true)
+        }
     })
 
     const [floatingRef, floatingContent] = createFloatingActions({
@@ -50,32 +61,32 @@
 </div>
 
 {#if startMenuOpen}
-    <div id="start-menu" use:floatingContent>
+    <div id="start-menu" use:floatingContent bind:this={startMenu}>
         <div class="start-menu-banner">
             <span>Olly</span>
         </div>
 
         <div class="start-menu-items">
-            <button>
+            <button on:click={() => startMenuOpen = false}>
                 <img src="/icon/directory_program_group-2.png" alt="programs">
                 <span>Programs</span>
             </button>
-            <button>
+            <button on:click={() => { createExplorerWindow("documents"); startMenuOpen = false }}>
                 <img src="/icon/directory_open_file_mydocs-1.png" alt="documents">
                 <span>Documents</span>
             </button>
-            <button>
+            <button on:click={() => startMenuOpen = false}>
                 <img src="/icon/settings_gear-0.png" alt="settings">
                 <span>Settings</span>
             </button>
             <div class="separator"></div>
             {#if $page.data.session?.user}
-                <button on:click={() => signOut()}>
+                <button on:click={() => { signOut(); startMenuOpen = false }}>
                     <img src="/icon/key_win-3.png" alt="log off">
                     <span>Log Off {$page.data.session.user.name}...</span>
                 </button>
             {:else}
-                <button on:click={createSignInWindow}>
+                <button on:click={() => { createSignInWindow(); startMenuOpen = false }}>
                     <img src="/icon/key_win-3.png" alt="log in">
                     <span>Sign In...</span>
                 </button>
