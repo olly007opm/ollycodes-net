@@ -1,9 +1,10 @@
 import { page } from "$app/stores"
 import { get } from "svelte/store"
-import { windows, Window } from "$stores/windows"
+import { windows, Window, closeWindow, clearWindowFocus } from "$stores/windows"
 import Explorer from "$components/windows/Explorer.svelte"
 import { type SvelteComponent } from "svelte"
 import { Prisma } from "@prisma/client"
+import { createErrorWindow } from "$stores/windows/error"
 
 export type Folder = Prisma.FolderGetPayload<{
     include: { parent: true, children: true, files: { include: { type: true } } }
@@ -40,22 +41,32 @@ export class ExplorerWindow extends Window {
     }, folderId: string) {
         super(state)
         this.folderId = folderId
-        this.fetchFolder()
+        this.fetchFolder(true)
     }
 
-    fetchFolder() {
+    fetchFolder(firstFetch: boolean=false) {
         fetch(`${get(page).url.origin}/api/explorer/folder?folderId=${this.folderId}`)
             .then(res => res.json())
             .then(data => {
-                if (!data.success) return
-                this.folder = data.folder as Folder
-                this.folderId = this.folder.id
-                this.address = data.address
-                this.newAddress = this.address
-                this.title = this.folder.displayName || this.folder.name
-                this.icon = this.folder.icon || "/icon/directory_open_cool-4.png"
-                this.ready = true
-                windows.update(wins => wins)
+                if (data.success) {
+                    this.folder = data.folder as Folder
+                    this.folderId = this.folder.id
+                    this.address = data.address
+                    this.newAddress = this.address
+                    this.title = this.folder.displayName || this.folder.name
+                    this.icon = this.folder.icon || "/icon/directory_open_cool-4.png"
+                    this.ready = true
+                    windows.update(wins => wins)
+                } else {
+                    if (firstFetch) closeWindow(this)
+                    createErrorWindow(
+                        "Access Denied",
+                        get(page).data.session
+                            ? "You are not authorized to view this folder."
+                            : "Please sign in to view this folder.",
+                        "error"
+                    )
+                }
             })
     }
 
@@ -91,7 +102,8 @@ export function createExplorerWindow(folderId: string="root") {
         height: 640,
         minWidth: 512,
         minHeight: 256,
-        focused: true
+        focused: true,
+        forceFocus: true
     }, folderId)
 
     windows.update(wins => [...wins, explorerWindow])

@@ -29,6 +29,8 @@
         strategy: "absolute",
         placement: "top-start"
     })
+
+    $: wins = $windows.filter(w => w.taskbarIndex !== -1).sort((a, b) => a.taskbarIndex - b.taskbarIndex)
 </script>
 
 <div id="task-bar" on:dragover|preventDefault role="menu" tabindex="0">
@@ -39,7 +41,7 @@
         </button>
         <div class="separator"></div>
         <div class="task-bar-items" style="grid-template-columns: repeat({Math.max($windows.length, 8)}, 1fr)">
-            {#each $windows.sort((a, b) => a.taskbarIndex - b.taskbarIndex) as win}
+            {#each wins as win}
                 <button class="btn btn-taskbar no-focus-outline"
                     class:focused={win.focused} on:click={() => focusWindow(win)}
                 >
