@@ -1,10 +1,9 @@
 <script lang="ts">
     import WindowBase from "$components/WindowBase.svelte"
-    import { ExplorerWindow } from "$stores/windows/explorer"
+    import { ExplorerWindow, type Folder } from "$stores/windows/explorer"
 
     export let win: ExplorerWindow
-
-    let newAddress = win.address
+    $: folder = win.folder as Folder
 </script>
 
 <WindowBase bind:win>
@@ -39,7 +38,10 @@
                     </button>
                 </div>
                 <div class="btn-group btn-group-ghost">
-                    <button class="btn btn-ghost">
+                    <button
+                        class="btn btn-ghost"
+                        on:click={() => win.folder?.parentId ? win.navigate(win.folder.parentId) : {}}
+                    >
                         <img src="/custom-icon/folder-up.png" alt="up">
                         <span>Up</span>
                     </button>
@@ -51,20 +53,23 @@
             <div class="separator"></div>
             <div class="explorer-address">
                 <span>Address</span>
-                <input class="form-control" bind:value={newAddress}>
+                <form on:submit|preventDefault={() => win.navigateAddress()}>
+                    <input class="form-control" bind:value={win.newAddress}>
+                    <button class="btn" type="submit">Go</button>
+                </form>
             </div>
         </div>
         <div class="explorer-content">
-            {#if win.folder}
-                {#each win.folder.children as item}
-                    <button class="explorer-icon">
+            {#if folder}
+                {#each folder.children as item}
+                    <button class="explorer-icon" on:dblclick={() => win.navigate(item.id)}>
                         <img src={item.icon || "/icon/directory_open_cool-4.png"} alt={item.name}>
                         <span>{item.name}</span>
                     </button>
                 {/each}
-                {#each win.folder.files as item}
+                {#each folder.files as item}
                     <button class="explorer-icon">
-                        <img src={item.icon || "/icon/directory_open_cool-4.png"} alt={item.name}>
+                        <img src={item.type.icon || "/icon/directory_open_cool-4.png"} alt={item.name}>
                         <span>{item.name}</span>
                     </button>
                 {/each}
@@ -74,7 +79,7 @@
             <div></div>
             <div>
                 <img src={win.icon} alt="computer">
-                <span>My Computer</span>
+                <span>{folder.displayName || folder.name}</span>
             </div>
         </div>
     </div>

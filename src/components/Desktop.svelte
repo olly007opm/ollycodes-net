@@ -30,7 +30,7 @@
         console.log("Desktop action:", item.icon.action)
         switch (item.icon.action) {
             case "open_computer":
-                createExplorerWindow("C:\\")
+                createExplorerWindow("root")
                 break
             case "open_docs":
                 break

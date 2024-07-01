@@ -89,7 +89,7 @@ div.wizard-window {
 }
 
 div.explorer-window {
-    @apply w-full h-full flex flex-col gap-2;
+    @apply w-full h-full flex flex-col gap-2 select-none;
 
     div.explorer-toolbar {
         @apply p-2 mt-2 flex flex-col;
@@ -125,8 +125,14 @@ div.explorer-window {
 
         div.explorer-address {
             @apply gap-4;
-            input {
-                @apply w-full;
+            form {
+                @apply w-full flex flex-row items-center gap-2;
+                input {
+                    @apply w-full;
+                }
+                button {
+                    @apply h-20;
+                }
             }
         }
     }

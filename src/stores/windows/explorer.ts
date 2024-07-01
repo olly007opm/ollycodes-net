@@ -6,12 +6,14 @@ import { type SvelteComponent } from "svelte"
 import { Prisma } from "@prisma/client"
 
 export type Folder = Prisma.FolderGetPayload<{
-    include: { parent: true, children: true, files: true }
+    include: { parent: true, children: true, files: { include: { type: true } } }
 }>
 
 export class ExplorerWindow extends Window {
-    address: string
+    folderId: string
     folder?: Folder
+    address?: string
+    newAddress?: string
 
     constructor(state: {
         id: string
@@ -35,27 +37,49 @@ export class ExplorerWindow extends Window {
         maximized?: boolean
         focused?: boolean
         taskbarIndex?: number
-    }, address: string) {
+    }, folderId: string) {
         super(state)
-        this.address = address
+        this.folderId = folderId
         this.fetchFolder()
     }
 
     fetchFolder() {
-        fetch(`${get(page).url.origin}/api/explorer/folder?folderId=root`)
+        fetch(`${get(page).url.origin}/api/explorer/folder?folderId=${this.folderId}`)
             .then(res => res.json())
             .then(data => {
                 if (!data.success) return
                 this.folder = data.folder as Folder
+                this.folderId = this.folder.id
+                this.address = data.address
+                this.newAddress = this.address
                 this.title = this.folder.displayName || this.folder.name
                 this.icon = this.folder.icon || "/icon/directory_open_cool-4.png"
                 this.ready = true
                 windows.update(wins => wins)
             })
     }
+
+    navigate(folderId: string) {
+        this.folderId = folderId
+        this.fetchFolder()
+    }
+
+    navigateAddress() {
+        if (this.newAddress === this.address) return
+        fetch(`${get(page).url.origin}/api/explorer/address?address=${this.newAddress}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    this.folderId=data.folderId
+                    this.fetchFolder()
+                } else {
+                    this.newAddress=this.address
+                }
+            })
+    }
 }
 
-export function createExplorerWindow(address: string="C:\\") {
+export function createExplorerWindow(folderId: string="root") {
     const explorerWindow = new ExplorerWindow({
         id: "explorer",
         title: "Explorer",
@@ -68,7 +92,7 @@ export function createExplorerWindow(address: string="C:\\") {
         minWidth: 512,
         minHeight: 256,
         focused: true
-    }, address)
+    }, folderId)
 
     windows.update(wins => [...wins, explorerWindow])
 }
