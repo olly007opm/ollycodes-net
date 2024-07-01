@@ -147,7 +147,7 @@ div.explorer-window {
             inset 4px 4px 0 0 var(--base-900);
 
         button.explorer-icon {
-            @apply w-56 h-56;
+            @apply relative w-56 h-56;
             @apply flex flex-col items-center gap-4;
             img {
                 @apply w-24 h-24;
@@ -164,6 +164,11 @@ div.explorer-window {
                     border-image-repeat: round;
                     @apply bg-blue text-base-100;
                 }
+            }
+
+            .folder-lock {
+                @apply absolute top-16 right-8;
+                @apply w-8 h-11;
             }
         }
     }

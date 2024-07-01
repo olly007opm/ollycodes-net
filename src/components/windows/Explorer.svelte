@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { page } from "$app/stores"
     import WindowBase from "$components/WindowBase.svelte"
     import { ExplorerWindow, type Folder } from "$stores/windows/explorer"
 
@@ -65,6 +66,9 @@
                     <button class="explorer-icon" on:dblclick={() => win.navigate(item.id)}>
                         <img src={item.icon || "/icon/directory_open_cool-4.png"} alt={item.name}>
                         <span>{item.name}</span>
+                        {#if !item.public && !$page.data.session?.user && folder.ownerId !== $page.data.session?.user?.id}
+                            <img class="folder-lock" src="/custom-icon/lock.png" alt="lock icon">
+                        {/if}
                     </button>
                 {/each}
                 {#each folder.files as item}
