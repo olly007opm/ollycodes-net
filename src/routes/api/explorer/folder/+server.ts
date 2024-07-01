@@ -1,6 +1,6 @@
 import { error, json } from "@sveltejs/kit"
 import prisma from "$lib/prisma"
-import type { Folder } from "@prisma/client"
+import type { Folder, User } from "@prisma/client"
 
 export async function GET({ url, locals }) {
     const session = await locals.auth()
@@ -33,7 +33,9 @@ export async function GET({ url, locals }) {
     })
 
     if (!folder) return error(404, "Folder not found")
-    if (!folder.public && !session?.user && folder.ownerId !== session?.user?.id) return error(403, "Unauthorized")
+    if (!folder.public && !session?.user && folder.ownerId !== session?.user?.id && !(session?.user as User).admin) {
+        return error(403, "Unauthorized")
+    }
 
     let address: string[] = [folder.name]
     if (folder.parentId) {

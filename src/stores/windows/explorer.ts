@@ -1,6 +1,6 @@
 import { page } from "$app/stores"
 import { get } from "svelte/store"
-import { windows, Window, closeWindow, clearWindowFocus } from "$stores/windows"
+import { windows, Window, closeWindow } from "$stores/windows"
 import Explorer from "$components/windows/Explorer.svelte"
 import { type SvelteComponent } from "svelte"
 import { Prisma } from "@prisma/client"
