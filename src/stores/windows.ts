@@ -71,15 +71,15 @@ export class Window {
         this.height = state.height || 256
         this.minWidth = state.minWidth || 512
         this.minHeight = state.minHeight || 256
-        this.resizable = state.resizable || true
-        this.closable = state.closable || true
-        this.minimizable = state.minimizable || true
-        this.movable = state.movable || true
-        this.forceFocus = state.forceFocus || false
-        this.center = state.center || false
-        this.minimized = state.minimized || false
-        this.maximized = state.maximized || false
-        this.focused = state.focused || false
+        this.resizable = state.resizable !== undefined ? state.resizable : true
+        this.closable = state.closable !== undefined ? state.closable : true
+        this.minimizable = state.minimizable !== undefined ? state.minimizable : true
+        this.movable = state.movable !== undefined ? state.movable : true
+        this.forceFocus = state.forceFocus !== undefined ? state.forceFocus : false
+        this.center = state.center !== undefined ? state.center : false
+        this.minimized = state.minimized !== undefined ? state.minimized : false
+        this.maximized = state.maximized !== undefined ? state.maximized : false
+        this.focused = state.focused !== undefined ? state.focused : false
         this.taskbarIndex = state.taskbarIndex || 0
         this.newX = this.x
         this.newY = this.y
