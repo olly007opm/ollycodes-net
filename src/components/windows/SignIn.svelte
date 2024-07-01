@@ -17,7 +17,7 @@
         <div class="wizard-content gap-4">
             <span>Choose a provider to sign in with.</span>
             <button class="btn btn-auth" on:click={() => signIn("auth0")}>
-                <img src="/custom-icon/github.png" alt="auth0 logo">
+                <img src="/custom-icon/auth0.png" alt="auth0 logo">
                 <span>Sign in with Auth0</span>
             </button>
             <button class="btn btn-auth" on:click={() => signIn("github")}>
