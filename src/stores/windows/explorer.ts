@@ -78,13 +78,27 @@ export class ExplorerWindow extends Window {
     navigateAddress() {
         if (this.newAddress === this.address) return
         fetch(`${get(page).url.origin}/api/explorer/address?address=${this.newAddress}`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    this.folderId=data.folderId
-                    this.fetchFolder()
+            .then(res => {
+                if (res.status === 200) {
+                    res.json().then(data => {
+                        if (data.success) {
+                            this.folderId = data.folderId
+                            this.fetchFolder()
+                        } else {
+                            this.newAddress = this.address
+                        }
+                    })
                 } else {
-                    this.newAddress=this.address
+                    this.newAddress = this.address
+                    if (res.status === 403) {
+                        createErrorWindow(
+                            "Access Denied",
+                            get(page).data.session
+                                ? "You are not authorized to view this folder."
+                                : "Please sign in to view this folder.",
+                            "error"
+                        )
+                    }
                 }
             })
     }
