@@ -6,8 +6,9 @@
     import { signOut } from "@auth/sveltekit/client"
     import { focusWindow, windows } from "$stores/windows"
     import { createSignInWindow } from "$stores/windows/signin"
-    import { createExplorerWindow } from "$stores/windows/explorer"
     import type { User } from "@prisma/client"
+    import ProgramsSubmenu from "$components/start/ProgramsSubmenu.svelte"
+    import DocumentsSubmenu from "$components/start/DocumentsSubmenu.svelte"
 
     let startMenuOpen = false
     let time = new Date()
@@ -36,6 +37,7 @@
     })
 
     $: wins = $windows.filter(w => w.taskbarIndex !== -1).sort((a, b) => a.taskbarIndex - b.taskbarIndex)
+    $: user = $page.data.session?.user
     $: username = ($page.data.session?.user as User).username
 </script>
 
@@ -78,20 +80,14 @@
         </div>
 
         <div class="start-menu-items">
-            <button on:click={() => startMenuOpen = false}>
-                <img src="/icon/directory_program_group-2.png" alt="programs">
-                <span>Programs</span>
-            </button>
-            <button on:click={() => { createExplorerWindow("documents"); startMenuOpen = false }}>
-                <img src="/icon/directory_open_file_mydocs-1.png" alt="documents">
-                <span>Documents</span>
-            </button>
-            <button on:click={() => startMenuOpen = false}>
+            <ProgramsSubmenu bind:startMenuOpen />
+            <DocumentsSubmenu bind:startMenuOpen />
+            <button on:click={() => startMenuOpen = false} disabled={!user}>
                 <img src="/icon/settings_gear-0.png" alt="settings">
                 <span>Settings</span>
             </button>
             <div class="separator"></div>
-            {#if $page.data.session?.user}
+            {#if user}
                 <button on:click={() => { signOut(); startMenuOpen = false }}>
                     <img src="/icon/key_win-3.png" alt="log off">
                     <span>Log Off{username ? " " + username : ""}...</span>
