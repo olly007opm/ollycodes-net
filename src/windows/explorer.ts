@@ -106,8 +106,7 @@ export function createExplorerWindow(folderId: string="root") {
         height: 640,
         minWidth: 512,
         minHeight: 256,
-        focused: true,
-        forceFocus: true
+        focused: true
     }, folderId)
 
     windows.update(wins => [...wins, explorerWindow])

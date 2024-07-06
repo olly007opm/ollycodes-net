@@ -2,6 +2,7 @@
     import { offset, flip, shift } from "svelte-floating-ui/dom"
     import { createFloatingActions } from "svelte-floating-ui"
     import { createExplorerWindow } from "$windows/explorer"
+    import { createNotepadWindow } from "$windows/notepad"
 
     const [floatingRef, floatingContent] = createFloatingActions({
         strategy: "absolute",
@@ -29,13 +30,13 @@
                 <img src="/icon/computer_explorer-2.png" alt="file explorer">
                 <span>File Explorer</span>
             </button>
+            <button on:click={() => { createNotepadWindow(); startMenuOpen = false }}>
+                <img src="/icon/notepad-1.png" alt="notepad">
+                <span>Notepad</span>
+            </button>
             <button on:click={() => startMenuOpen = false} disabled>
                 <img src="/icon/msie1-0.png" alt="internet explorer">
                 <span>Internet Explorer</span>
-            </button>
-            <button on:click={() => startMenuOpen = false} disabled>
-                <img src="/icon/notepad-1.png" alt="notepad">
-                <span>Notepad</span>
             </button>
             <button on:click={() => startMenuOpen = false} disabled>
                 <img src="/icon/network_cool_two_pcs-5.png" alt="internet messaging">

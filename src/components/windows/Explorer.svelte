@@ -2,6 +2,7 @@
     import { page } from "$app/stores"
     import WindowBase from "$components/WindowBase.svelte"
     import { ExplorerWindow, type Folder } from "$windows/explorer"
+    import { createNotepadWindow } from "$windows/notepad"
 
     export let win: ExplorerWindow
     $: folder = win.folder as Folder
@@ -72,9 +73,9 @@
                     </button>
                 {/each}
                 {#each folder.files as item}
-                    <button class="explorer-icon">
-                        <img src={item.type.icon || "/icon/directory_open_cool-4.png"} alt={item.name}>
-                        <span>{item.name}</span>
+                    <button class="explorer-icon" on:dblclick={() => createNotepadWindow(item.id)}>
+                        <img src={item.type.icon || "/icon/file_lines-1.png"} alt={item.name}>
+                        <span>{item.name}.{item.type.extension}</span>
                     </button>
                 {/each}
             {/if}

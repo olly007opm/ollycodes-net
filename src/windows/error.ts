@@ -53,6 +53,21 @@ export const errorCodes: Record<string, { title: string,  message: string, type:
         title: "Access Denied",
         message: "Please sign in to view this folder.",
         type: "error"
+    },
+    notepad_unauthorized: {
+        title: "Access Denied",
+        message: "You are not authorized to view this file.",
+        type: "error"
+    },
+    notepad_unauthorized_guest: {
+        title: "Access Denied",
+        message: "Please sign in to view this file.",
+        type: "error"
+    },
+    notepad_file_not_found: {
+        title: "File Not Found",
+        message: "The file you are trying to open does not exist.",
+        type: "error"
     }
 }
 

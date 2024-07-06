@@ -3,6 +3,7 @@
     import { desktop, type DesktopItem } from "$stores/desktop"
     import { clearWindowFocus } from "$stores/windows"
     import { createExplorerWindow } from "$windows/explorer"
+    import { createNotepadWindow } from "$windows/notepad"
 
     let selectedItem: number = -1
     $desktop = $page.data.desktop
@@ -39,6 +40,7 @@
         else if (action === "projects") createExplorerWindow("projects")
         else if (action === "github") openUrl("https://github.com/olly007opm/")
         else if (action === "email") openUrl("mailto:olly@ollycodes.net")
+        else if (action === "changelog") createNotepadWindow("changelog")
     }
 </script>
 
