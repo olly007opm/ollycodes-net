@@ -26,22 +26,19 @@
         clearWindowFocus()
     }
 
+    function openUrl(url: string) {
+        window.open(url, "_blank")
+    }
+
     function action(item: DesktopItem) {
-        console.log("Desktop action:", item.icon.action)
-        switch (item.icon.action) {
-            case "computer":
-                createExplorerWindow("root")
-                break
-            case "docs":
-                createExplorerWindow("documents")
-                break
-            case "bin":
-                createExplorerWindow("bin")
-                break
-            case "projects":
-                createExplorerWindow("projects")
-                break
-        }
+        let action = item.icon.action
+        console.log("Desktop action:", action)
+        if (action === "computer") createExplorerWindow("root")
+        else if (action === "docs") createExplorerWindow("documents")
+        else if (action === "bin") createExplorerWindow("bin")
+        else if (action === "projects") createExplorerWindow("projects")
+        else if (action === "github") openUrl("https://github.com/olly007opm/")
+        else if (action === "email") openUrl("mailto:olly@ollycodes.net")
     }
 </script>
 
