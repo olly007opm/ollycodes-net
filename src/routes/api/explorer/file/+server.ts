@@ -10,6 +10,7 @@ export async function GET({ url, locals }) {
 
     let query
     if (fileId === "changelog") query = { name: "Changelog", folder: { name: "C:", parent: null }}
+    else if (fileId === "welcome") query = { name: "Welcome", folder: { name: "C:", parent: null }}
     else query = { id: fileId }
 
     let file = await prisma.file.findFirst({

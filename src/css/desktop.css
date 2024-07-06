@@ -24,4 +24,15 @@
             }
         }
     }
+    div.desktop-info {
+        @apply absolute bottom-32 right-12;
+        @apply flex flex-col items-end;
+        @apply text-base-100 opacity-50;
+        h1 {
+            @apply text-3xl;
+        }
+        span {
+            @apply text-lg;
+        }
+    }
 }

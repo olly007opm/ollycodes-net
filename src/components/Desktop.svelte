@@ -59,4 +59,8 @@
             </button>
         {/each}
     </div>
+    <div class="desktop-info">
+        <h1>ollycodes.net</h1>
+        <span>version 0.1-beta</span>
+    </div>
 </div>

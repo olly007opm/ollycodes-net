@@ -54,7 +54,8 @@
         <div class="separator"></div>
         <div class="task-bar-items" style="grid-template-columns: repeat({Math.max($windows.length, 8)}, 1fr)">
             {#each wins as win}
-                <button class="btn btn-taskbar no-focus-outline"
+                <button
+                    class="btn btn-taskbar no-focus-outline"
                     class:focused={win.focused} on:click={() => win.focus()}
                 >
                     <img src={win.icon} alt={win.id}>
@@ -121,7 +122,7 @@
                     <span>Recycle Bin</span>
                 </button>
             </StartSubmenu>
-            <button on:click={() => startMenuOpen = false} disabled={!user}>
+            <button on:click={() => startMenuOpen = false} disabled>
                 <img src="/icon/settings_gear-0.png" alt="settings">
                 <span>Settings</span>
             </button>
