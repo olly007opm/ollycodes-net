@@ -16,7 +16,7 @@ export const { handle } = SvelteKitAuth(async () => {
             // }),
             GitHub({
                 clientId: env.GITHUB_ID,
-                clientSecret: env.GITHUB_SECRET,
+                clientSecret: env.GITHUB_SECRET
             })
         ],
         callbacks: {
