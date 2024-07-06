@@ -17,6 +17,8 @@ export async function GET({ url, locals }) {
     } else if (folderId === "bin") {
         if (!session?.user) return error(403, "Unauthorized")
         query = { name: "Recycle Bin", parent: { homeUser: { id: session.user.id } } }
+    } else if (folderId === "projects") {
+        query = { name: "Projects", parent: { name: "C:", parent: null } }
     } else {
         query = { id: folderId }
     }

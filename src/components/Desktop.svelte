@@ -29,14 +29,17 @@
     function action(item: DesktopItem) {
         console.log("Desktop action:", item.icon.action)
         switch (item.icon.action) {
-            case "open_computer":
+            case "computer":
                 createExplorerWindow("root")
                 break
-            case "open_docs":
+            case "docs":
                 createExplorerWindow("documents")
                 break
-            case "open_bin":
+            case "bin":
                 createExplorerWindow("bin")
+                break
+            case "projects":
+                createExplorerWindow("projects")
                 break
         }
     }
