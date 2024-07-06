@@ -4,7 +4,7 @@
     import { onMount } from "svelte"
     import { createFloatingActions } from "svelte-floating-ui"
     import { signOut } from "@auth/sveltekit/client"
-    import { focusWindow, windows } from "$stores/windows"
+    import { windows } from "$stores/windows"
     import { createSignInWindow } from "$windows/signin"
     import type { User } from "@prisma/client"
     import ProgramsSubmenu from "$components/start/ProgramsSubmenu.svelte"
@@ -54,7 +54,7 @@
         <div class="task-bar-items" style="grid-template-columns: repeat({Math.max($windows.length, 8)}, 1fr)">
             {#each wins as win}
                 <button class="btn btn-taskbar no-focus-outline"
-                    class:focused={win.focused} on:click={() => focusWindow(win)}
+                    class:focused={win.focused} on:click={() => win.focus()}
                 >
                     <img src={win.icon} alt={win.id}>
                     <span>{win.title}</span>

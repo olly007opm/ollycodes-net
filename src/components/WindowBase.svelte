@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte"
-    import { closeWindow, focusWindow, maximizeWindow, unMaximizeWindow, type Window } from "$stores/windows"
+    import { closeWindow, maximizeWindow, unMaximizeWindow, type Window } from "$stores/windows"
 
     export let win: Window
     win.offsetX = 0
@@ -24,7 +24,7 @@
             event.preventDefault()
             return
         }
-        focusWindow(win)
+        win.focus()
         const dragImage = new Image()
         dragImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs='
         event.dataTransfer?.setDragImage(dragImage, 0, 0)
@@ -61,7 +61,7 @@
     }
 
     function resizeStart(event: DragEvent) {
-        focusWindow(win)
+        win.focus()
         if (win.maximized || win.minimized || !win.resizable) {
             event.preventDefault()
             return
@@ -132,7 +132,7 @@
 {#if win.ready && !win.minimized}
     <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions -->
     <div
-        class="window" on:click={() => focusWindow(win)} on:dragover|preventDefault
+        class="window" on:click={() => win.focus()} on:dragover|preventDefault
         class:hidden={win.minimized} class:window-focus={win.focused} class:window-maximized={win.maximized}
         style="left: {win.x}px; top: {win.y}px; width: {win.width}px; height: {win.height}px; z-index: {win.z + 20000};"
     >

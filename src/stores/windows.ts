@@ -79,6 +79,7 @@ export class Window {
         this.center = state.center !== undefined ? state.center : false
         this.minimized = state.minimized !== undefined ? state.minimized : false
         this.maximized = state.maximized !== undefined ? state.maximized : false
+        if (state.focused) this.focus()
         this.focused = state.focused !== undefined ? state.focused : false
         this.taskbarIndex = state.taskbarIndex || 0
         this.newX = this.x
@@ -95,6 +96,18 @@ export class Window {
         }
         this.ready = false
     }
+
+    focus() {
+        clearWindowFocus()
+        if (get(windows).filter(w => w.forceFocus).length !== 0) return
+        this.focused = true
+        this.minimized = false
+        windows.update(wins => {
+            wins.forEach(w => { if (w.z > this.z) w.z-- })
+            this.z = wins.length
+            return wins
+        })
+    }
 }
 
 export const windows = writable<Window[]>([])
@@ -106,21 +119,9 @@ export function clearWindowFocus() {
     })
 }
 
-export function focusWindow(win: Window) {
-    clearWindowFocus()
-    if (get(windows).filter(w => w.forceFocus).length !== 0) return
-    win.focused = true
-    win.minimized = false
-    windows.update(wins => {
-        wins.forEach(w => { if (w.z > win.z) w.z-- })
-        win.z = wins.length
-        return wins
-    })
-}
-
 export function maximizeWindow(win: Window) {
     if (!win.resizable) return
-    focusWindow(win)
+    win.focus()
     win.maximized = true
     win.originalSize = { x: win.x, y: win.y, width: win.width, height: win.height }
     win.x = 0
@@ -131,7 +132,7 @@ export function maximizeWindow(win: Window) {
 
 export function unMaximizeWindow(win: Window) {
     if (!win.resizable) return
-    focusWindow(win)
+    win.focus()
     win.maximized = false
     win.x = win.originalSize?.x || 100
     win.y = win.originalSize?.y || 100
