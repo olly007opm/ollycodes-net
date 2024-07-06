@@ -7,8 +7,9 @@
     import { windows } from "$stores/windows"
     import { createSignInWindow } from "$windows/signin"
     import type { User } from "@prisma/client"
-    import ProgramsSubmenu from "$components/start/ProgramsSubmenu.svelte"
-    import DocumentsSubmenu from "$components/start/DocumentsSubmenu.svelte"
+    import StartSubmenu from "$components/StartSubmenu.svelte"
+    import { createExplorerWindow } from "$windows/explorer"
+    import { createNotepadWindow } from "$windows/notepad"
 
     let startMenuOpen = false
     let time = new Date()
@@ -80,8 +81,46 @@
         </div>
 
         <div class="start-menu-items">
-            <ProgramsSubmenu bind:startMenuOpen />
-            <DocumentsSubmenu bind:startMenuOpen />
+            <StartSubmenu>
+                <svelte:fragment slot="button">
+                    <img src="/icon/directory_program_group-2.png" alt="programs">
+                    <span>Programs</span>
+                </svelte:fragment>
+                <button on:click={() => { createExplorerWindow("root"); startMenuOpen = false }}>
+                    <img src="/icon/computer_explorer-2.png" alt="file explorer">
+                    <span>File Explorer</span>
+                </button>
+                <button on:click={() => { createNotepadWindow(); startMenuOpen = false }}>
+                    <img src="/icon/notepad-1.png" alt="notepad">
+                    <span>Notepad</span>
+                </button>
+                <button on:click={() => startMenuOpen = false} disabled>
+                    <img src="/icon/msie1-0.png" alt="internet explorer">
+                    <span>Internet Explorer</span>
+                </button>
+                <button on:click={() => startMenuOpen = false} disabled>
+                    <img src="/icon/network_cool_two_pcs-5.png" alt="internet messaging">
+                    <span>Internet Messaging</span>
+                </button>
+            </StartSubmenu>
+            <StartSubmenu>
+                <svelte:fragment slot="button">
+                    <img src="/icon/directory_open_file_mydocs-1.png" alt="documents">
+                    <span>Documents</span>
+                </svelte:fragment>
+                <button on:click={() => { createExplorerWindow("root"); startMenuOpen = false }}>
+                    <img src="/icon/computer_explorer-2.png" alt="my computer">
+                    <span>My Computer</span>
+                </button>
+                <button on:click={() => { createExplorerWindow("documents"); startMenuOpen = false }} disabled={!user}>
+                    <img src="/icon/directory_open_file_mydocs-1.png" alt="my documents">
+                    <span>My Documents</span>
+                </button>
+                <button on:click={() => { createExplorerWindow("bin"); startMenuOpen = false }} disabled={!user}>
+                    <img src="/icon/recycle_bin_empty-0.png" alt="recycle bin">
+                    <span>Recycle Bin</span>
+                </button>
+            </StartSubmenu>
             <button on:click={() => startMenuOpen = false} disabled={!user}>
                 <img src="/icon/settings_gear-0.png" alt="settings">
                 <span>Settings</span>
