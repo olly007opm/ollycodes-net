@@ -4,7 +4,7 @@ import { windows, Window, closeWindow } from "$stores/windows"
 import Explorer from "$components/windows/Explorer.svelte"
 import { type SvelteComponent } from "svelte"
 import { Prisma } from "@prisma/client"
-import { createErrorWindow } from "$stores/windows/error"
+import { createErrorWindow } from "./error"
 
 export type Folder = Prisma.FolderGetPayload<{
     include: { parent: true, children: true, files: { include: { type: true } } }

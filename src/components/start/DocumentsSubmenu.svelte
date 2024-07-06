@@ -2,7 +2,7 @@
     import { page } from "$app/stores"
     import { offset, flip, shift } from "svelte-floating-ui/dom"
     import { createFloatingActions } from "svelte-floating-ui"
-    import { createExplorerWindow } from "$stores/windows/explorer"
+    import { createExplorerWindow } from "$windows/explorer"
 
     const [floatingRef, floatingContent] = createFloatingActions({
         strategy: "absolute",

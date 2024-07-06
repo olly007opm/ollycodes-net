@@ -2,7 +2,7 @@
     import { page } from "$app/stores"
     import { desktop, type DesktopItem } from "$stores/desktop"
     import { clearWindowFocus } from "$stores/windows"
-    import { createExplorerWindow } from "$stores/windows/explorer"
+    import { createExplorerWindow } from "$windows/explorer"
 
     let selectedItem: number = -1
     $desktop = $page.data.desktop

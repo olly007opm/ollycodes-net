@@ -1,6 +1,6 @@
 <script lang="ts">
     import WindowBase from "$components/WindowBase.svelte"
-    import { ErrorWindow } from "$stores/windows/error"
+    import { ErrorWindow } from "$windows/error"
     import { onMount } from "svelte"
     import { closeWindow } from "$stores/windows"
 

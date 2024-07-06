@@ -10,6 +10,7 @@ const config = {
 			$css: "./src/css",
 			$components: "./src/components",
 			$stores: "./src/stores",
+			$windows: "./src/windows",
 		}
 	}
 }

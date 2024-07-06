@@ -5,7 +5,7 @@
     import { createFloatingActions } from "svelte-floating-ui"
     import { signOut } from "@auth/sveltekit/client"
     import { focusWindow, windows } from "$stores/windows"
-    import { createSignInWindow } from "$stores/windows/signin"
+    import { createSignInWindow } from "$windows/signin"
     import type { User } from "@prisma/client"
     import ProgramsSubmenu from "$components/start/ProgramsSubmenu.svelte"
     import DocumentsSubmenu from "$components/start/DocumentsSubmenu.svelte"

@@ -4,7 +4,7 @@
     import Desktop from "$components/Desktop.svelte"
     import Taskbar from "$components/Taskbar.svelte"
     import type { User } from "@prisma/client"
-    import { createOnboardingWindow } from "$stores/windows/onboarding"
+    import { createOnboardingWindow } from "$windows/onboarding"
 
     if ($page.data.session?.user && ($page.data.session.user as User).newUser) createOnboardingWindow()
 </script>

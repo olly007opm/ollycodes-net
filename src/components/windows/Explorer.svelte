@@ -1,7 +1,7 @@
 <script lang="ts">
     import { page } from "$app/stores"
     import WindowBase from "$components/WindowBase.svelte"
-    import { ExplorerWindow, type Folder } from "$stores/windows/explorer"
+    import { ExplorerWindow, type Folder } from "$windows/explorer"
 
     export let win: ExplorerWindow
     $: folder = win.folder as Folder
