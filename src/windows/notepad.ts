@@ -12,7 +12,9 @@ export class NotepadWindow extends Window {
     fileId: string
     file?: File
     content: string = ""
+    original: string = ""
     readOnly: boolean = true
+    modified: boolean = false
 
     constructor(state: {
         id: string
@@ -57,6 +59,7 @@ export class NotepadWindow extends Window {
                     this.file = data.file as File
                     this.fileId = this.file.id
                     this.content = data.file.data.text
+                    this.original = this.content
                     this.readOnly = data.file.folder.ownerId !== get(page).data.session?.user?.id
                     this.title = `Notepad - ${data.file.name}.${data.file.type.extension}${this.readOnly ? " (Read-Only)" : ""}`
                     this.ready = true
@@ -67,6 +70,31 @@ export class NotepadWindow extends Window {
                     else if (get(page).data.session) createErrorWindow("notepad_unauthorized")
                     else createErrorWindow("notepad_unauthorized_guest")
                 }
+            })
+    }
+
+    modify() {
+        if (this.readOnly || !this.file) return
+        this.modified = this.content !== this.original
+        this.title = `Notepad - ${this.file.name}.${this.file.type.extension}${this.modified ? "*" : ""}`
+        windows.update(wins => wins)
+    }
+
+    save() {
+        if (this.readOnly) return
+        fetch(`${get(page).url.origin}/api/explorer/file`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: this.fileId, data: { text: this.content } })
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    this.modified = false
+                    this.original = this.content
+                    this.title = `Notepad - ${this.file?.name}.${this.file?.type.extension}`
+                    windows.update(wins => wins)
+                } else createErrorWindow("notepad_save_failed")
             })
     }
 }

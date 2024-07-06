@@ -24,3 +24,22 @@ export async function GET({ url, locals }) {
 
     return json({ success: true, file })
 }
+
+export async function POST({ request, locals }) {
+    const session = await locals.auth()
+    if (!session || !session.user) return error(403, "Unauthorized")
+
+    let data: { id: string, data: object } = await request.json()
+    let file = await prisma.file.findFirst({
+        where: { id: data.id },
+        include: { folder: true, type: true }
+    })
+    if (!file) return error(404, "File not found")
+    if (file.folder.ownerId !== session?.user?.id && !(session?.user as User).admin) return error(403, "Unauthorized")
+
+    await prisma.file.update({
+        where: { id: data.id },
+        data: { data: data.data }
+    })
+    return json({ success: true })
+}

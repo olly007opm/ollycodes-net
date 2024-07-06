@@ -68,6 +68,11 @@ export const errorCodes: Record<string, { title: string,  message: string, type:
         title: "File Not Found",
         message: "The file you are trying to open does not exist.",
         type: "error"
+    },
+    notepad_save_failed: {
+        title: "Save Failed",
+        message: "An error occurred while saving the file.",
+        type: "error"
     }
 }
 

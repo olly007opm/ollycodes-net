@@ -245,3 +245,24 @@ div.notepad-window {
         }
     }
 }
+
+div.toolbar-dropdown {
+    @apply relative;
+    div.toolbar-dropdown-content {
+        @apply absolute z-[50000] bg-base-200;
+        @apply flex flex-col;
+        @apply p-2 min-w-[196px];
+        box-shadow: inset -2px -2px 0 0 var(--base-900),
+            inset 2px 2px 0 0 var(--base-200),
+            inset -4px -4px 0 0 var(--base-300),
+            inset 4px 4px 0 0 var(--base-100);
+        button {
+            @apply w-full text-left;
+            @apply hover:bg-darkblue hover:text-base-100;
+            @apply disabled:opacity-50 disabled:hover:bg-transparent disabled:hover:text-base-900;
+        }
+        div.separator {
+            @apply mx-4 my-1 w-[calc(100%-16px)] h-2 bg-base-300 border-b-2 border-b-base-100;
+        }
+    }
+}
