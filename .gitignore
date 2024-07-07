@@ -1,7 +1,7 @@
 node_modules
 
 # Prisma
-databases/**/migrations/
+prisma/**/migrations/
 
 # Output
 .output
