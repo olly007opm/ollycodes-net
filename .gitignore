@@ -1,8 +1,7 @@
 node_modules
 
-# Cloudflare Pages
-.wrangler
-.dev.vars
+# Prisma
+databases/**/migrations/
 
 # Output
 .output
