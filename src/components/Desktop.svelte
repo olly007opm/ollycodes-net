@@ -61,6 +61,6 @@
     </div>
     <div class="desktop-info">
         <h1>ollycodes.net</h1>
-        <span>version 0.1-beta</span>
+        <span>version 0.2-beta</span>
     </div>
 </div>
