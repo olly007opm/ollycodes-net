@@ -3,12 +3,13 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_NON_POOLING")
 }
 
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  id            String    @id @default(uuid()) @db.Uuid
   name          String?
   username      String?   @unique
   newUser       Boolean   @default(true)
@@ -20,25 +21,24 @@ model User {
   sessions      Session[]
   folders       Folder[]  @relation("UserFolders")
   homeFolder    Folder?   @relation("HomeFolder", fields: [homeFolderId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  homeFolderId  String?   @unique @db.ObjectId
+  homeFolderId  String?   @unique @db.Uuid
   desktop       Desktop?
-  chats         Chat[]    @relation(fields: [chatIds], references: [id])
-  chatIds       String[]  @db.ObjectId
+  chats         Chat[]
   messages      Message[]
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 }
 
 model Folder {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String   @id @default(uuid()) @db.Uuid
   name        String
   displayName String?
   icon        String?
   owner       User     @relation("UserFolders", fields: [ownerId], references: [id])
-  ownerId     String   @db.ObjectId
+  ownerId     String   @db.Uuid
   homeUser    User?    @relation("HomeFolder")
   parent      Folder?  @relation("FolderToFolder", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  parentId    String?  @db.ObjectId
+  parentId    String?  @db.Uuid
   children    Folder[] @relation("FolderToFolder")
   files       File[]
   public      Boolean  @default(false)
@@ -47,19 +47,19 @@ model Folder {
 }
 
 model File {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(uuid()) @db.Uuid
   name      String
   folder    Folder   @relation(fields: [folderId], references: [id])
-  folderId  String   @db.ObjectId
+  folderId  String   @db.Uuid
   type      FileType @relation(fields: [typeId], references: [id])
-  typeId    String   @db.ObjectId
+  typeId    String   @db.Uuid
   data      Json
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model FileType {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String   @id @default(uuid()) @db.Uuid
   name        String
   identifier  String
   extension   String
@@ -71,21 +71,20 @@ model FileType {
 }
 
 model Chat {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  id        String    @id @default(uuid()) @db.Uuid
   name      String
-  users     User[]    @relation(fields: [userIds], references: [id])
-  userIds   String[]  @db.ObjectId
+  users     User[]
   messages  Message[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
 
 model Message {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(uuid()) @db.Uuid
   chat      Chat     @relation(fields: [chatId], references: [id])
-  chatId    String   @db.ObjectId
+  chatId    String   @db.Uuid
   user      User     @relation(fields: [userId], references: [id])
-  userId    String   @db.ObjectId
+  userId    String   @db.Uuid
   content   String
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
@@ -93,9 +92,9 @@ model Message {
 }
 
 model Desktop {
-  id        String        @id @default(auto()) @map("_id") @db.ObjectId
+  id        String        @id @default(uuid()) @db.Uuid
   user      User          @relation(fields: [userId], references: [id])
-  userId    String        @unique @db.ObjectId
+  userId    String        @unique @db.Uuid
   color     String        @default("#008080")
   items     DesktopItem[]
   createdAt DateTime      @default(now())
@@ -103,19 +102,19 @@ model Desktop {
 }
 
 model DesktopItem {
-  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  id        String      @id @default(uuid()) @db.Uuid
   x         Int
   y         Int
   icon      DesktopIcon @relation(fields: [iconId], references: [id])
-  iconId    String      @db.ObjectId
+  iconId    String      @db.Uuid
   desktop   Desktop     @relation(fields: [desktopId], references: [id])
-  desktopId String      @db.ObjectId
+  desktopId String      @db.Uuid
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
 }
 
 model DesktopIcon {
-  id        String        @id @default(auto()) @map("_id") @db.ObjectId
+  id        String        @id @default(uuid()) @db.Uuid
   name      String
   image     String
   action    String
@@ -127,29 +126,27 @@ model DesktopIcon {
 }
 
 model Account {
-  id                String   @id @default(auto()) @map("_id") @db.ObjectId
   user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId            String   @db.ObjectId
+  userId            String   @db.Uuid
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String?  @db.String
-  access_token      String?  @db.String
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String?  @db.String
+  id_token          String?
   session_state     String?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
-  @@unique([provider, providerAccountId])
+  @@id([provider, providerAccountId])
 }
 
 model Session {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId       String   @db.ObjectId
+  userId       String   @db.Uuid
   sessionToken String   @unique
   expires      DateTime
   createdAt    DateTime @default(now())
@@ -157,10 +154,9 @@ model Session {
 }
 
 model VerificationToken {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
   identifier String
   token      String
   expires    DateTime
 
-  @@unique([identifier, token])
+  @@id([identifier, token])
 }
