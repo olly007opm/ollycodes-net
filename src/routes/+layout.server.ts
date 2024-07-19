@@ -1,4 +1,4 @@
-import prisma from "$lib/prisma"
+import prisma, { cacheStrategy } from "$lib/prisma"
 import { checkNewUser } from "$lib/newuser"
 import type { LayoutServerLoad } from "./$types"
 import type { DesktopItem } from "$stores/desktop"
@@ -10,7 +10,8 @@ export const load: LayoutServerLoad = async event => {
         where: {
             defaultX: { not: null },
             defaultY: { not: null }
-        }
+        },
+        cacheStrategy
     })
 
     let desktop: DesktopItem[] = desktopItems.map(icon => {
@@ -30,7 +31,8 @@ export const load: LayoutServerLoad = async event => {
 
     let userDesktop = await prisma.desktop.findFirst({
         where: { userId: session.user.id },
-        include: { items: { include: { icon: true } } }
+        include: { items: { include: { icon: true } } },
+        cacheStrategy
     })
     if (userDesktop) desktop = userDesktop.items as DesktopItem[]
 

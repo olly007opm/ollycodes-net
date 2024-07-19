@@ -1,5 +1,5 @@
 import { error, json } from "@sveltejs/kit"
-import prisma from "$lib/prisma"
+import prisma, { cacheStrategy } from "$lib/prisma"
 import type { User } from "@prisma/client"
 
 export async function GET({ url, locals }) {
@@ -15,7 +15,8 @@ export async function GET({ url, locals }) {
 
     let file = await prisma.file.findFirst({
         where: query,
-        include: { folder: true, type: true }
+        include: { folder: true, type: true },
+        cacheStrategy
     })
 
     if (!file) return error(404, "File not found")
@@ -33,7 +34,8 @@ export async function POST({ request, locals }) {
     let data: { id: string, data: object } = await request.json()
     let file = await prisma.file.findFirst({
         where: { id: data.id },
-        include: { folder: true, type: true }
+        include: { folder: true, type: true },
+        cacheStrategy
     })
     if (!file) return error(404, "File not found")
     if (file.folder.ownerId !== session?.user?.id && !(session?.user as User).admin) return error(403, "Unauthorized")
