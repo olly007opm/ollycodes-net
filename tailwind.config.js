@@ -68,6 +68,8 @@ export default {
             "wait": "url(cursor/wait.cur), wait"
         }
     },
-    plugins : []
+    plugins : [
+        require('@tailwindcss/typography')
+    ]
 }
 

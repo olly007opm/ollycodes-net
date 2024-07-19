@@ -11,6 +11,7 @@ export type File = Prisma.FileGetPayload<{ include: { folder: true, type: true }
 export class NotepadWindow extends Window {
     fileId: string
     file?: File
+    fileType?: string
     content: string = ""
     original: string = ""
     readOnly: boolean = true
@@ -58,6 +59,7 @@ export class NotepadWindow extends Window {
                 if (data.success) {
                     this.file = data.file as File
                     this.fileId = this.file.id
+                    this.fileType = (data.file as File).type.identifier
                     this.content = data.file.data.text
                     this.original = this.content
                     this.readOnly = data.file.folder.ownerId !== get(page).data.session?.user?.id

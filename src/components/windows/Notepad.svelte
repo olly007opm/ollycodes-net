@@ -3,6 +3,7 @@
     import { createNotepadWindow, NotepadWindow } from "$windows/notepad"
     import ToolbarDropdown from "$components/ToolbarDropdown.svelte"
     import { closeWindow } from "$stores/windows"
+    import SvelteMarkdown from "svelte-markdown"
 
     export let win: NotepadWindow
 
@@ -11,6 +12,8 @@
             document.execCommand("insertText", false, text)
         })
     }
+
+    let previewMode = false
 </script>
 
 <WindowBase bind:win>
@@ -34,15 +37,30 @@
                 <div class="separator"></div>
                 <button on:click={() => document.execCommand("selectAll", false)}>Select All</button>
             </ToolbarDropdown>
+            {#if win.fileType === "markdown" && !win.readOnly}
+                <button class="btn btn-ghost" on:click={() => previewMode = !previewMode}>
+                    {previewMode ? "Edit Mode" : "Preview Mode"}
+                </button>
+            {/if}
             <ToolbarDropdown label="Help">
                 <button disabled>About Notepad</button>
             </ToolbarDropdown>
         </div>
         <div class="notepad-content">
-            <textarea
-                class="form-control" readonly={win.readOnly}
-                bind:value={win.content} on:input={() => win.modify()}
-            />
+            {#if win.fileType === "text"}
+                <textarea
+                    class="form-control" readonly={win.readOnly}
+                    bind:value={win.content} on:input={() => win.modify()}
+                />
+            {:else if win.fileType === "markdown"}
+                {#if win.readOnly || previewMode}
+                    <div class="notepad-markdown">
+                        <SvelteMarkdown source={win.content} />
+                    </div>
+                {:else}
+                    <textarea class="form-control" bind:value={win.content} on:input={() => win.modify()} />
+                {/if}
+            {/if}
         </div>
     </div>
 </WindowBase>
