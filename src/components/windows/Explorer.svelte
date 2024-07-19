@@ -3,6 +3,8 @@
     import WindowBase from "$components/WindowBase.svelte"
     import { ExplorerWindow, type Folder } from "$windows/explorer"
     import { createNotepadWindow } from "$windows/notepad"
+    import { closeWindow } from "$stores/windows"
+    import ToolbarDropdown from "$components/ToolbarDropdown.svelte"
 
     export let win: ExplorerWindow
     $: folder = win.folder as Folder
@@ -12,12 +14,42 @@
     <div class="explorer-window">
         <div class="explorer-toolbar">
             <div class="explorer-toolbar-handles">
-                <button class="btn btn-ghost">File</button>
-                <button class="btn btn-ghost">Edit</button>
-                <button class="btn btn-ghost">View</button>
-                <button class="btn btn-ghost">Go</button>
-                <button class="btn btn-ghost">Favourites</button>
-                <button class="btn btn-ghost">Help</button>
+                <ToolbarDropdown label="File">
+                    <button disabled>Open</button>
+                    <button disabled>New...</button>
+                    <div class="separator"></div>
+                    <button on:click={() => closeWindow(win)}>Close</button>
+                </ToolbarDropdown>
+                <ToolbarDropdown label="Edit">
+                    <button disabled>Undo</button>
+                    <div class="separator"></div>
+                    <button disabled>Cut</button>
+                    <button disabled>Copy</button>
+                    <button disabled>Paste</button>
+                    <button disabled>Paste Shortcut</button>
+                    <div class="separator"></div>
+                    <button disabled>Select All</button>
+                    <button disabled>Invert Selection</button>
+                </ToolbarDropdown>
+                <ToolbarDropdown label="View">
+                    <button disabled>Refresh</button>
+                </ToolbarDropdown>
+                <ToolbarDropdown label="Go">
+                    <button disabled>Back</button>
+                    <button disabled>Forward</button>
+                    <button on:click={() => win.folder?.parentId ? win.navigate(win.folder.parentId) : {}}>
+                        Up One Level
+                    </button>
+                    <div class="separator"></div>
+                    <button disabled>My Computer</button>
+                    <button disabled>My Documents</button>
+                </ToolbarDropdown>
+                <ToolbarDropdown label="Favourites">
+                    <button disabled>No Favourites</button>
+                </ToolbarDropdown>
+                <ToolbarDropdown label="Help">
+                    <button disabled>About Explorer</button>
+                </ToolbarDropdown>
             </div>
             <div class="separator"></div>
             <div class="explorer-buttons">
