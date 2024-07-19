@@ -1,5 +1,5 @@
 import { error, json } from "@sveltejs/kit"
-import prisma from "$lib/prisma"
+import prisma, { cacheStrategy } from "$lib/prisma"
 import type { Folder } from "@prisma/client"
 
 export async function GET({ url, locals }) {
@@ -23,7 +23,8 @@ export async function GET({ url, locals }) {
                 },
                 parentId: folder ? folder.id : undefined
             },
-            include: { children: true }
+            include: { children: true },
+            cacheStrategy
         })
         if (!folder) return error(404, "Folder not found")
         if (!folder.public && folder.ownerId !== session.user.id) return error(403, "Unauthorized")

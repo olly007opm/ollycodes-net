@@ -1,5 +1,5 @@
 import { error, json } from "@sveltejs/kit"
-import prisma from "$lib/prisma"
+import prisma, { cacheStrategy } from "$lib/prisma"
 import { checkUsername } from "$lib/username"
 
 export async function POST({ request, locals }) {
@@ -12,7 +12,7 @@ export async function POST({ request, locals }) {
 
     if (!valid) {
         return json({ valid: false, message })
-    } else if (await prisma.user.findFirst({ where: { username: data.username } })) {
+    } else if (await prisma.user.findFirst({ where: { username: data.username }, cacheStrategy })) {
         return json({ valid: false, message: "Username is already taken." })
     } else {
         return json({ valid: true })

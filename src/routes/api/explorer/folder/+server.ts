@@ -1,5 +1,5 @@
 import { error, json } from "@sveltejs/kit"
-import prisma from "$lib/prisma"
+import prisma, { cacheStrategy } from "$lib/prisma"
 import type { Folder, User } from "@prisma/client"
 
 export async function GET({ url, locals }) {
@@ -31,7 +31,8 @@ export async function GET({ url, locals }) {
             files: {
                 include: { type: true }
             }
-        }
+        },
+        cacheStrategy
     })
 
     if (!folder) return error(404, "Folder not found")
@@ -41,11 +42,14 @@ export async function GET({ url, locals }) {
 
     let address: string[] = [folder.name]
     if (folder.parentId) {
-        let parentFolder: Folder | null = await prisma.folder.findFirst({ where: { id: folder.parentId } })
+        let parentFolder: Folder | null = await prisma.folder.findFirst({
+            where: { id: folder.parentId },
+            cacheStrategy
+        })
         while (parentFolder) {
             address.unshift(parentFolder.name)
             if (!parentFolder.parentId) break
-            parentFolder = await prisma.folder.findFirst({ where: { id: parentFolder.parentId } })
+            parentFolder = await prisma.folder.findFirst({ where: { id: parentFolder.parentId }, cacheStrategy })
         }
     }
 
