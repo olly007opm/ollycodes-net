@@ -1,35 +1,12 @@
-import { windows, Window } from "$stores/windows"
+import { windows, Window, type WindowState } from "$stores/windows"
 import Error from "$components/windows/Error.svelte"
-import { type SvelteComponent } from "svelte"
 
 export class ErrorWindow extends Window {
     type: string
     errorTitle: string
     errorMessage: string
 
-    constructor(state: {
-        id: string
-        title: string
-        icon: string
-        component: { new (...args: any[]): SvelteComponent }
-        x?: number
-        y?: number
-        z?: number
-        width?: number
-        height?: number
-        minWidth?: number
-        minHeight?: number
-        resizable?: boolean
-        closable?: boolean
-        minimizable?: boolean
-        movable?: boolean
-        forceFocus?: boolean
-        center?: boolean
-        minimized?: boolean
-        maximized?: boolean
-        focused?: boolean
-        taskbarIndex?: number
-    }, title: string, message: string, type: string) {
+    constructor(state: WindowState, title: string, message: string, type: string) {
         super(state)
         this.type = type
         this.errorTitle = title

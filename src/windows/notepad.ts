@@ -1,8 +1,7 @@
 import { page } from "$app/stores"
 import { get } from "svelte/store"
-import { windows, Window, closeWindow } from "$stores/windows"
+import { windows, Window, closeWindow, type WindowState } from "$stores/windows"
 import Notepad from "$components/windows/Notepad.svelte"
-import { type SvelteComponent } from "svelte"
 import { Prisma } from "@prisma/client"
 import { createErrorWindow } from "./error"
 
@@ -17,29 +16,7 @@ export class NotepadWindow extends Window {
     readOnly: boolean = true
     modified: boolean = false
 
-    constructor(state: {
-        id: string
-        title: string
-        icon: string
-        component: { new (...args: any[]): SvelteComponent }
-        x?: number
-        y?: number
-        z?: number
-        width?: number
-        height?: number
-        minWidth?: number
-        minHeight?: number
-        resizable?: boolean
-        closable?: boolean
-        minimizable?: boolean
-        movable?: boolean
-        forceFocus?: boolean
-        center?: boolean
-        minimized?: boolean
-        maximized?: boolean
-        focused?: boolean
-        taskbarIndex?: number
-    }, fileId?: string) {
+    constructor(state: WindowState, fileId?: string) {
         super(state)
         if (fileId) {
             this.fileId = fileId

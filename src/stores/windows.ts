@@ -4,7 +4,7 @@ import type { SvelteComponent } from "svelte"
 export class Window {
     id: string
     title: string
-    icon: string
+    icon?: string
     component: { new (...args: any[]): SvelteComponent }
     x: number
     y: number
@@ -37,29 +37,7 @@ export class Window {
     }
     ready: boolean
 
-    constructor(state: {
-        id: string
-        title: string
-        icon: string
-        component: { new (...args: any[]): SvelteComponent }
-        x?: number
-        y?: number
-        z?: number
-        width?: number
-        height?: number
-        minWidth?: number
-        minHeight?: number
-        resizable?: boolean
-        closable?: boolean
-        minimizable?: boolean
-        movable?: boolean
-        forceFocus?: boolean
-        center?: boolean
-        minimized?: boolean
-        maximized?: boolean
-        focused?: boolean
-        taskbarIndex?: number
-    }) {
+    constructor(state: WindowState) {
         this.id = state.id
         this.title = state.title
         this.icon = state.icon
@@ -143,4 +121,28 @@ export function unMaximizeWindow(win: Window) {
 export function closeWindow(win: Window) {
     if (!win.closable) return
     windows.update(wins => wins.filter(w => win !== w))
+}
+
+export type WindowState = {
+    id: string
+    title: string
+    icon?: string
+    component: { new (...args: any[]): SvelteComponent }
+    x?: number
+    y?: number
+    z?: number
+    width?: number
+    height?: number
+    minWidth?: number
+    minHeight?: number
+    resizable?: boolean
+    closable?: boolean
+    minimizable?: boolean
+    movable?: boolean
+    forceFocus?: boolean
+    center?: boolean
+    minimized?: boolean
+    maximized?: boolean
+    focused?: boolean
+    taskbarIndex?: number
 }

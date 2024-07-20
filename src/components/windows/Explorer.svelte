@@ -1,10 +1,11 @@
 <script lang="ts">
     import { page } from "$app/stores"
     import WindowBase from "$components/WindowBase.svelte"
-    import { ExplorerWindow, type File, type Folder } from "$windows/explorer"
+    import { ExplorerWindow } from "$windows/explorer"
     import { createNotepadWindow } from "$windows/notepad"
     import { closeWindow } from "$stores/windows"
     import ToolbarDropdown from "$components/ToolbarDropdown.svelte"
+    import type { Folder, File } from "$windows/abstractExplorer"
 
     export let win: ExplorerWindow
     $: folder = win.folder as Folder

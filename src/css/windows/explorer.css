@@ -4,9 +4,9 @@ div.explorer-window {
     div.explorer-toolbar {
         @apply p-2 mt-2 flex flex-col;
         box-shadow: inset -2px -2px 0 0 var(--base-100),
-        inset 2px 2px 0 0 var(--base-300),
-        inset -4px -4px 0 0 var(--base-300),
-        inset 4px 4px 0 0 var(--base-100);
+            inset 2px 2px 0 0 var(--base-300),
+            inset -4px -4px 0 0 var(--base-300),
+            inset 4px 4px 0 0 var(--base-100);
 
         > div:not(.separator) {
             @apply px-4 py-2;
@@ -47,17 +47,36 @@ div.explorer-window {
         }
     }
 
+    div.file-select-toolbar {
+        @apply px-6 py-2 mt-2 flex flex-row items-center gap-4;
+        span {
+            @apply whitespace-nowrap;
+        }
+        form {
+            @apply w-full flex flex-row items-center gap-2;
+            input {
+                @apply w-full;
+            }
+        }
+        button {
+            @apply h-20;
+            img {
+                @apply w-18 object-contain;
+            }
+        }
+    }
+
     div.explorer-content {
         @apply h-full p-8 bg-base-100;
         @apply flex flex-row;
 
         box-shadow: inset -2px -2px 0 0 var(--base-100),
-        inset 2px 2px 0 0 var(--base-300),
-        inset -4px -4px 0 0 var(--base-200),
-        inset 4px 4px 0 0 var(--base-900);
+            inset 2px 2px 0 0 var(--base-300),
+            inset -4px -4px 0 0 var(--base-200),
+            inset 4px 4px 0 0 var(--base-900);
 
         button.explorer-icon {
-            @apply relative w-56 h-56;
+            @apply relative w-56 h-56 outline-none;
             @apply flex flex-col items-center gap-4;
             img {
                 @apply w-24 h-24;
@@ -66,12 +85,10 @@ div.explorer-window {
                 @apply px-1 text-xl;
                 line-height: 100%;
             }
-
             .folder-lock {
                 @apply absolute top-16 right-8;
                 @apply w-8 h-11;
             }
-
             &.explorer-icon-selected {
                 span {
                     border: dashed 2px var(--base-900);
@@ -95,6 +112,14 @@ div.explorer-window {
             img {
                 @apply h-12;
             }
+        }
+    }
+
+    div.file-select-footer {
+        @apply grid grid-cols-[8rem,1fr,8rem] items-center;
+        @apply p-8 gap-x-6 gap-y-4;
+        button {
+            @apply h-20 justify-center;
         }
     }
 }

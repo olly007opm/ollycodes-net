@@ -174,7 +174,9 @@
             on:dragstart={onDragStart} on:drag={onDrag} on:dragend={onDragEnd}
         >
             <div class="window-title">
-                <img src={win.icon} alt={win.id}>
+                {#if win.icon}
+                    <img src={win.icon} alt={win.id}>
+                {/if}
                 <span>{win.title}</span>
             </div>
             <div class="window-controls">

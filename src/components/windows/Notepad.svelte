@@ -4,6 +4,8 @@
     import ToolbarDropdown from "$components/ToolbarDropdown.svelte"
     import { closeWindow } from "$stores/windows"
     import SvelteMarkdown from "svelte-markdown"
+    import { createFileSelectWindow } from "$windows/fileSelect"
+    import type { File } from "$windows/abstractExplorer"
 
     export let win: NotepadWindow
 
@@ -11,6 +13,14 @@
         navigator.clipboard.readText().then(text => {
             document.execCommand("insertText", false, text)
         })
+    }
+
+    function openFileCallback(file: File) {
+        console.log("Open:", file)
+    }
+
+    function openFile() {
+        createFileSelectWindow(openFileCallback, "notepad")
     }
 
     let previewMode = false
@@ -21,7 +31,7 @@
         <div class="notepad-toolbar">
             <ToolbarDropdown label="File">
                 <button on:click|stopPropagation={() => createNotepadWindow()}>New</button>
-                <button disabled>Open...</button>
+                <button on:click={openFile}>Open...</button>
                 <button on:click={() => win.save()} disabled={win.readOnly}>Save</button>
                 <button disabled>Save As...</button>
                 <div class="separator"></div>
