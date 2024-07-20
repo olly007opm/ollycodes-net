@@ -1,0 +1,29 @@
+div.notepad-window {
+    @apply w-full h-full select-none overflow-hidden;
+    @apply grid grid-rows-[2rem,1fr] gap-2;
+
+    div.notepad-toolbar {
+        @apply mt-2 flex flex-row items-center gap-2;
+        button {
+            @apply h-16 px-8 font-normal;
+        }
+    }
+
+    div.notepad-content {
+        @apply h-full py-2 px-4 flex flex-col;
+        @apply bg-base-100 text-2xl overflow-hidden;
+        box-shadow: inset -2px -2px 0 0 var(--base-100),
+        inset 2px 2px 0 0 var(--base-300),
+        inset -4px -4px 0 0 var(--base-200),
+        inset 4px 4px 0 0 var(--base-900);
+
+        textarea {
+            @apply w-full h-full resize-none outline-none;
+        }
+
+        div.notepad-markdown {
+            @apply w-full min-w-full p-4 overflow-y-scroll;
+            @apply prose prose-headings:mb-0 prose-p:mt-0;
+        }
+    }
+}

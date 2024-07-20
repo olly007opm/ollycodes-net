@@ -53,19 +53,19 @@ export default {
             }
         },
         cursor: {
-            "crosshair": "url(cursor/crosshair.cur), crosshair",
-            "default": "url(cursor/default.cur), default",
-            "ew-resize": "url(cursor/ew-resize.cur), ew-resize",
-            "help": "url(cursor/help.cur), help",
-            "move": "url(cursor/move.cur), move",
-            "nesw-resize": "url(cursor/nesw-resize.cur), nesw-resize",
-            "not-allowed": "url(cursor/not-allowed.cur), not-allowed",
-            "ns-resize": "url(cursor/ns-resize.cur), ns-resize",
-            "nwse-resize": "url(cursor/nwse-resize.cur), nwse-resize",
-            "pointer": "url(cursor/pointer.cur), pointer",
-            "progress": "url(cursor/progress.cur), progress",
-            "text": "url(cursor/text.cur), text",
-            "wait": "url(cursor/wait.cur), wait"
+            "crosshair": "url(/cursor/crosshair.cur), crosshair",
+            "default": "url(/cursor/default.cur), default",
+            "ew-resize": "url(/cursor/ew-resize.cur), ew-resize",
+            "help": "url(/cursor/help.cur), help",
+            "move": "url(/cursor/move.cur), move",
+            "nesw-resize": "url(/cursor/nesw-resize.cur), nesw-resize",
+            "not-allowed": "url(/cursor/not-allowed.cur), not-allowed",
+            "ns-resize": "url(/cursor/ns-resize.cur), ns-resize",
+            "nwse-resize": "url(/cursor/nwse-resize.cur), nwse-resize",
+            "pointer": "url(/cursor/pointer.cur), pointer",
+            "progress": "url(/cursor/progress.cur), progress",
+            "text": "url(/cursor/text.cur), text",
+            "wait": "url(/cursor/wait.cur), wait"
         }
     },
     plugins : [
