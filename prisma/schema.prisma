@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("ACCELERATE_URL")
+  provider  = "postgresql"
+  url       = env("ACCELERATE_URL")
+  directUrl = env("DATABASE_URL")
 }
 
 model User {
@@ -64,6 +65,7 @@ model FileType {
   extension   String
   description String
   icon        String?
+  application String?
   files       File[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

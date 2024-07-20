@@ -9,6 +9,7 @@ import { createErrorWindow } from "./error"
 export type Folder = Prisma.FolderGetPayload<{
     include: { parent: true, children: true, files: { include: { type: true } } }
 }>
+export type File = Prisma.FileGetPayload<{ include: { type: true } }>
 
 export class ExplorerWindow extends Window {
     folderId: string
