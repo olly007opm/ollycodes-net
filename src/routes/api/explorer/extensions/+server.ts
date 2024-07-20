@@ -14,5 +14,5 @@ export async function GET({ url }) {
     if (!fileTypes.length) return error(404, "No file types found")
 
     let extensions =  fileTypes.map((type: FileType) => "*." + type.extension).join("; ")
-    return json({ success: true, extensions })
+    return json({ success: true, extensions, fileTypes })
 }

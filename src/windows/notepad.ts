@@ -76,6 +76,28 @@ export class NotepadWindow extends Window {
                 } else createErrorWindow("notepad_save_failed")
             })
     }
+
+    saveAs(folderId: string, name: string, typeId: string) {
+        if (this.readOnly) return
+        fetch(`${get(page).url.origin}/api/explorer/file/new`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ folderId, name, typeId, data: { text: this.content } })
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    this.fileId = data.file.id
+                    this.file = data.file
+                    this.fileType = data.file.type.identifier
+                    this.original = this.content
+                    this.modified = false
+                    this.title = `Notepad - ${data.file.name}.${data.file.type.extension}`
+                    windows.update(wins => wins)
+                } else createErrorWindow("notepad_save_failed")
+            })
+
+    }
 }
 
 export function createNotepadWindow(fileId?: string) {

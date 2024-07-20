@@ -6,6 +6,7 @@
     import SvelteMarkdown from "svelte-markdown"
     import { createFileSelectWindow } from "$windows/fileSelect"
     import type { File } from "$windows/abstractExplorer"
+    import { createSaveWindow } from "$windows/save"
 
     export let win: NotepadWindow
 
@@ -17,6 +18,11 @@
 
     const openFile = () => createFileSelectWindow((file: File) => createNotepadWindow(file.id), "notepad")
 
+    function saveAs() {
+        const callback = (folderId: string, name: string, typeId: string) => console.log(folderId, name, typeId)
+        createSaveWindow(callback, "notepad")
+    }
+
     let previewMode = false
 </script>
 
@@ -27,7 +33,7 @@
                 <button on:click|stopPropagation={() => createNotepadWindow()}>New</button>
                 <button on:click={openFile}>Open...</button>
                 <button on:click={() => win.save()} disabled={win.readOnly}>Save</button>
-                <button disabled>Save As...</button>
+                <button on:click={saveAs}>Save As...</button>
                 <div class="separator"></div>
                 <button on:click={() => closeWindow(win)}>Exit</button>
             </ToolbarDropdown>
