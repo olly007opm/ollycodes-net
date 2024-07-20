@@ -177,7 +177,7 @@
                 {#if win.icon}
                     <img src={win.icon} alt={win.id}>
                 {/if}
-                <span>{win.title}</span>
+                <span class:ml-2={!win.icon}>{win.title}</span>
             </div>
             <div class="window-controls">
                 {#if win.minimizable}

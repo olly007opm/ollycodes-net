@@ -31,7 +31,7 @@ export class AbstractExplorerWindow extends Window {
                     this.address = data.address
                     this.newAddress = this.address
                     if (this.id === "explorer") this.title = this.folder.displayName || this.folder.name
-                    this.icon = this.folder.icon || "/icon/directory_open_cool-4.png"
+                    if (this.id === "explorer") this.icon = this.folder.icon || "/icon/directory_open_cool-4.png"
                     this.ready = true
                     windows.update(wins => wins)
                 } else {

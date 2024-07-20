@@ -15,13 +15,7 @@
         })
     }
 
-    function openFileCallback(file: File) {
-        console.log("Open:", file)
-    }
-
-    function openFile() {
-        createFileSelectWindow(openFileCallback, "notepad")
-    }
+    const openFile = () => createFileSelectWindow((file: File) => createNotepadWindow(file.id), "notepad")
 
     let previewMode = false
 </script>
