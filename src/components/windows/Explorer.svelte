@@ -6,6 +6,8 @@
     import ToolbarDropdown from "$components/ToolbarDropdown.svelte"
     import type { Folder, File } from "$windows/abstractExplorer"
     import ExplorerContent from "$components/ExplorerContent.svelte"
+    import { page } from "$app/stores"
+    import type { User } from "@prisma/client"
 
     export let win: ExplorerWindow
     $: folder = win.folder as Folder
@@ -46,6 +48,15 @@
     function handleFileOpen(file: File) {
         if (file.type.application === "notepad") createNotepadWindow(file.id)
     }
+
+    function deleteSelected() {
+        if (!canDelete) return
+        win.deleteItems(selectedFiles, selectedFolders)
+        clearSelection()
+    }
+
+    $: canDelete = (selectedFiles.length > 0 || selectedFolders.length > 0) && $page.data.session?.user
+        && (win.folder?.ownerId === $page.data.session.user.id || ($page.data.session.user as User).admin)
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions -->
@@ -93,7 +104,7 @@
             <div class="separator"></div>
             <div class="explorer-buttons">
                 <div class="btn-group btn-group-ghost">
-                    <button class="btn btn-ghost">
+                    <button class="btn btn-ghost" disabled>
                         <img src="/custom-icon/back.png" alt="back">
                         <span>Back</span>
                     </button>
@@ -102,7 +113,7 @@
                     </button>
                 </div>
                 <div class="btn-group btn-group-ghost">
-                    <button class="btn btn-ghost">
+                    <button class="btn btn-ghost" disabled>
                         <img src="/custom-icon/forward.png" alt="forward">
                         <span>Forward</span>
                     </button>
@@ -122,6 +133,24 @@
                         <img src="/custom-icon/dropdown.png" alt="dropdown">
                     </button>
                 </div>
+                <div class="separator"></div>
+                <button class="btn btn-ghost" disabled>
+                    <img src="/custom-icon/explorer-cut.png" alt="cut">
+                    <span>Cut</span>
+                </button>
+                <button class="btn btn-ghost" disabled>
+                    <img src="/custom-icon/explorer-copy.png" alt="copy">
+                    <span>Copy</span>
+                </button>
+                <button class="btn btn-ghost" disabled>
+                    <img src="/custom-icon/explorer-paste.png" alt="paste">
+                    <span>Paste</span>
+                </button>
+                <div class="separator"></div>
+                <button class="btn btn-ghost" on:click={deleteSelected} disabled={!canDelete}>
+                    <img src="/custom-icon/explorer-delete.png" alt="delete">
+                    <span>Delete</span>
+                </button>
             </div>
             <div class="separator"></div>
             <div class="explorer-address">

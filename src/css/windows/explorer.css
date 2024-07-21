@@ -28,8 +28,8 @@ div.explorer-window {
                     @apply h-14;
                 }
             }
-            button:not(.btn-dropdown) {
-                @apply w-48;
+            div.separator {
+                @apply h-full w-2 bg-base-300 border-r-2 border-r-base-100;
             }
         }
 

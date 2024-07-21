@@ -83,7 +83,7 @@ body {
     &.btn-dropdown {
         @apply px-4;
         img {
-            @apply w-6 object-contain;
+            @apply w-6 min-w-6 object-contain;
         }
     }
 

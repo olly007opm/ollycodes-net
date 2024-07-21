@@ -31,6 +31,11 @@ export const errorCodes: Record<string, { title: string,  message: string, type:
         message: "Please sign in to view this folder.",
         type: "error"
     },
+    explorer_delete:{
+        title: "Delete Failed",
+        message: "An error occurred while deleting the selected items.",
+        type: "error"
+    },
     notepad_unauthorized: {
         title: "Access Denied",
         message: "You are not authorized to view this file.",
