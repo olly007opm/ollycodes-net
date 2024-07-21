@@ -4,6 +4,8 @@
     import { closeWindow } from "$stores/windows"
     import ExplorerContent from "$components/ExplorerContent.svelte"
     import Select from "$components/Select.svelte"
+    import { page } from "$app/stores"
+    import type { User } from "@prisma/client"
 
     export let win: SaveWindow
 
@@ -17,10 +19,14 @@
     }
 
     function saveButton() {
-        if (win.callback && win.fileName && win.typeId) win.callback(win.folderId, win.fileName, win.typeId)
+        if (!win.callback || !win.fileName || !win.typeId) return
+        win.callback(win.folderId, win.fileName, win.typeId)
+        closeWindow(win)
     }
 
     $: dropdownOptions = win.fileTypes ? win.fileTypes.map(type => ({ value: type.id, label: type.name })) : []
+    $: canSave = win.fileName && win.typeId && $page.data.session?.user
+        && (win.folder?.ownerId === $page.data.session.user.id || ($page.data.session.user as User).admin)
 </script>
 
 <WindowBase bind:win>
@@ -39,9 +45,9 @@
         <div class="file-select-footer">
             <span>File name:</span>
             <input class="form-control" bind:value={win.fileName}>
-            <button class="btn" on:click={saveButton}>Save</button>
+            <button class="btn" on:click={saveButton} disabled={!canSave}>Save</button>
             <span>Extension:</span>
-            <Select label="Extension" bind:options={dropdownOptions} bind:value={win.typeId} />
+            <Select placeholder="Select an extension" bind:options={dropdownOptions} bind:value={win.typeId} />
             <button class="btn" on:click={() => closeWindow(win)}>Cancel</button>
         </div>
     </div>

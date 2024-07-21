@@ -9,10 +9,37 @@ form.form-control {
     }
 }
 
-.form-group input, input.form-control {
-    @apply h-20 px-6 outline-none;
+.form-group input, input.form-control, .select {
+    @apply h-20 px-6 bg-white outline-none;
     box-shadow: inset -2px -2px 0 0 var(--base-100),
         inset 2px 2px 0 0 var(--base-300),
         inset -4px -4px 0 0 var(--base-200),
         inset 4px 4px 0 0 var(--base-900);
+}
+
+.select {
+    @apply relative pl-8 pr-2;
+    > button {
+        @apply w-full grid grid-cols-[1fr,28px] items-center;
+        span {
+            @apply text-left;
+        }
+        > button {
+            @apply w-14 h-16 max-h-16;
+            img {
+                @apply w-12 object-contain;
+            }
+        }
+    }
+    .select-content {
+        @apply absolute w-full flex flex-col;
+        @apply bg-white border-2 border-black;
+        button {
+            @apply px-4 text-start hover:bg-blue hover:text-white;
+            &:hover {
+                border: dashed 2px var(--base-900);
+                border-image: url("/border/border-white.png") 25% round;
+            }
+        }
+    }
 }

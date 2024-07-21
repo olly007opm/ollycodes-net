@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { page } from "$app/stores"
     import WindowBase from "$components/WindowBase.svelte"
     import { createNotepadWindow, NotepadWindow } from "$windows/notepad"
     import ToolbarDropdown from "$components/ToolbarDropdown.svelte"
@@ -19,8 +20,8 @@
     const openFile = () => createFileSelectWindow((file: File) => createNotepadWindow(file.id), "notepad")
 
     function saveAs() {
-        const callback = (folderId: string, name: string, typeId: string) => console.log(folderId, name, typeId)
-        createSaveWindow(callback, "notepad")
+        const callback = (folderId: string, name: string, typeId: string) => win.saveAs(folderId, name, typeId)
+        createSaveWindow(callback, "notepad", "documents")
     }
 
     let previewMode = false
@@ -33,7 +34,7 @@
                 <button on:click|stopPropagation={() => createNotepadWindow()}>New</button>
                 <button on:click={openFile}>Open...</button>
                 <button on:click={() => win.save()} disabled={win.readOnly}>Save</button>
-                <button on:click={saveAs}>Save As...</button>
+                <button on:click={saveAs} disabled={!$page.data.session?.user}>Save As...</button>
                 <div class="separator"></div>
                 <button on:click={() => closeWindow(win)}>Exit</button>
             </ToolbarDropdown>
