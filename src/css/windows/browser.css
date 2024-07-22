@@ -1,0 +1,76 @@
+div.browser-window {
+    @apply w-full h-full flex flex-col gap-2 select-none;
+
+    div.browser-toolbar {
+        @apply p-2 mt-2 flex flex-col;
+        box-shadow: inset -2px -2px 0 0 var(--base-100),
+            inset 2px 2px 0 0 var(--base-300),
+            inset -4px -4px 0 0 var(--base-300),
+            inset 4px 4px 0 0 var(--base-100);
+
+        > div:not(.separator) {
+            @apply px-4 py-2;
+            @apply flex flex-row items-center gap-2;
+        }
+
+        div.separator {
+            @apply w-full h-2 bg-base-300 border-b-2 border-b-base-100;
+        }
+
+        button {
+            @apply h-16 px-8 font-normal;
+        }
+
+        button.btn-dropdown {
+            @apply px-4;
+        }
+
+        div.browser-buttons {
+            button {
+                @apply h-40 flex flex-col justify-center items-center;
+                img {
+                    @apply h-14;
+                }
+            }
+            div.separator {
+                @apply h-full w-2 bg-base-300 border-r-2 border-r-base-100;
+            }
+        }
+
+        div.browser-address {
+            @apply gap-4;
+            form {
+                @apply w-full flex flex-row items-center gap-2;
+                input {
+                    @apply w-full;
+                }
+                button {
+                    @apply h-20;
+                }
+            }
+        }
+    }
+
+    div.browser-content {
+        @apply h-full;
+        iframe {
+            @apply w-full h-full;
+            border: none;
+        }
+    }
+
+    div.browser-footer {
+        @apply h-24;
+        @apply grid grid-cols-2 gap-2;
+        div {
+            @apply px-2 flex flex-row justify-start items-center gap-2;
+            box-shadow: inset -2px -2px 0 0 var(--base-100), inset 2px 2px 0 0 var(--base-300);
+            span {
+                @apply text-lg;
+            }
+            img {
+                @apply h-12;
+            }
+        }
+    }
+}

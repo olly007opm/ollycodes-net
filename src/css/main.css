@@ -6,6 +6,7 @@
 @import "forms.css";
 @import "taskbar.css";
 @import "window.css";
+@import "windows/browser.css";
 @import "windows/error.css";
 @import "windows/explorer.css";
 @import "windows/notepad.css";

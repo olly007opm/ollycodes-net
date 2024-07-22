@@ -73,7 +73,7 @@ div.toolbar-dropdown {
             inset -4px -4px 0 0 var(--base-300),
             inset 4px 4px 0 0 var(--base-100);
         button {
-            @apply w-full text-left;
+            @apply w-full text-left whitespace-nowrap;
             @apply hover:bg-darkblue hover:text-base-100;
             @apply disabled:opacity-50 disabled:hover:bg-transparent disabled:hover:text-base-900;
         }
