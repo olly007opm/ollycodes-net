@@ -16,15 +16,16 @@ export class AbstractExplorerWindow extends Window {
     newAddress?: string
     pastFolderIds: string[] = []
     futureFolderIds: string[] = []
+    renaming: string | null = null
 
     constructor(state: WindowState, folderId: string) {
         super(state)
         this.folderId = folderId
-        this.fetchFolder(true)
+        this.fetchFolder(false, true)
     }
 
-    fetchFolder(firstFetch: boolean=false) {
-        fetch(`${get(page).url.origin}/api/explorer/folder?folderId=${this.folderId}`)
+    fetchFolder(noCache: boolean=false, firstFetch: boolean=false) {
+        fetch(`${get(page).url.origin}/api/explorer/folder?folderId=${this.folderId}${noCache ? "&noCache=true" : ""}`)
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
@@ -86,5 +87,39 @@ export class AbstractExplorerWindow extends Window {
         if (this.futureFolderIds.length === 0) return
         this.pastFolderIds.push(this.folderId)
         this.navigate(this.futureFolderIds.pop() as string, false)
+    }
+
+    renameItem(folder: boolean, itemId: string, newName: string) {
+        let body: { newName: string, folderId?: string, fileId?: string } = { newName }
+        folder ? body.folderId = itemId : body.fileId = itemId
+        fetch(`${get(page).url.origin}/api/explorer/${folder ? "folder" : "file"}/rename`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    this.fetchFolder(true)
+                } else {
+                    createErrorWindow("explorer_rename_error")
+                }
+            })
+    }
+
+    createFolder(name: string) {
+        fetch(`${get(page).url.origin}/api/explorer/folder/new`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ parentId: this.folderId, name })
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    this.fetchFolder(true)
+                } else {
+                    createErrorWindow("explorer_create_folder_error")
+                }
+            })
     }
 }

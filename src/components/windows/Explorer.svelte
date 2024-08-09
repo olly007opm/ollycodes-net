@@ -50,13 +50,33 @@
     }
 
     function deleteSelected() {
-        if (!canDelete) return
+        if (!canEdit) return
         win.deleteItems(selectedFiles, selectedFolders)
         clearSelection()
     }
 
-    $: canDelete = (selectedFiles.length > 0 || selectedFolders.length > 0) && $page.data.session?.user
+    function renameSelected() {
+        if (!canEdit || selectedFiles.length + selectedFolders.length !== 1) return
+        win.renaming = selectedFiles.length === 1 ? selectedFiles[0] : selectedFolders[0]
+    }
+
+    function createFolder() {
+        if (!folderOwner) return
+        let newFolderNames = folder.children
+            .map(item => item.name)
+            .filter(name => name.match(/^New Folder \d+$/))
+            .sort((a, b) => parseInt(b.replace("New Folder ", "")) - parseInt(a.replace("New Folder ", "")))
+        if (newFolderNames.length) {
+            let newFolderNumber = parseInt(newFolderNames[0]?.replace("New Folder ", "")) + 1
+            win.createFolder(`New Folder ${newFolderNumber}`)
+        } else {
+            win.createFolder("New Folder")
+        }
+    }
+
+    $: folderOwner = $page.data.session?.user
         && (win.folder?.ownerId === $page.data.session.user.id || ($page.data.session.user as User).admin)
+    $: canEdit = (selectedFiles.length > 0 || selectedFolders.length > 0) && folderOwner
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions -->
@@ -68,8 +88,14 @@
                     <button disabled>Open</button>
                     <ToolbarDropdown child label="New...">
                         <button on:click={() => createNotepadWindow()}>Text File</button>
-                        <button disabled>Folder</button>
+                        <button on:click={createFolder} disabled={!folderOwner}>Folder</button>
                     </ToolbarDropdown>
+                    <button
+                        disabled={!canEdit || selectedFiles.length + selectedFolders.length !== 1}
+                        on:click={renameSelected}
+                    >
+                        Rename
+                    </button>
                     <div class="separator"></div>
                     <button on:click={() => closeWindow(win)}>Close</button>
                 </ToolbarDropdown>
@@ -85,7 +111,7 @@
                     <button on:click={invertSelection}>Invert Selection</button>
                 </ToolbarDropdown>
                 <ToolbarDropdown label="View">
-                    <button disabled>Refresh</button>
+                    <button on:click={() => win.fetchFolder(true)}>Refresh</button>
                 </ToolbarDropdown>
                 <ToolbarDropdown label="Go">
                     <button disabled={win.pastFolderIds.length === 0} on:click={() => win.navigateBack()}>
@@ -170,7 +196,7 @@
                     <span>Paste</span>
                 </button>
                 <div class="separator"></div>
-                <button class="btn btn-ghost" on:click={deleteSelected} disabled={!canDelete}>
+                <button class="btn btn-ghost" on:click={deleteSelected} disabled={!canEdit}>
                     <img src="/custom-icon/explorer/delete.png" alt="delete" class="btn-icon">
                     <img src="/custom-icon/explorer/delete-active.png" alt="delete" class="btn-icon-active">
                     <span>Delete</span>

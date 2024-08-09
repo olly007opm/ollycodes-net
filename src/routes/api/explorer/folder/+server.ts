@@ -6,6 +6,7 @@ export async function GET({ url, locals }) {
     const session = await locals.auth()
 
     let folderId = url.searchParams.get("folderId")
+    let noCache = url.searchParams.get("noCache")
     if (!folderId) return error(400, "Missing folderId")
 
     let folder, query
@@ -32,7 +33,7 @@ export async function GET({ url, locals }) {
                 include: { type: true }
             }
         },
-        cacheStrategy
+        cacheStrategy: noCache ? {} : cacheStrategy
     })
 
     if (!folder) return error(404, "Folder not found")
@@ -44,7 +45,7 @@ export async function GET({ url, locals }) {
     if (folder.parentId) {
         let parentFolder: Folder | null = await prisma.folder.findFirst({
             where: { id: folder.parentId },
-            cacheStrategy
+            cacheStrategy: noCache ? {} : cacheStrategy
         })
         while (parentFolder) {
             address.unshift(parentFolder.name)

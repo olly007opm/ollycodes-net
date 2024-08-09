@@ -98,6 +98,11 @@ div.explorer-window {
                 }
             }
         }
+
+        input.rename-input {
+            @apply w-full px-2;
+            @apply border-2 border-black outline-none;
+        }
     }
 
     div.explorer-footer {

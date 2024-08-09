@@ -16,7 +16,8 @@ export class ExplorerWindow extends AbstractExplorerWindow {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ fileIds, folderIds })
         }).then(res => res.json()).then(data => {
-            if (!data.success) createErrorWindow("explorer_delete")
+            if (data.success) this.fetchFolder(true)
+            else createErrorWindow("explorer_delete")
         })
     }
 }

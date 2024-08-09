@@ -10,6 +10,7 @@
     export let selectedFiles: string[]
 
     $: folder = win.folder as Folder
+    let renamingInput: HTMLInputElement
 
     function clearSelection() {
         selectedFolders = []
@@ -21,6 +22,12 @@
             clearSelection()
         }
     }
+
+    function renameKeydown(e: KeyboardEvent) {
+        if (e.key === "Enter") win.renaming = null
+    }
+
+    $: if (renamingInput) renamingInput.focus()
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions -->
@@ -33,7 +40,14 @@
                 on:dblclick={() => { win.navigate(item.id); clearSelection() }}
             >
                 <img src={item.icon || "/icon/directory_open_cool-4.png"} alt={item.name}>
-                <span>{item.name}</span>
+                {#if win.renaming === item.id}
+                    <input
+                        bind:this={renamingInput} class="rename-input" bind:value={item.name} on:keydown={renameKeydown}
+                        on:blur={() => { win.renameItem(true, item.id, item.name); win.renaming = null }} type="text"
+                    />
+                {:else}
+                    <span>{item.name}</span>
+                {/if}
                 {#if !item.public && item.ownerId !== $page.data.session?.user?.id}
                     <img class="folder-lock" src="/custom-icon/explorer/lock.png" alt="lock icon">
                 {/if}
@@ -45,7 +59,14 @@
                 on:click={e => handleClick(e, item.id, false)} on:dblclick={() => handleFileOpen(item)}
             >
                 <img src={item.type.icon || "/icon/file_lines-1.png"} alt={item.name}>
-                <span>{item.name}.{item.type.extension}</span>
+                {#if win.renaming === item.id}
+                    <input
+                        bind:this={renamingInput} class="rename-input" bind:value={item.name} on:keydown={renameKeydown}
+                        on:blur={() => { win.renameItem(false, item.id, item.name); win.renaming = null }} type="text"
+                    />
+                {:else}
+                    <span>{item.name}.{item.type.extension}</span>
+                {/if}
             </button>
         {/each}
     {/if}

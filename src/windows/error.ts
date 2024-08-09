@@ -36,6 +36,16 @@ export const errorCodes: Record<string, { title: string,  message: string, type:
         message: "An error occurred while deleting the selected items.",
         type: "error"
     },
+    explorer_rename_error: {
+        title: "Rename Failed",
+        message: "An error occurred while renaming the selected item.",
+        type: "error"
+    },
+    explorer_create_folder_error: {
+        title: "Create Folder Failed",
+        message: "An error occurred while creating the folder.",
+        type: "error"
+    },
     notepad_unauthorized: {
         title: "Access Denied",
         message: "You are not authorized to view this file.",
