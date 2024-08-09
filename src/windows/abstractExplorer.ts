@@ -14,6 +14,8 @@ export class AbstractExplorerWindow extends Window {
     folder?: Folder
     address?: string
     newAddress?: string
+    pastFolderIds: string[] = []
+    futureFolderIds: string[] = []
 
     constructor(state: WindowState, folderId: string) {
         super(state)
@@ -42,7 +44,11 @@ export class AbstractExplorerWindow extends Window {
             })
     }
 
-    navigate(folderId: string) {
+    navigate(folderId: string, updateHistory: boolean=true) {
+        if (updateHistory) {
+            if (this.pastFolderIds.at(-1) !== this.folderId) this.pastFolderIds.push(this.folderId)
+            this.futureFolderIds = []
+        }
         this.folderId = folderId
         this.fetchFolder()
     }
@@ -68,5 +74,17 @@ export class AbstractExplorerWindow extends Window {
                     }
                 }
             })
+    }
+
+    navigateBack() {
+        if (this.pastFolderIds.length === 0) return
+        this.futureFolderIds.push(this.folderId)
+        this.navigate(this.pastFolderIds.pop() as string, false)
+    }
+
+    navigateForward() {
+        if (this.futureFolderIds.length === 0) return
+        this.pastFolderIds.push(this.folderId)
+        this.navigate(this.futureFolderIds.pop() as string, false)
     }
 }

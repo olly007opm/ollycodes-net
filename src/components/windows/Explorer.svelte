@@ -85,9 +85,16 @@
                     <button disabled>Refresh</button>
                 </ToolbarDropdown>
                 <ToolbarDropdown label="Go">
-                    <button disabled>Back</button>
-                    <button disabled>Forward</button>
-                    <button on:click={() => win.folder?.parentId ? win.navigate(win.folder.parentId) : {}}>
+                    <button disabled={win.pastFolderIds.length === 0} on:click={() => win.navigateBack()}>
+                        Back
+                    </button>
+                    <button disabled={win.futureFolderIds.length === 0} on:click={() => win.navigateForward()}>
+                        Forward
+                    </button>
+                    <button
+                        disabled={!win.folder?.parentId}
+                        on:click={() => win.folder?.parentId ? win.navigate(win.folder.parentId) : {}}
+                    >
                         Up One Level
                     </button>
                     <div class="separator"></div>
@@ -104,22 +111,28 @@
             <div class="separator"></div>
             <div class="explorer-buttons">
                 <div class="btn-group btn-group-ghost">
-                    <button class="btn btn-ghost" disabled>
+                    <button
+                        class="btn btn-ghost" on:click={() => win.navigateBack()}
+                        disabled={win.pastFolderIds.length === 0}
+                    >
                         <img src="/custom-icon/explorer/back.png" alt="back" class="btn-icon">
                         <img src="/custom-icon/explorer/back-active.png" alt="delete" class="btn-icon-active">
                         <span>Back</span>
                     </button>
-                    <button class="btn btn-ghost btn-dropdown" disabled>
+                    <button class="btn btn-ghost btn-dropdown" disabled={win.pastFolderIds.length === 0}>
                         <img src="/custom-icon/dropdown.png" alt="dropdown" class="btn-icon">
                     </button>
                 </div>
                 <div class="btn-group btn-group-ghost">
-                    <button class="btn btn-ghost" disabled>
+                    <button
+                        class="btn btn-ghost" on:click={() => win.navigateForward()}
+                        disabled={win.futureFolderIds.length === 0}
+                    >
                         <img src="/custom-icon/explorer/forward.png" alt="forward" class="btn-icon">
                         <img src="/custom-icon/explorer/forward-active.png" alt="delete" class="btn-icon-active">
                         <span>Forward</span>
                     </button>
-                    <button class="btn btn-ghost btn-dropdown" disabled>
+                    <button class="btn btn-ghost btn-dropdown" disabled={win.futureFolderIds.length === 0}>
                         <img src="/custom-icon/dropdown.png" alt="dropdown" class="btn-icon">
                     </button>
                 </div>
