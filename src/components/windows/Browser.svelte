@@ -44,42 +44,42 @@
                         <img src="/custom-icon/back.png" alt="back">
                         <span>Back</span>
                     </button>
-                    <button class="btn btn-ghost btn-dropdown">
-                        <img src="/custom-icon/dropdown.png" alt="dropdown">
+                    <button class="btn btn-ghost btn-dropdown" disabled>
+                        <img src="/custom-icon/dropdown.png" alt="dropdown" class="btn-icon">
                     </button>
                 </div>
                 <div class="btn-group btn-group-ghost">
                     <button class="btn btn-ghost" disabled>
-                        <img src="/custom-icon/forward.png" alt="forward">
+                        <img src="/custom-icon/browser/forward.png" alt="forward" class="btn-icon">
                         <span>Forward</span>
                     </button>
-                    <button class="btn btn-ghost btn-dropdown">
-                        <img src="/custom-icon/dropdown.png" alt="dropdown">
+                    <button class="btn btn-ghost btn-dropdown" disabled>
+                        <img src="/custom-icon/browser/dropdown.png" alt="dropdown" class="btn-icon">
                     </button>
                 </div>
                 <button class="btn btn-ghost" disabled>
-                    <img src="/custom-icon/browser-stop.png" alt="stop">
+                    <img src="/custom-icon/browser/stop.png" alt="stop">
                     <span>Stop</span>
                 </button>
                 <button class="btn btn-ghost" disabled>
-                    <img src="/custom-icon/browser-refresh.png" alt="refresh">
+                    <img src="/custom-icon/browser/refresh.png" alt="refresh">
                     <span>Refresh</span>
                 </button>
                 <button class="btn btn-ghost" disabled>
-                    <img src="/custom-icon/browser-home.png" alt="home">
+                    <img src="/custom-icon/browser/home.png" alt="home">
                     <span>Home</span>
                 </button>
                 <div class="separator"></div>
                 <button class="btn btn-ghost" disabled>
-                    <img src="/custom-icon/browser-search.png" alt="search">
+                    <img src="/custom-icon/browser/search.png" alt="search">
                     <span>Search</span>
                 </button>
                 <button class="btn btn-ghost" disabled>
-                    <img src="/custom-icon/browser-favorites.png" alt="favorites">
+                    <img src="/custom-icon/browser/favorites.png" alt="favorites">
                     <span>Favorites</span>
                 </button>
                 <button class="btn btn-ghost" disabled>
-                    <img src="/custom-icon/browser-history.png" alt="history">
+                    <img src="/custom-icon/browser/history.png" alt="history">
                     <span>History</span>
                 </button>
             </div>

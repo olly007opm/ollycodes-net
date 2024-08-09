@@ -68,6 +68,9 @@ body {
 
     &:disabled {
         @apply text-base-300;
+        .btn-icon {
+            @apply opacity-50;
+        }
     }
 
     &.btn-ghost {
@@ -92,6 +95,25 @@ body {
         @apply h-24 flex flex-row justify-center items-center gap-4;
         img {
             @apply h-16;
+        }
+    }
+
+    &:has(.btn-icon-active) {
+        &:active:not(:disabled) {
+            .btn-icon {
+                @apply hidden;
+            }
+            .btn-icon-active {
+                @apply block;
+            }
+        }
+        &:not(:active), &:disabled {
+            .btn-icon-active {
+                @apply hidden;
+            }
+            .btn-icon {
+                @apply block;
+            }
         }
     }
 }

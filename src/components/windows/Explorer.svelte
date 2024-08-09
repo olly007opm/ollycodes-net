@@ -105,57 +105,65 @@
             <div class="explorer-buttons">
                 <div class="btn-group btn-group-ghost">
                     <button class="btn btn-ghost" disabled>
-                        <img src="/custom-icon/back.png" alt="back">
+                        <img src="/custom-icon/explorer/back.png" alt="back" class="btn-icon">
+                        <img src="/custom-icon/explorer/back-active.png" alt="delete" class="btn-icon-active">
                         <span>Back</span>
                     </button>
-                    <button class="btn btn-ghost btn-dropdown">
-                        <img src="/custom-icon/dropdown.png" alt="dropdown">
+                    <button class="btn btn-ghost btn-dropdown" disabled>
+                        <img src="/custom-icon/dropdown.png" alt="dropdown" class="btn-icon">
                     </button>
                 </div>
                 <div class="btn-group btn-group-ghost">
                     <button class="btn btn-ghost" disabled>
-                        <img src="/custom-icon/forward.png" alt="forward">
+                        <img src="/custom-icon/explorer/forward.png" alt="forward" class="btn-icon">
+                        <img src="/custom-icon/explorer/forward-active.png" alt="delete" class="btn-icon-active">
                         <span>Forward</span>
                     </button>
-                    <button class="btn btn-ghost btn-dropdown">
-                        <img src="/custom-icon/dropdown.png" alt="dropdown">
+                    <button class="btn btn-ghost btn-dropdown" disabled>
+                        <img src="/custom-icon/dropdown.png" alt="dropdown" class="btn-icon">
                     </button>
                 </div>
                 <div class="btn-group btn-group-ghost">
                     <button
                         class="btn btn-ghost"
                         on:click={() => win.folder?.parentId ? win.navigate(win.folder.parentId) : {}}
+                        disabled={!win.folder?.parentId}
                     >
-                        <img src="/custom-icon/folder-up.png" alt="up">
+                        <img src="/custom-icon/explorer/up.png" alt="up" class="btn-icon">
+                        <img src="/custom-icon/explorer/up-active.png" alt="delete" class="btn-icon-active">
                         <span>Up</span>
                     </button>
-                    <button class="btn btn-ghost btn-dropdown">
-                        <img src="/custom-icon/dropdown.png" alt="dropdown">
+                    <button class="btn btn-ghost btn-dropdown" disabled>
+                        <img src="/custom-icon/dropdown.png" alt="dropdown" class="btn-icon">
                     </button>
                 </div>
                 <div class="separator"></div>
                 <button class="btn btn-ghost" disabled>
-                    <img src="/custom-icon/explorer-cut.png" alt="cut">
+                    <img src="/custom-icon/explorer/cut.png" alt="cut" class="btn-icon">
+                    <img src="/custom-icon/explorer/cut-active.png" alt="delete" class="btn-icon-active">
                     <span>Cut</span>
                 </button>
                 <button class="btn btn-ghost" disabled>
-                    <img src="/custom-icon/explorer-copy.png" alt="copy">
+                    <img src="/custom-icon/explorer/copy.png" alt="copy" class="btn-icon">
+                    <img src="/custom-icon/explorer/copy-active.png" alt="delete" class="btn-icon-active">
                     <span>Copy</span>
                 </button>
                 <button class="btn btn-ghost" disabled>
-                    <img src="/custom-icon/explorer-paste.png" alt="paste">
+                    <img src="/custom-icon/explorer/paste.png" alt="paste" class="btn-icon">
+                    <img src="/custom-icon/explorer/paste-active.png" alt="delete" class="btn-icon-active">
                     <span>Paste</span>
                 </button>
                 <div class="separator"></div>
                 <button class="btn btn-ghost" on:click={deleteSelected} disabled={!canDelete}>
-                    <img src="/custom-icon/explorer-delete.png" alt="delete">
+                    <img src="/custom-icon/explorer/delete.png" alt="delete" class="btn-icon">
+                    <img src="/custom-icon/explorer/delete-active.png" alt="delete" class="btn-icon-active">
                     <span>Delete</span>
                 </button>
             </div>
             <div class="separator"></div>
             <div class="explorer-address">
                 <span>Address</span>
-                <form on:submit|preventDefault={() => win.navigateAddress()}>
+                <form on:submit|preventDefault={() => { win.navigateAddress(); clearSelection() }}>
                     <input class="form-control" bind:value={win.newAddress}>
                     <button class="btn" type="submit">Go</button>
                 </form>

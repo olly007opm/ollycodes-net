@@ -11,10 +11,14 @@
 
     $: folder = win.folder as Folder
 
+    function clearSelection() {
+        selectedFolders = []
+        selectedFiles = []
+    }
+
     function handleBackgroundClick(event: MouseEvent) {
         if ((event.target as HTMLElement).classList.contains("explorer-content")) {
-            selectedFolders = []
-            selectedFiles = []
+            clearSelection()
         }
     }
 </script>
@@ -25,12 +29,13 @@
         {#each folder.children as item}
             <button
                 class="explorer-icon" class:explorer-icon-selected={selectedFolders.includes(item.id)}
-                on:click={e => handleClick(e, item.id, true)} on:dblclick={() => win.navigate(item.id)}
+                on:click={e => handleClick(e, item.id, true)}
+                on:dblclick={() => { win.navigate(item.id); clearSelection() }}
             >
                 <img src={item.icon || "/icon/directory_open_cool-4.png"} alt={item.name}>
                 <span>{item.name}</span>
                 {#if !item.public && item.ownerId !== $page.data.session?.user?.id}
-                    <img class="folder-lock" src="/custom-icon/lock.png" alt="lock icon">
+                    <img class="folder-lock" src="/custom-icon/explorer/lock.png" alt="lock icon">
                 {/if}
             </button>
         {/each}
