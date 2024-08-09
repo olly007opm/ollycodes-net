@@ -66,7 +66,10 @@
             <div class="explorer-toolbar-handles">
                 <ToolbarDropdown label="File">
                     <button disabled>Open</button>
-                    <button disabled>New...</button>
+                    <ToolbarDropdown child label="New...">
+                        <button on:click={() => createNotepadWindow()}>Text File</button>
+                        <button disabled>Folder</button>
+                    </ToolbarDropdown>
                     <div class="separator"></div>
                     <button on:click={() => closeWindow(win)}>Close</button>
                 </ToolbarDropdown>

@@ -64,6 +64,12 @@ div.window-drag-area {
 
 div.toolbar-dropdown {
     @apply relative;
+    button {
+        @apply flex flex-row justify-between items-center;
+        &:hover > img {
+            @apply invert;
+        }
+    }
     div.toolbar-dropdown-content {
         @apply absolute z-[50000] bg-base-200;
         @apply flex flex-col;
