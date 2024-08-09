@@ -58,12 +58,7 @@
             </ToolbarDropdown>
         </div>
         <div class="notepad-content">
-            {#if win.fileType === "text"}
-                <textarea
-                    class="form-control" readonly={win.readOnly}
-                    bind:value={win.content} on:input={() => win.modify()}
-                />
-            {:else if win.fileType === "markdown"}
+            {#if win.fileType === "markdown"}
                 {#if win.readOnly || previewMode}
                     <div class="notepad-markdown">
                         <SvelteMarkdown source={win.content} />
@@ -71,6 +66,11 @@
                 {:else}
                     <textarea class="form-control" bind:value={win.content} on:input={() => win.modify()} />
                 {/if}
+            {:else}
+                <textarea
+                    class="form-control" readonly={win.readOnly}
+                    bind:value={win.content} on:input={() => win.modify()}
+                />
             {/if}
         </div>
     </div>
