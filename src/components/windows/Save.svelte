@@ -38,7 +38,7 @@
                 <button class="btn" type="submit">Go</button>
             </form>
             <button class="btn w-24" on:click={() => win.folder?.parentId ? win.navigate(win.folder.parentId) : {}}>
-                <img src="/custom-icon/folder-up-color.png" alt="up">
+                <img src="/custom-icon/explorer/up-active.png" alt="up">
             </button>
         </div>
         <ExplorerContent bind:win {handleClick} handleFileOpen={() => {}} bind:selectedFolders bind:selectedFiles />
