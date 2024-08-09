@@ -84,7 +84,7 @@ div.toolbar-dropdown {
             @apply disabled:opacity-50 disabled:hover:bg-transparent disabled:hover:text-base-900;
         }
         div.separator {
-            @apply mx-4 my-1 w-[calc(100%-16px)] h-2 bg-base-300 border-b-2 border-b-base-100;
+            @apply mx-4 my-1 max-w-[calc(100%-16px)] h-2 bg-base-300 border-b-2 border-b-base-100;
         }
     }
 }
