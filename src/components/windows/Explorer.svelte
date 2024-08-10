@@ -47,6 +47,9 @@
 
     function handleFileOpen(file: File) {
         if (file.type.application === "notepad") createNotepadWindow(file.id)
+        else if (file.type.application === "download" && file.data) {
+            window.open((file.data as { url: string }).url, "_blank")
+        }
     }
 
     function deleteSelected() {
@@ -86,6 +89,7 @@
             <div class="explorer-toolbar-handles">
                 <ToolbarDropdown label="File">
                     <button disabled>Open</button>
+                    <button on:click={() => win.uploadFile()} disabled={!folderOwner}>Upload</button>
                     <ToolbarDropdown child label="New...">
                         <button on:click={() => createNotepadWindow()}>Text File</button>
                         <button on:click={createFolder} disabled={!folderOwner}>Folder</button>

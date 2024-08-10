@@ -46,6 +46,11 @@ export const errorCodes: Record<string, { title: string,  message: string, type:
         message: "An error occurred while creating the folder.",
         type: "error"
     },
+    explorer_upload_file_error: {
+        title: "Upload Failed",
+        message: "An error occurred while uploading the file.",
+        type: "error"
+    },
     notepad_unauthorized: {
         title: "Access Denied",
         message: "You are not authorized to view this file.",
@@ -68,7 +73,7 @@ export const errorCodes: Record<string, { title: string,  message: string, type:
     }
 }
 
-export function createErrorWindow(code: string) {
+export function createErrorWindow(code: string, messageOverride?: string) {
     const errorDetails = errorCodes[code]
     if (!errorDetails) {
         console.error(`Error code "${code}" not found`)
@@ -89,7 +94,7 @@ export function createErrorWindow(code: string) {
         forceFocus: true,
         focused: true,
         taskbarIndex: -1
-    }, errorDetails.title, errorDetails.message, errorDetails.type)
+    }, errorDetails.title, messageOverride || errorDetails.message, errorDetails.type)
 
     windows.update(wins => [...wins, errorWindow])
 }

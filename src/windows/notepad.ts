@@ -46,8 +46,8 @@ export class NotepadWindow extends Window {
                 } else {
                     if (firstFetch) closeWindow(this)
                     if (data.message === "File not found") createErrorWindow("notepad_file_not_found")
-                    else if (get(page).data.session) createErrorWindow("notepad_unauthorized")
-                    else createErrorWindow("notepad_unauthorized_guest")
+                    else if (get(page).data.session) createErrorWindow("notepad_unauthorized", data.message)
+                    else createErrorWindow("notepad_unauthorized_guest", data.message)
                 }
             })
     }
@@ -73,7 +73,7 @@ export class NotepadWindow extends Window {
                     this.original = this.content
                     this.title = `Notepad - ${this.file?.name}.${this.file?.type.extension}`
                     windows.update(wins => wins)
-                } else createErrorWindow("notepad_save_failed")
+                } else createErrorWindow("notepad_save_failed", data.message)
             })
     }
 
@@ -94,7 +94,7 @@ export class NotepadWindow extends Window {
                     this.modified = false
                     this.title = `Notepad - ${data.file.name}.${data.file.type.extension}`
                     windows.update(wins => wins)
-                } else createErrorWindow("notepad_save_failed")
+                } else createErrorWindow("notepad_save_failed", data.message)
             })
 
     }

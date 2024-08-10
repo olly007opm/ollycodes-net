@@ -39,8 +39,8 @@ export class AbstractExplorerWindow extends Window {
                     windows.update(wins => wins)
                 } else {
                     if (firstFetch) closeWindow(this)
-                    if (get(page).data.session) createErrorWindow("explorer_unauthorized")
-                    else createErrorWindow("explorer_unauthorized_guest")
+                    if (get(page).data.session) createErrorWindow("explorer_unauthorized", data.message)
+                    else createErrorWindow("explorer_unauthorized_guest", data.message)
                 }
             })
     }
@@ -57,24 +57,22 @@ export class AbstractExplorerWindow extends Window {
     navigateAddress() {
         if (this.newAddress === this.address) return
         fetch(`${get(page).url.origin}/api/explorer/address?address=${this.newAddress}`)
-            .then(res => {
+            .then(res => res.json().then(data => {
                 if (res.status === 200) {
-                    res.json().then(data => {
-                        if (data.success) {
-                            this.folderId = data.folderId
-                            this.fetchFolder()
-                        } else {
-                            this.newAddress = this.address
-                        }
-                    })
+                    if (data.success) {
+                        this.folderId = data.folderId
+                        this.fetchFolder()
+                    } else {
+                        this.newAddress = this.address
+                    }
                 } else {
                     this.newAddress = this.address
                     if (res.status === 403) {
-                        if (get(page).data.session) createErrorWindow("explorer_unauthorized")
-                        else createErrorWindow("explorer_unauthorized_guest")
+                        if (get(page).data.session) createErrorWindow("explorer_unauthorized", data.message)
+                        else createErrorWindow("explorer_unauthorized_guest", data.message)
                     }
                 }
-            })
+            }))
     }
 
     navigateBack() {
@@ -99,11 +97,8 @@ export class AbstractExplorerWindow extends Window {
         })
             .then(res => res.json())
             .then(data => {
-                if (data.success) {
-                    this.fetchFolder(true)
-                } else {
-                    createErrorWindow("explorer_rename_error")
-                }
+                if (data.success) this.fetchFolder(true)
+                else createErrorWindow("explorer_rename_error", data.message)
             })
     }
 
@@ -115,11 +110,30 @@ export class AbstractExplorerWindow extends Window {
         })
             .then(res => res.json())
             .then(data => {
-                if (data.success) {
-                    this.fetchFolder(true)
-                } else {
-                    createErrorWindow("explorer_create_folder_error")
-                }
+                if (data.success) this.fetchFolder(true)
+                else createErrorWindow("explorer_create_folder_error", data.message)
             })
+    }
+
+    uploadFile() {
+        let input = document.createElement("input")
+        input.type = "file"
+        input.accept = "*"
+        input.onchange = () => {
+            let formData = new FormData()
+            if (!input.files || input.files.length !== 1) return
+            formData.append("file", input.files[0])
+            formData.append("folderId", this.folderId)
+            fetch(`${get(page).url.origin}/api/explorer/file/upload`, {
+                method: "POST",
+                body: formData
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) this.fetchFolder(true)
+                    else createErrorWindow("explorer_upload_file_error", data.message)
+                })
+        }
+        input.click()
     }
 }

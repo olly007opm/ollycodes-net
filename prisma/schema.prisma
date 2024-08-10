@@ -64,6 +64,8 @@ model FileType {
   identifier  String
   extension   String
   description String
+  editable    Boolean  @default(false)
+  mimeType    String?
   icon        String?
   application String?
   files       File[]
