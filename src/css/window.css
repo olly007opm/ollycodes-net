@@ -58,196 +58,18 @@ div.window {
 div.window-drag-area {
     @apply absolute z-[40000] pointer-events-none;
     border: dashed 8px red;
-    border-image: url("border/border-red.png") 25% round;
+    border-image: url("/border/border-red.png") 25% round;
     border-image-repeat: round;
-}
-
-div.wizard-window {
-    @apply h-full mx-8 my-10;
-    @apply grid grid-cols-[256px,1fr] grid-rows-[1fr,48px] gap-16;
-    div.wizard-banner {
-        box-shadow: inset -2px -2px 0 0 var(--base-100), inset 2px 2px 0 0 var(--base-300);
-        @apply flex flex-row justify-center items-center;
-    }
-    div.wizard-content {
-        @apply flex flex-col;
-    }
-    div.wizard-footer {
-        @apply flex flex-row justify-end items-center;
-        @apply relative col-span-full;
-        &:before {
-            content: "";
-            @apply absolute -top-8 left-0 right-0;
-            @apply w-full h-2 bg-base-300;
-            @apply border-b-2 border-r-2 border-base-100;
-        }
-        button {
-            @apply w-64 h-20 text-lg font-normal;
-            @apply flex justify-center items-center;
-        }
-    }
-}
-
-div.explorer-window {
-    @apply w-full h-full flex flex-col gap-2 select-none;
-
-    div.explorer-toolbar {
-        @apply p-2 mt-2 flex flex-col;
-        box-shadow: inset -2px -2px 0 0 var(--base-100),
-            inset 2px 2px 0 0 var(--base-300),
-            inset -4px -4px 0 0 var(--base-300),
-            inset 4px 4px 0 0 var(--base-100);
-
-        > div:not(.separator) {
-            @apply px-4 py-2;
-            @apply flex flex-row items-center gap-2;
-        }
-
-        div.separator {
-            @apply w-full h-2 bg-base-300 border-b-2 border-b-base-100;
-        }
-
-        button {
-            @apply h-16 px-8 font-normal;
-        }
-
-        div.explorer-buttons {
-            button {
-                @apply h-40 flex flex-col justify-center items-center;
-                img {
-                    @apply h-14;
-                }
-            }
-            button:not(.btn-dropdown) {
-                @apply w-48;
-            }
-        }
-
-        div.explorer-address {
-            @apply gap-4;
-            form {
-                @apply w-full flex flex-row items-center gap-2;
-                input {
-                    @apply w-full;
-                }
-                button {
-                    @apply h-20;
-                }
-            }
-        }
-    }
-
-    div.explorer-content {
-        @apply h-full p-8 bg-base-100;
-        @apply flex flex-row;
-
-        box-shadow: inset -2px -2px 0 0 var(--base-100),
-            inset 2px 2px 0 0 var(--base-300),
-            inset -4px -4px 0 0 var(--base-200),
-            inset 4px 4px 0 0 var(--base-900);
-
-        button.explorer-icon {
-            @apply relative w-56 h-56;
-            @apply flex flex-col items-center gap-4;
-            img {
-                @apply w-24 h-24;
-            }
-            span {
-                @apply px-1 text-xl;
-                line-height: 100%;
-            }
-
-            &:focus {
-                span {
-                    border: dashed 2px var(--base-900);
-                    border-image: url("border/border-white.png") 25% round;
-                    border-image-repeat: round;
-                    @apply bg-blue text-base-100;
-                }
-            }
-
-            .folder-lock {
-                @apply absolute top-16 right-8;
-                @apply w-8 h-11;
-            }
-        }
-    }
-
-    div.explorer-footer {
-        @apply h-32;
-        @apply grid grid-cols-2 gap-2;
-        div {
-            @apply px-2 flex flex-row justify-start items-center gap-2;
-            box-shadow: inset -2px -2px 0 0 var(--base-100), inset 2px 2px 0 0 var(--base-300);
-            span {
-                @apply text-lg;
-            }
-            img {
-                @apply h-12;
-            }
-        }
-    }
-}
-
-div.error-window  {
-    @apply h-full mx-8;
-    @apply grid grid-rows-[1fr,48px] gap-2;
-
-    div.error-content {
-        @apply grid grid-cols-[32px,1fr] items-center content-center gap-x-4 gap-y-2;
-        img {
-            @apply w-32;
-        }
-        h1 {
-            @apply text-2xl font-bold;
-        }
-        span {
-            @apply col-span-full;
-        }
-    }
-    div.error-footer {
-        @apply flex flex-row justify-end items-center;
-        @apply relative py-4;
-        &:before {
-            content: "";
-            @apply absolute -top-4 left-0 right-0;
-            @apply w-full h-2 bg-base-300;
-            @apply border-b-2 border-r-2 border-base-100;
-        }
-        button {
-            @apply w-64 h-20 text-lg font-normal;
-            @apply flex justify-center items-center;
-        }
-    }
-}
-
-
-div.notepad-window {
-    @apply w-full h-full flex flex-col gap-2 select-none;
-
-    div.notepad-toolbar {
-        @apply mt-2 flex flex-row items-center gap-2;
-        button {
-            @apply h-16 px-8 font-normal;
-        }
-    }
-
-    div.notepad-content {
-        @apply h-full py-2 px-4 bg-base-100 text-2xl;
-        @apply flex flex-row;
-        box-shadow: inset -2px -2px 0 0 var(--base-100),
-            inset 2px 2px 0 0 var(--base-300),
-            inset -4px -4px 0 0 var(--base-200),
-            inset 4px 4px 0 0 var(--base-900);
-
-        textarea {
-            @apply w-full h-full resize-none outline-none;
-        }
-    }
 }
 
 div.toolbar-dropdown {
     @apply relative;
+    button {
+        @apply flex flex-row justify-between items-center;
+        &:hover > img {
+            @apply invert;
+        }
+    }
     div.toolbar-dropdown-content {
         @apply absolute z-[50000] bg-base-200;
         @apply flex flex-col;
@@ -257,12 +79,12 @@ div.toolbar-dropdown {
             inset -4px -4px 0 0 var(--base-300),
             inset 4px 4px 0 0 var(--base-100);
         button {
-            @apply w-full text-left;
+            @apply w-full text-left whitespace-nowrap;
             @apply hover:bg-darkblue hover:text-base-100;
             @apply disabled:opacity-50 disabled:hover:bg-transparent disabled:hover:text-base-900;
         }
         div.separator {
-            @apply mx-4 my-1 w-[calc(100%-16px)] h-2 bg-base-300 border-b-2 border-b-base-100;
+            @apply mx-4 my-1 max-w-[calc(100%-16px)] h-2 bg-base-300 border-b-2 border-b-base-100;
         }
     }
 }

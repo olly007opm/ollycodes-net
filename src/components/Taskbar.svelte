@@ -58,8 +58,10 @@
                     class="btn btn-taskbar no-focus-outline"
                     class:focused={win.focused} on:click={() => win.focus()}
                 >
-                    <img src={win.icon} alt={win.id}>
-                    <span>{win.title}</span>
+                    {#if win.icon}
+                        <img src={win.icon} alt={win.id}>
+                    {/if}
+                    <span class:ml-2={!win.icon}>{win.title}</span>
                 </button>
             {/each}
         </div>

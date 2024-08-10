@@ -6,6 +6,11 @@
 @import "forms.css";
 @import "taskbar.css";
 @import "window.css";
+@import "windows/browser.css";
+@import "windows/error.css";
+@import "windows/explorer.css";
+@import "windows/notepad.css";
+@import "windows/wizard.css";
 
 @font-face {
     font-family: "MS Sans Serif";
@@ -41,13 +46,14 @@ body {
 }
 
 .btn {
-    @apply relative h-16 px-4 active:pt-1 cursor-pointer;
+    @apply relative h-16 px-4 cursor-pointer;
     @apply bg-base-200 font-bold text-xl;
     @apply flex flex-row items-center gap-3;
     box-shadow: inset -2px -2px 0 0 var(--base-900),
         inset 2px 2px 0 0 var(--base-100),
         inset -4px -4px 0 0 var(--base-300);
-    &:active {
+    &:active:not(:disabled) {
+        @apply pt-1;
         box-shadow: inset 2px 2px 0 0 var(--base-900),
             inset -2px -2px 0 0 var(--base-100),
             inset 4px 4px 0 0 var(--base-300);
@@ -57,11 +63,14 @@ body {
         content: "";
         @apply absolute top-1 active:top-2 left-2 right-2 bottom-2 active:bottom-1;
         border: dashed 2px var(--base-900);
-        border-image: url("border/border.png") 25% round;
+        border-image: url("/border/border.png") 25% round;
     }
 
     &:disabled {
         @apply text-base-300;
+        .btn-icon {
+            @apply opacity-50;
+        }
     }
 
     &.btn-ghost {
@@ -78,7 +87,7 @@ body {
     &.btn-dropdown {
         @apply px-4;
         img {
-            @apply w-6 object-contain;
+            @apply w-6 min-w-6 object-contain;
         }
     }
 
@@ -86,6 +95,25 @@ body {
         @apply h-24 flex flex-row justify-center items-center gap-4;
         img {
             @apply h-16;
+        }
+    }
+
+    &:has(.btn-icon-active) {
+        &:active:not(:disabled) {
+            .btn-icon {
+                @apply hidden;
+            }
+            .btn-icon-active {
+                @apply block;
+            }
+        }
+        &:not(:active), &:disabled {
+            .btn-icon-active {
+                @apply hidden;
+            }
+            .btn-icon {
+                @apply block;
+            }
         }
     }
 }

@@ -2,14 +2,15 @@
     import { offset, flip, shift } from "svelte-floating-ui/dom"
     import { createFloatingActions } from "svelte-floating-ui"
 
+    export let label: string
+    export let child: boolean = false
+    let dropdown = false
+
     const [floatingRef, floatingContent] = createFloatingActions({
         strategy: "absolute",
-        placement: "bottom-start",
+        placement: child ? "right-start" : "bottom-start",
         middleware: [offset(-4), flip(), shift()]
     })
-
-    export let label: string
-    let dropdown = false
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions -->
@@ -17,7 +18,12 @@
     class="toolbar-dropdown" use:floatingRef
     on:mouseenter={() => dropdown = true} on:mouseleave={() => dropdown = false}
 >
-    <button class="btn btn-ghost" class:active={dropdown}>{label}</button>
+    <button class:btn={!child} class:btn-ghost={!child} class:active={dropdown}>
+        {label}
+        {#if child}
+            <img src="/custom-icon/dropdown-side.png" alt="dropdown" class="w-4">
+        {/if}
+    </button>
     {#if dropdown}
         <div class="toolbar-dropdown-content" use:floatingContent on:click={() => dropdown = false}>
             <slot />

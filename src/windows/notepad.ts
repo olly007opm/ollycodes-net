@@ -1,8 +1,7 @@
 import { page } from "$app/stores"
 import { get } from "svelte/store"
-import { windows, Window, closeWindow } from "$stores/windows"
+import { windows, Window, closeWindow, type WindowState } from "$stores/windows"
 import Notepad from "$components/windows/Notepad.svelte"
-import { type SvelteComponent } from "svelte"
 import { Prisma } from "@prisma/client"
 import { createErrorWindow } from "./error"
 
@@ -11,34 +10,13 @@ export type File = Prisma.FileGetPayload<{ include: { folder: true, type: true }
 export class NotepadWindow extends Window {
     fileId: string
     file?: File
+    fileType?: string
     content: string = ""
     original: string = ""
     readOnly: boolean = true
     modified: boolean = false
 
-    constructor(state: {
-        id: string
-        title: string
-        icon: string
-        component: { new (...args: any[]): SvelteComponent }
-        x?: number
-        y?: number
-        z?: number
-        width?: number
-        height?: number
-        minWidth?: number
-        minHeight?: number
-        resizable?: boolean
-        closable?: boolean
-        minimizable?: boolean
-        movable?: boolean
-        forceFocus?: boolean
-        center?: boolean
-        minimized?: boolean
-        maximized?: boolean
-        focused?: boolean
-        taskbarIndex?: number
-    }, fileId?: string) {
+    constructor(state: WindowState, fileId?: string) {
         super(state)
         if (fileId) {
             this.fileId = fileId
@@ -58,6 +36,7 @@ export class NotepadWindow extends Window {
                 if (data.success) {
                     this.file = data.file as File
                     this.fileId = this.file.id
+                    this.fileType = (data.file as File).type.identifier
                     this.content = data.file.data.text
                     this.original = this.content
                     this.readOnly = data.file.folder.ownerId !== get(page).data.session?.user?.id
@@ -67,8 +46,8 @@ export class NotepadWindow extends Window {
                 } else {
                     if (firstFetch) closeWindow(this)
                     if (data.message === "File not found") createErrorWindow("notepad_file_not_found")
-                    else if (get(page).data.session) createErrorWindow("notepad_unauthorized")
-                    else createErrorWindow("notepad_unauthorized_guest")
+                    else if (get(page).data.session) createErrorWindow("notepad_unauthorized", data.message)
+                    else createErrorWindow("notepad_unauthorized_guest", data.message)
                 }
             })
     }
@@ -94,8 +73,30 @@ export class NotepadWindow extends Window {
                     this.original = this.content
                     this.title = `Notepad - ${this.file?.name}.${this.file?.type.extension}`
                     windows.update(wins => wins)
-                } else createErrorWindow("notepad_save_failed")
+                } else createErrorWindow("notepad_save_failed", data.message)
             })
+    }
+
+    saveAs(folderId: string, name: string, typeId: string) {
+        if (this.readOnly) return
+        fetch(`${get(page).url.origin}/api/explorer/file/new`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ folderId, name, typeId, data: { text: this.content } })
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    this.fileId = data.file.id
+                    this.file = data.file
+                    this.fileType = data.file.type.identifier
+                    this.original = this.content
+                    this.modified = false
+                    this.title = `Notepad - ${data.file.name}.${data.file.type.extension}`
+                    windows.update(wins => wins)
+                } else createErrorWindow("notepad_save_failed", data.message)
+            })
+
     }
 }
 

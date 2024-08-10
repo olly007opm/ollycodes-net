@@ -1,35 +1,12 @@
-import { windows, Window } from "$stores/windows"
+import { windows, Window, type WindowState } from "$stores/windows"
 import Error from "$components/windows/Error.svelte"
-import { type SvelteComponent } from "svelte"
 
 export class ErrorWindow extends Window {
     type: string
     errorTitle: string
     errorMessage: string
 
-    constructor(state: {
-        id: string
-        title: string
-        icon: string
-        component: { new (...args: any[]): SvelteComponent }
-        x?: number
-        y?: number
-        z?: number
-        width?: number
-        height?: number
-        minWidth?: number
-        minHeight?: number
-        resizable?: boolean
-        closable?: boolean
-        minimizable?: boolean
-        movable?: boolean
-        forceFocus?: boolean
-        center?: boolean
-        minimized?: boolean
-        maximized?: boolean
-        focused?: boolean
-        taskbarIndex?: number
-    }, title: string, message: string, type: string) {
+    constructor(state: WindowState, title: string, message: string, type: string) {
         super(state)
         this.type = type
         this.errorTitle = title
@@ -54,6 +31,26 @@ export const errorCodes: Record<string, { title: string,  message: string, type:
         message: "Please sign in to view this folder.",
         type: "error"
     },
+    explorer_delete:{
+        title: "Delete Failed",
+        message: "An error occurred while deleting the selected items.",
+        type: "error"
+    },
+    explorer_rename_error: {
+        title: "Rename Failed",
+        message: "An error occurred while renaming the selected item.",
+        type: "error"
+    },
+    explorer_create_folder_error: {
+        title: "Create Folder Failed",
+        message: "An error occurred while creating the folder.",
+        type: "error"
+    },
+    explorer_upload_file_error: {
+        title: "Upload Failed",
+        message: "An error occurred while uploading the file.",
+        type: "error"
+    },
     notepad_unauthorized: {
         title: "Access Denied",
         message: "You are not authorized to view this file.",
@@ -76,7 +73,7 @@ export const errorCodes: Record<string, { title: string,  message: string, type:
     }
 }
 
-export function createErrorWindow(code: string) {
+export function createErrorWindow(code: string, messageOverride?: string) {
     const errorDetails = errorCodes[code]
     if (!errorDetails) {
         console.error(`Error code "${code}" not found`)
@@ -97,7 +94,7 @@ export function createErrorWindow(code: string) {
         forceFocus: true,
         focused: true,
         taskbarIndex: -1
-    }, errorDetails.title, errorDetails.message, errorDetails.type)
+    }, errorDetails.title, messageOverride || errorDetails.message, errorDetails.type)
 
     windows.update(wins => [...wins, errorWindow])
 }

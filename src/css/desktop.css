@@ -17,7 +17,7 @@
             &.desktop-icon-selected {
                 span {
                     border: dashed 2px var(--base-900);
-                    border-image: url("border/border-white.png") 25% round;
+                    border-image: url("/border/border-white.png") 25% round;
                     border-image-repeat: round;
                     @apply bg-blue;
                 }
