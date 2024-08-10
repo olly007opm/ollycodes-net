@@ -46,7 +46,8 @@ export async function POST({ request, locals }) {
     }
 
     for (const file of files) {
-        await prisma.file.update({
+        if (file.folder.id === recycleBin.id) await prisma.file.delete({ where: { id: file.id } })
+        else await prisma.file.update({
             where: { id: file.id },
             data: { folder: { connect: { id: recycleBin.id } } }
         })

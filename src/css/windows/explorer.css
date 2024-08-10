@@ -68,7 +68,7 @@ div.explorer-window {
 
     div.explorer-content {
         @apply h-full p-8 bg-base-100;
-        @apply flex flex-row;
+        @apply flex flex-row flex-wrap content-start;
 
         box-shadow: inset -2px -2px 0 0 var(--base-100),
             inset 2px 2px 0 0 var(--base-300),
